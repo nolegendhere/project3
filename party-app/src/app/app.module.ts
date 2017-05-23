@@ -17,6 +17,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 
 import { CollapseModule } from 'ngx-bootstrap';
 import { PartiesSearchComponent } from './parties-search/parties-search.component';
+import { ShowCurrentuserComponent } from './show-currentuser/show-currentuser.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { PartiesSearchComponent } from './parties-search/parties-search.componen
     SignupComponent,
     HomeComponent,
     NavbarComponent,
-    PartiesSearchComponent
+    PartiesSearchComponent,
+    ShowCurrentuserComponent
   ],
   imports: [
     BrowserModule,

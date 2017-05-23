@@ -11,6 +11,7 @@ export class SessionService implements CanActivate {
   public token: string;
   public isAuth: boolean;
   public user: string;
+  public id: string;
 
 	BASE_URL: string = 'http://localhost:3000';
 
@@ -33,6 +34,9 @@ export class SessionService implements CanActivate {
       this.token = localStorage.getItem('token');
       this.user = jwtDecode(this.token).user;
       this.isAuth = true;
+      /////////////////////////////////////
+      this.id = jwtDecode(this.token).id;
+      ////////////////////////////////////
       return true;
     }
     // not logged in so redirect to login page
@@ -56,6 +60,9 @@ export class SessionService implements CanActivate {
           // set token property
           this.token = token;
           this.user = jwtDecode(token).user;
+          /////////////////////////////////////
+          this.id = jwtDecode(this.token).id;
+          ////////////////////////////////////
           // store username and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('token', token );
 
@@ -83,6 +90,9 @@ export class SessionService implements CanActivate {
               this.token = token;
               console.log("hi2");
               this.user = jwtDecode(token).user;
+              /////////////////////////////////////
+              this.id = jwtDecode(this.token).id;
+              ////////////////////////////////////
               console.log("hi3");
 
               this.isAuth = true;

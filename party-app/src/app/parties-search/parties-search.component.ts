@@ -8,12 +8,15 @@ import { PartiesService } from '../services/parties.service';
 })
 export class PartiesSearchComponent implements OnInit {
   partyList:Array<any>=[];
+  userId:any;
   constructor(private partiesService: PartiesService) { }
 
   ngOnInit() {
     this.partiesService.getList().subscribe((partiesObs) => {
       this.partyList = partiesObs;
-      console.log("esto this.dishList",this.partyList);
+      this.userId = this.partiesService.userId;
+      console.log("this.userId",this.userId);
+      console.log("esto this.partyList",this.partyList);
     });
   }
 

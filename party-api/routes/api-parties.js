@@ -7,11 +7,13 @@ const passport = require('../config/passport');
 
 /* GET Parties listing. */
 router.get('/', (req, res, next) => {
-  Party.find({})
-    .exec((err, Parties) => {
+  let populateQuery=[{path: "owner"},{path: "participants"}];
+  Party.find({}).populate(populateQuery).exec((err, Parties) => {
       if (err) {
+        console.log("hello1");
         return res.send(err);
       }
+      console.log("hello2");
       return res.json(Parties);
     });
 });

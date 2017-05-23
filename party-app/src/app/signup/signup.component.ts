@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
           if (result === true) {
               // login successful
               console.log('result ok', result);
-              this.router.navigate(['/phone']);
+              this.router.navigate(['/partiesSearch']);
           } else {
           		console.log('result ko', result);
               // login failed
