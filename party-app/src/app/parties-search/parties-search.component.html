@@ -1,0 +1,10 @@
+<!-- // template of entry-list component -->
+<!-- <app-entry-form></app-entry-form> -->
+<h1> Dish list </h1>
+<div class="dish-list">
+  <div *ngFor="let party of partyList">
+    <h3> {{ party.name }}&nbsp;</h3>
+    <!-- <img [src]='dish.image' /> -->
+    <!-- <a [routerLink]="['/dish', dish._id]"> View Details </a> -->
+  </div>
+</div>
