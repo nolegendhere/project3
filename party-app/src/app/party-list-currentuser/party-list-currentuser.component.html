@@ -1,8 +1,17 @@
 <p>
-  party-list-currentuser works!
+  show-currentuser works!
 </p>
 <div *ngIf="!isLoading">
   <p>Loading...</p>
 </div>
 <div *ngIf="isLoading">
+  <div *ngFor="let party of user.partiesOwned">
+    <h3>{{party.name}}</h3>
+    <p>{{party.ageRange}}</p>
+    <p>{{party.sex}}</p>
+    <div *ngFor="let picture of party.pictures">
+      <img [src]='picture' />
+    </div>
+    <button type="button" (click)="seePartyCandidates(user._id,party._id)">see party candidates</button>
+  </div>
 </div>

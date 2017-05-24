@@ -17,11 +17,20 @@ export class UsersService {
   get(id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.BASE_URL}/api/users/${id}`, options)
-      .map((res) =>{
+    return this.http.get(`${this.BASE_URL}/api/users/${id}`, options).map((res) =>{
         this.user = res.json();
         return res.json();
       });
+  }
+
+  getList(userId,partyId) {
+
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.BASE_URL}/api/users/?userId=${userId}&&partyId=${partyId}`, options).map((res) =>{
+      this.userList = res.json();
+      return res.json();
+    });
   }
 
   // getList() {

@@ -16,6 +16,7 @@ export class ShowCurrentuserComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params=>{
       this.getUserDetails(params['id']);
+      console.log("params['id']",params['id']);
     })
   }
 
