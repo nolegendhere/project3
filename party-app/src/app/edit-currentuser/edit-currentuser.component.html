@@ -1,0 +1,15 @@
+<p>
+  edit-currentuser works!
+</p>
+
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <h3>{{user.profile.name}}</h3>
+  <p>{{user.profile.age}}</p>
+  <p>{{user.profile.sex}}</p>
+  <div *ngFor="let picture of user.profile.pictures">
+    <img [src]='picture' />
+  </div>
+</div>

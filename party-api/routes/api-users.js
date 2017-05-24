@@ -1,46 +1,46 @@
 var express = require('express');
 const mongoose = require('mongoose');
 var router = express.Router();
+const User = require('../model/user');
 const Party = require('../model/party');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
 
-/* GET Parties listing. */
+/* GET Users listing. */
 router.get('/', (req, res, next) => {
-  let populateQuery=[{path: "owner"},{path: "participants"}];
-  Party.find({}).populate(populateQuery).exec((err, Parties) => {
+  // let populateQuery=[{path: "partiesOwned"}];
+  User.find({}).exec((err, Users) => {
       if (err) {
         console.log("hello1");
         return res.send(err);
       }
       console.log("hello2");
-      return res.json(Parties);
+      return res.json(Users);
     });
 });
 
-/* GET a single Party. */
+/* GET a single User. */
 router.get('/:id', (req, res) => {
-    console.log("hiFromGetParty");
+  console.log("hiFromGetUser");
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-
-  Party.findById(req.params.id, (err, Parties) => {
+  let populateQuery=[{path: "partiesOwned"}];
+  User.findById(req.params.id).populate(populateQuery).exec((err, Users) => {
       if (err) {
         return res.send(err);
       }
-
-      return res.json(Parties);
+      return res.json(Users);
     });
 });
 
-/* EDIT a Party. */
+/* EDIT a User. */
 router.put('/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
 
-  Party.findByIdAndUpdate(req.params.id, {
+  User.findByIdAndUpdate(req.params.id, {
     // brand: req.body.brand,
     // name: req.body.name,
     // specs: req.body.specs,
@@ -51,30 +51,30 @@ router.put('/:id', (req, res) => {
     }
 
     return res.json({
-      message: 'Party updated successfully'
+      message: 'User updated successfully'
     });
   });
 });
 
-/* DELETE a Party. */
+/* DELETE a User. */
 router.delete('/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
 
-  Party.remove({ _id: req.params.id }, (err) => {
+  User.remove({ _id: req.params.id }, (err) => {
     if (err) {
       return res.send(err);
     }
 
     return res.json({
-      message: 'Party has been removed!'
+      message: 'User has been removed!'
     });
   });
 });
 
 router.post('/', upload.single('file'), function(req, res) {
-  const party = new Party({
+  const party = new User({
   //   name: req.body.name,
   //   brand: req.body.brand,
   //   image: `/uploads/${req.file.filename}`,
@@ -87,7 +87,7 @@ router.post('/', upload.single('file'), function(req, res) {
     }
 
     return res.json({
-      message: 'New Party created!',
+      message: 'New User created!',
       party: party
     });
   });

@@ -1,13 +1,14 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-const passport   = require('./config/passport');
-var auth         = require('./routes/auth');
+var express       = require('express');
+var path          = require('path');
+var favicon       = require('serve-favicon');
+var logger        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+const passport    = require('./config/passport');
+var auth          = require('./routes/auth');
 var parties       = require('./routes/api-parties');
-var cors         = require('cors');
+var users         = require('./routes/api-users');
+var cors          = require('cors');
 
 require('./config/database');
 
@@ -32,6 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', auth);
 app.use('/api/parties', passport.authenticate('jwt', { session: false }), parties);
+app.use('/api/users', passport.authenticate('jwt', { session: false }), users);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
