@@ -14,12 +14,14 @@ const partySchema = new mongoose.Schema({
     default:"All"
   },
   name: String,
+  content: String,
   pictures: [String],
   payment: {
     type:String,
     enum:["Free","Paid"],
     default: "Free"
   },
+  date: Date,
   theme: String,
   maxPeople: Number,
   parity: {

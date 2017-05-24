@@ -1,0 +1,54 @@
+<p>
+  new-party-currentuser works!
+</p>
+<form class="entry-form" (ngSubmit)="submitForm(myForm)" #myForm="ngForm" novalidate>
+  <p> name
+    <input type="text" name="name" #myName="ngModel" [(ngModel)]="name" required />
+  </p>
+  <div *ngIf="myName.errors && (myName.dirty || myName.touched)">
+    <p class="error" [hidden]="!myName.errors.required">
+      Name is required
+    </p>
+  </div>
+  <p> Date
+    <input type="date" name="date" #myDate="ngModel" [(ngModel)]="date" required />
+  </p>
+  <div *ngIf="myDate.errors && (myDate.dirty || myDate.touched)">
+    <p class="error" [hidden]="!myDate.errors.required">
+      Date is required
+    </p>
+  </div>
+  <p> Content
+    <input type="text" name="content" #myContent="ngModel" [(ngModel)]="content" required />
+  </p>
+  <div *ngIf="myContent.errors && (myContent.dirty || myContent.touched)">
+    <p class="error" [hidden]="!myContent.errors.required">
+      Content is required
+    </p>
+  </div>
+  <div class="form-group">
+    <label for="sex">Sex</label>
+    <select class="form-control" id="sex"
+            required
+            [(ngModel)]="sex" name="sex"
+            #mySex="ngModel">
+            <option [value]="Boys">Boys</option>
+            <option [value]="Girls">Girls</option>
+            <option [value]="BoysGirls">BoysGirls</option>
+    </select>
+    <!-- <div [hidden]="sex.valid || sex.pristine" class="alert alert-danger">
+      Sex is required
+    </div> -->
+    <div *ngIf="mySex.errors && (mySex.dirty || mySex.touched)">
+      <p class="error" [hidden]="!mySex.errors.required">
+        Sex is required
+      </p>
+    </div>
+  </div>
+  <div *ngIf="myContent.errors && (myContent.dirty || myContent.touched)">
+    <p class="error" [hidden]="!myContent.errors.required">
+      Content is required
+    </p>
+  </div>
+  <button type="submit"> Create Entry </button>
+</form>

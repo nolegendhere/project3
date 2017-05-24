@@ -31,4 +31,9 @@ export class PartiesService {
     return this.http.get(`${this.BASE_URL}/api/parties/${id}`, options)
       .map((res) => res.json());
   }
+
+  add(party) {
+    console.log("add party",party);
+    return this.http.post(`${this.BASE_URL}/api/paparty`,party).map((res) => res.json());
+  }
 }
