@@ -1,0 +1,18 @@
+<p>
+  users-search works!
+</p>
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <div *ngFor="let user of userList">
+    <h1>{{user.username}}</h1>
+    <h2>{{user.profile.firstName}}</h2>
+    <h2>{{user.profile.lastName}}</h2>
+    <h2>{{user.profile.sex}}</h2>
+    <h2>{{user.profile.age}}</h2>
+    <div *ngFor="let picture of user.profile.pictures">
+      <img [src]='picture' />
+    </div>
+  </div>
+</div>

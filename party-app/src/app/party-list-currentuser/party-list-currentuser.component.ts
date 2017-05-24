@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UsersService } from '../services/users.service';
 
 @Component({
@@ -11,11 +11,12 @@ export class PartyListCurrentuserComponent implements OnInit {
   partyList:Array<any>=[];
   user:any;
   isLoading:boolean=false;
-  constructor(private route: ActivatedRoute,private usersService: UsersService) { }
+  constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params=>{
       this.getUserDetails(params['id']);
+      console.log("params['id']",params['id']);
     })
   }
 
@@ -24,5 +25,12 @@ export class PartyListCurrentuserComponent implements OnInit {
         this.user = userObs;
         this.isLoading=true;
     });
+  }
+
+  seePartyCandidates(userId,partyId){
+    // console.log("hi userId "+userId)
+    console.log("///////////////////////////////////")
+    console.log("hi partyId "+partyId)
+    this.router.navigate([`/profile/${userId}/parties/${partyId}/usersSearch`]);
   }
 }

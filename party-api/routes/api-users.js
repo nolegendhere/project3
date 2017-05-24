@@ -8,8 +8,23 @@ const passport = require('../config/passport');
 
 /* GET Users listing. */
 router.get('/', (req, res, next) => {
-  // let populateQuery=[{path: "partiesOwned"}];
-  User.find({}).exec((err, Users) => {
+  let populateQuery=[{path: "partiesOwned"}];
+  if(req.query){
+    Party.findById({_id:req.query.partyId},(err,party)=>{
+      var partyId = mongoose.Types.ObjectId(req.query.partyId);
+      // User.find({partiesOwned:{$not:{$all:[partyId] }}}).exec((err, Users) =>
+      // let populateQuery=[{path: "partiesOwned"}];
+      User.find({$nor:[{partiesOwned:partyId},{partiesSeen:partyId}]}).populate().exec((err, Users) => {
+        if (err) {
+          console.log("hello1",err);
+          return res.send(err);
+        }
+        //console.log("hello2",Users);
+        return res.json(Users);
+      });
+    });
+  } else {
+    User.find({}).exec((err, Users) => {
       if (err) {
         console.log("hello1");
         return res.send(err);
@@ -17,6 +32,7 @@ router.get('/', (req, res, next) => {
       console.log("hello2");
       return res.json(Users);
     });
+  }
 });
 
 /* GET a single User. */

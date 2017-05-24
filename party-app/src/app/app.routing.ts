@@ -9,6 +9,7 @@ import { ShowCurrentuserComponent } from './show-currentuser/show-currentuser.co
 import { EditCurrentuserComponent } from './edit-currentuser/edit-currentuser.component';
 import { PartySingleEditComponent } from './party-single-edit/party-single-edit.component';
 import { PartyListCurrentuserComponent } from './party-list-currentuser/party-list-currentuser.component';
+import { UsersSearchComponent } from './users-search/users-search.component';
 
 
 export const routes: Routes = [
@@ -23,6 +24,8 @@ export const routes: Routes = [
     { path: 'profile/:id/edit', component: EditCurrentuserComponent, canActivate: [SessionService]},
     { path: 'profile/parties/:id/edit', component: PartySingleEditComponent, canActivate: [SessionService]},
     { path: 'profile/:id/parties', component: PartyListCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:id/parties', component: PartyListCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/usersSearch', component: UsersSearchComponent, canActivate: [SessionService]},
     //{ path: '**', redirectTo: '' }
 
 ];
