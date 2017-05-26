@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const partySchema = new mongoose.Schema({
   score:Number,
-  sex:{
+  gender:{
     type:String,
     enum:["Boys","Girls","BoysGirls"],
     default: "BoysGirls"

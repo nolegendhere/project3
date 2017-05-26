@@ -1,9 +1,11 @@
 var express = require('express');
 const mongoose = require('mongoose');
 var router = express.Router();
+const User = require('../model/user');
 const Party = require('../model/party');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
+const async = require('async');
 
 /* GET Parties listing. */
 router.get('/', (req, res, next) => {
@@ -14,6 +16,7 @@ router.get('/', (req, res, next) => {
         return res.send(err);
       }
       console.log("hello2");
+      console.log("Parties",Parties);
       return res.json(Parties);
     });
 });
@@ -25,7 +28,7 @@ router.get('/:id', (req, res) => {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
 
-  Party.findById(req.params.id, (err, Parties) => {
+  Party.findById(req.params.id).populate("owner").exec((err, Parties) => {
       if (err) {
         return res.send(err);
       }
@@ -35,16 +38,23 @@ router.get('/:id', (req, res) => {
 });
 
 /* EDIT a Party. */
-router.put('/:id', (req, res) => {
+router.put('/:id/edit', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-
+  console.log("hiFromPutEditParty");
   Party.findByIdAndUpdate(req.params.id, {
-    // brand: req.body.brand,
-    // name: req.body.name,
-    // specs: req.body.specs,
-    // image: req.body.image
+    name: req.body.name,
+    gender: req.body.gender,
+    ageRange: req.body.ageRange,
+    payment: req.body.payment,
+    content: req.body.content,
+    date: req.body.date,
+    theme: req.body.theme,
+    maxPeople: req.body.maxPeople,
+    parity: req.body.parity,
+    placeType: req.body.placeType,
+    size: req.body.size
   }, (err) => {
     if (err) {
       return res.send(err);
@@ -57,38 +67,103 @@ router.put('/:id', (req, res) => {
 });
 
 /* DELETE a Party. */
-router.delete('/:id', (req, res) => {
+router.delete('/:id/delete', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
 
-  Party.remove({ _id: req.params.id }, (err) => {
+  Party.findOneAndRemove({ _id: req.params.id }, (err,party) => {
     if (err) {
       return res.send(err);
     }
-
-    return res.json({
-      message: 'Party has been removed!'
+    User.findOneAndUpdate({_id:party.owner},{'$pull': {'partiesOwned': party._id}},{new:true},(err)=>{
+      if(err){
+        return next(err);
+      }else{
+        User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},{new:true},(err)=>{
+          if(err){
+            return next(err);
+          }else{
+            console.log("entra en tots");
+            return res.json({
+              message: 'Party has been removed!'
+            });
+          }
+        });
+      }
     });
   });
 });
 
-router.post('/', upload.single('file'), function(req, res) {
-  const party = new Party({
-  //   name: req.body.name,
-  //   brand: req.body.brand,
-  //   image: `/uploads/${req.file.filename}`,
-  //   specs: JSON.parse(req.body.specs) || []
-  });
+// async.each(openFiles, function(file, callback) {
+//   fs.unlink(path.join(destDir, picture.pic_path), (err)=>{
+//      if(err){
+//        callback(err);
+//        return;
+//      }else{
+//        picture.remove((err)=>{
+//          if(err){
+//            callback(err);
+//            return;
+//          }
+//          callback();
+//        });
+//      }
+//   });
+// }, function(err) {
+//     // if any of the file processing produced an error, err would equal that error
+//     if( err ) {
+//       // One of the iterations produced an error.
+//       // All processing will now stop.
+//       console.log('A file failed to process');
+//     } else {
+//
+//     }
+//   }
+// });
 
+router.post('/new', /*upload.single('file'),*/ function(req, res) {
+
+  console.log("hiFromPostNewParty");
+  const party = new Party({
+    score: 0,
+    name: req.body.name,
+    gender: req.body.gender,
+    ageRange: req.body.ageRange,
+    payment: req.body.payment,
+    content: req.body.content,
+    date: req.body.date,
+    theme: req.body.theme,
+    maxPeople: req.body.maxPeople,
+    parity: req.body.parity,
+    placeType: req.body.placeType,
+    size: req.body.size,
+    owner: req.body.owner,
+    participants: []
+    //image: `/uploads/${req.file.filename}`,
+    //specs: JSON.parse(req.body.specs) || []
+  });
+  console.log("req.body.owner",req.body.owner);
   party.save((err) => {
     if (err) {
       return res.send(err);
     }
-
-    return res.json({
-      message: 'New Party created!',
-      party: party
+    console.log("newparty",party);
+    User.findById({_id:req.body.owner._id}).populate("partiesOwned").exec((err,user)=>{
+      if (err) {
+        return res.send(err);
+      }
+      console.log("user",user);
+      user.partiesOwned.push(party);
+      user.save((err)=>{
+        if (err) {
+          return res.send(err);
+        }
+        return res.json({
+          message: 'New Party created!',
+          party: party
+        });
+      });
     });
   });
 });

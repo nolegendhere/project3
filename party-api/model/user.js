@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
       firstName: String,
       lastName: String,
       score: Number,
-      sex: {
+      gender: {
         type:String,
         enum:["Boy","Girl"],
         default: "Boy"
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
       pictures:[String]
     },
     partyPreferences:{
-      sex:{
+      gender:{
         type:String,
         enum:["Boys","Girls","BoysGirls"],
         default: "BoysGirls"

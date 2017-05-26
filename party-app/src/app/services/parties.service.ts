@@ -32,8 +32,26 @@ export class PartiesService {
       .map((res) => res.json());
   }
 
-  add(party) {
+  add(party,user) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    party.owner = user;
     console.log("add party",party);
-    return this.http.post(`${this.BASE_URL}/api/paparty`,party).map((res) => res.json());
+    return this.http.post(`${this.BASE_URL}/api/parties/new`,party, options).map((res) => res.json());
   }
+
+  edit(party,id) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    console.log("add party",party);
+    return this.http.put(`${this.BASE_URL}/api/parties/${id}/edit`,party, options).map((res) => res.json());
+  }
+
+  remove(id) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.delete(`${this.BASE_URL}/api/parties/${id}/delete`, options)
+      .map((res) => res.json());
+  }
+
 }
