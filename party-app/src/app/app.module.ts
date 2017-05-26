@@ -24,6 +24,7 @@ import { PartySingleEditComponent } from './party-single-edit/party-single-edit.
 import { EditCurrentuserComponent } from './edit-currentuser/edit-currentuser.component';
 import { PartyListCurrentuserComponent } from './party-list-currentuser/party-list-currentuser.component';
 import { UsersSearchComponent } from './users-search/users-search.component';
+import { NewPartyCurrentuserComponent } from './new-party-currentuser/new-party-currentuser.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { UsersSearchComponent } from './users-search/users-search.component';
     PartySingleEditComponent,
     EditCurrentuserComponent,
     PartyListCurrentuserComponent,
-    UsersSearchComponent
+    UsersSearchComponent,
+    NewPartyCurrentuserComponent
   ],
   imports: [
     BrowserModule,

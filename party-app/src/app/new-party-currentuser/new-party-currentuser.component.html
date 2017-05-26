@@ -1,0 +1,138 @@
+<p>
+  new-party-currentuser works!
+</p>
+<form class="entry-form" (ngSubmit)="submitForm(myForm,user)" #myForm="ngForm" novalidate>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" name="name" #myName="ngModel" [(ngModel)]="model.name"  required />
+    <div *ngIf="myName.errors && (myName.dirty || myName.touched)">
+      <p class="error" [hidden]="!myName.errors.required">
+        Name is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="gender">Gender</label>
+    <select class="form-control" id="gender"
+            required
+            [(ngModel)]="model.gender" name="gender"
+            #myGender="ngModel">
+            <option *ngFor="let gend of genders" [value]="gend">{{gend}}</option>
+    </select>
+    <!-- <div [hidden]="gender.valid || gender.pristine" class="alert alert-danger">
+      Sex is required
+    </div> -->
+    <div *ngIf="myGender.errors && (myGender.dirty || myGender.touched)">
+      <p class="error" [hidden]="!myGender.errors.required">
+        Gender is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ageRange">Range of age</label>
+    <select class="form-control" id="gender"
+            required
+            [(ngModel)]="model.ageRange" name="ageRange"
+            #myAgeRange="ngModel">
+            <option *ngFor="let ageRan of ageRanges" [value]="ageRan">{{ageRan}}</option>
+    </select>
+    <div *ngIf="myAgeRange.errors && (myAgeRange.dirty || myAgeRange.touched)">
+      <p class="error" [hidden]="!myAgeRange.errors.required">
+        Range of Age is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="payment">Payment</label>
+    <select class="form-control" id="payment"
+            required
+            [(ngModel)]="model.payment" name="payment"
+            #myPayment="ngModel">
+            <option *ngFor="let pay of payments" [value]="pay">{{pay}}</option>
+    </select>
+    <div *ngIf="myPayment.errors && (myPayment.dirty || myPayment.touched)">
+      <p class="error" [hidden]="!myPayment.errors.required">
+        Payment is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="content">Content</label>
+    <input type="text" name="content" #myContent="ngModel" [(ngModel)]="model.content" required />
+    <div *ngIf="myContent.errors && (myContent.dirty || myContent.touched)">
+      <p class="error" [hidden]="!myContent.errors.required">
+        Content is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="date">Date</label>
+    <input type="date" name="date" #myDate="ngModel" [(ngModel)]="model.date" required />
+    <div *ngIf="myDate.errors && (myDate.dirty || myDate.touched)">
+      <p class="error" [hidden]="!myDate.errors.required">
+        Date is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="theme">Theme</label>
+    <input type="text" name="theme" #myTheme="ngModel" [(ngModel)]="model.theme" required />
+    <div *ngIf="myTheme.errors && (myTheme.dirty || myTheme.touched)">
+      <p class="error" [hidden]="!myTheme.errors.required">
+        Theme is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="maxPeople">Max number of people</label>
+    <input type="number" name="maxPeople" #myMaxPeople="ngModel" [(ngModel)]="model.maxPeople" min=0 required />
+    <div *ngIf="myMaxPeople.errors && (myMaxPeople.dirty || myMaxPeople.touched)">
+      <p class="error" [hidden]="!myMaxPeople.errors.required">
+        Max number of people is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="parity">Parity</label>
+    <select class="form-control" id="parity"
+            required
+            [(ngModel)]="model.parity" name="parity"
+            #myParity="ngModel">
+            <option *ngFor="let par of parities" [value]="par">{{par}}</option>
+    </select>
+    <div *ngIf="myParity.errors && (myParity.dirty || myParity.touched)">
+      <p class="error" [hidden]="!myParity.errors.required">
+        Parity is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="placeType">Type of Place</label>
+    <select class="form-control" id="placeType" required
+    [(ngModel)]="model.placeType" name="placeType" #myPlaceType="ngModel">
+            <option *ngFor="let place of placeTypes" [value]="place">{{place}}</option>
+    </select>
+    <div *ngIf="myPlaceType.errors && (myPlaceType.dirty || myPlaceType.touched)">
+      <p class="error" [hidden]="!myPlaceType.errors.required">
+        Type of place is required
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="size">Size</label>
+    <select class="form-control" id="size"
+            required
+            [(ngModel)]="model.size" name="size"
+            #mySize="ngModel">
+            <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
+    </select>
+    <div *ngIf="mySize.errors && (mySize.dirty || mySize.touched)">
+      <p class="error" [hidden]="!mySize.errors.required">
+        Size is required
+      </p>
+    </div>
+  </div>
+  <!-- <button type="submit"> Create Party </button> -->
+   <button type="submit" class="btn btn-success" [disabled]="!myForm.form.valid">Submit</button>
+</form>
+<button type="button" (click)="goBack(user._id)">Go Back</button>

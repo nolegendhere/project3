@@ -31,7 +31,7 @@ for(let i=0; i<3; i++){
       firstName: "userFirstName"+i,
       lastName: "userLastName"+i,
       score: 0,
-      sex: "Boy",
+      gender: "Boy",
       age: 18+i,
       pictures:["../public/images/boy.jpg","../public/images/boy.jpg","../public/images/boy.jpg","../public/images/boy.jpg"]
     },

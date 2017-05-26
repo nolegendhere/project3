@@ -33,4 +33,8 @@ export class PartyListCurrentuserComponent implements OnInit {
     console.log("hi partyId "+partyId)
     this.router.navigate([`/profile/${userId}/parties/${partyId}/usersSearch`]);
   }
+
+  newParty(id){
+    this.router.navigate([`/profile/${id}/parties/new`]);
+  }
 }
