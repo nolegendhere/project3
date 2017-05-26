@@ -7,7 +7,10 @@ const userSchema = new mongoose.Schema({
     profile:{
       firstName: String,
       lastName: String,
-      score: Number,
+      score: {
+        type: Number,
+        default: 0,
+      },
       gender: {
         type:String,
         enum:["Boy","Girl"],
@@ -23,17 +26,30 @@ const userSchema = new mongoose.Schema({
         default: "BoysGirls"
       },
       ageRange: {
-        type: String,
-        enum: ["18-25","20-30","25-35","30-40","35-45","40-50","45-55","50-60","55-65","All"],
-        default:"All"
+        minAge: {
+          type: Number,
+          default: 18,
+        },
+        maxAge: {
+          type: Number,
+          default: 65,
+        }
       },
       payment: {
         type:String,
         enum:["Free","Paid"],
         default: "Free"
       },
-      maxPeople: Number,
-      minPeople: Number,
+      numOfPeople: {
+        minPeople: {
+          type: Number,
+          default: 5,
+        },
+        maxPeople: {
+          type: Number,
+          default: 20,
+        }
+      },
       theme: String,
       parity: {
         type:String,
