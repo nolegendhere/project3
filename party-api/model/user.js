@@ -50,10 +50,10 @@ const userSchema = new mongoose.Schema({
           default: 20,
         }
       },
-      theme: String,
       parity: {
         type:String,
-        enum:["equal","unchecked"]
+        enum:["equal","unchecked"],
+        default: "equal"
       },
       placeType:{
         type:String,
@@ -62,7 +62,8 @@ const userSchema = new mongoose.Schema({
       },
       size:{
         type: String,
-        enum: ["small","average","big"]
+        enum: ["small","average","big"],
+        default: "average"
       }
     },
     partiesOwned: [{type: Schema.Types.ObjectId, ref:"Party"}],

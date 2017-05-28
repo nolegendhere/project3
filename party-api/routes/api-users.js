@@ -5,6 +5,7 @@ const User = require('../model/user');
 const Party = require('../model/party');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
+const async = require('async');
 
 /* GET Users listing. */
 router.get('/', (req, res, next) => {
@@ -51,21 +52,45 @@ router.get('/:id', (req, res) => {
 });
 
 /* EDIT a User. */
-router.put('/:id', (req, res) => {
+router.put('/:id/edit', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
 
+  console.log("HiFromEdituser1");
+  console.log("req.params.id",req.params.id);
+  // console.log("req.body.firstName",req.body.firstName);
+  // console.log("req.body.firstName",req.body.firstName);
+  // console.log("req.body.firstName",req.body.firstName);
+  // console.log("req.body.firstName",req.body.firstName);
   User.findByIdAndUpdate(req.params.id, {
-    // brand: req.body.brand,
-    // name: req.body.name,
-    // specs: req.body.specs,
-    // image: req.body.image
+    profile:{
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      gender: req.body.gender,
+      age: req.body.age,
+    },
+    partyPreferences:{
+      gender: req.body.genderPreferences,
+      ageRange:{
+        minAge: req.body.minAgePreferences,
+        maxAge: req.body.maxAgePreferences,
+      },
+      payment: req.body.paymentPreferences,
+      numOfPeople:{
+        minPeople: req.body.minPeoplePreferences,
+        maxPeople: req.body.maxPeoplePreferences,
+      },
+      parity: req.body.parityPreferences,
+      placeType: req.body.placeTypePreferences,
+      size: req.body.sizePreferences
+    },
   }, (err) => {
     if (err) {
+      console.log("HiFromEdituser2");
       return res.send(err);
     }
-
+    console.log("HiFromEdituser3");
     return res.json({
       message: 'User updated successfully'
     });
@@ -73,21 +98,52 @@ router.put('/:id', (req, res) => {
 });
 
 /* DELETE a User. */
-router.delete('/:id', (req, res) => {
+router.delete('/:id/delete', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
 
-  User.remove({ _id: req.params.id }, (err) => {
+  User.findOneAndRemove({ _id: req.params.id }, (err, user) => {
     if (err) {
       return res.send(err);
     }
 
-    return res.json({
-      message: 'User has been removed!'
+    Party.update({participants:user._id},{'$pull': {'participants': user._id }},(err)=>{
+      if(err){
+        return res.send(err);
+      }
+      Party.find({owner:user._id},(err,parties)=>{
+        if (err) {
+          return res.send(err);
+        }
+        async.each(parties, function(party, callback) {
+          User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},{new:true},(err)=>{
+            if(err){
+              callback(err);
+            }else{
+              console.log("borrant");
+              callback();
+            }
+          });
+        }, function(err) {
+            // if any of the file processing produced an error, err would equal that error
+            if( err ) {
+              // One of the iterations produced an error.
+              // All processing will now stop.
+              console.log('A file failed to process');
+            } else {
+              console.log("finished");
+              req.logout();
+              return res.json({
+                message: 'User deleted successfully'
+              });
+            }
+        });
+      });
     });
   });
 });
+
 
 router.post('/', upload.single('file'), function(req, res) {
   const party = new User({

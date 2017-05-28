@@ -6,22 +6,166 @@
   <p>Loading...</p>
 </div>
 <div *ngIf="isLoading">
-  <h3>{{user.profile.name}}</h3>
-  <p>{{user.profile.age}}</p>
-  <p>{{user.profile.sex}}</p>
-  <div *ngFor="let picture of user.profile.pictures">
-    <img [src]='picture' />
-  </div>
+  <form class="entry-form" (ngSubmit)="submitForm(myForm)" #myForm="ngForm" novalidate>
+
+    <h3>Edit Profile</h3>
+
+    <div class="form-group">
+      <label for="name">First Name</label>
+      <input type="text" name="firstName" #myFirstName="ngModel" [(ngModel)]="user.profile.firstName"  required />
+      <div *ngIf="myFirstName.errors && (myFirstName.dirty || myFirstName.touched)">
+        <p class="error" [hidden]="!myFirstName.errors.required">
+          First Name is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="name">Last Name</label>
+      <input type="text" name="lastName" #myLastName="ngModel" [(ngModel)]="user.profile.lastName"  required />
+      <div *ngIf="myLastName.errors && (myLastName.dirty || myLastName.touched)">
+        <p class="error" [hidden]="!myLastName.errors.required">
+          Last Name is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <select class="form-control" id="gender"
+              required
+              [(ngModel)]="user.profile.gender" name="gender"
+              #myGender="ngModel">
+              <option *ngFor="let gend of genders" [value]="gend">{{gend}}</option>
+      </select>
+      <div *ngIf="myGender.errors && (myGender.dirty || myGender.touched)">
+        <p class="error" [hidden]="!myGender.errors.required">
+          Gender is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="age">Age</label>
+      <input type="range" name="age"  #myAge="ngModel" [min]="minAgeLimit" [max]="maxAgeLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.profile.age" #ref (change)="changeValueAge(ref.value)" />
+      {{user.profile.age}}
+      <div *ngIf="myAge.errors && (myAge.dirty || myAge.touched)">
+        <p class="error" [hidden]="!myAge.errors.required">
+          Age is required
+        </p>
+      </div>
+    </div>
+
+    <h3>Edit Preferences</h3>
+
+    <div class="form-group">
+      <label for="genderPreferences">Gender</label>
+      <select class="form-control" id="genderPreferences"
+              required
+              [(ngModel)]="user.partyPreferences.gender" name="genderPreferences"
+              #myGenderPreferences="ngModel">
+              <option *ngFor="let gend of genderPreferences" [value]="gend">{{gend}}</option>
+      </select>
+      <div *ngIf="myGenderPreferences.errors && (myGenderPreferences.dirty || myGenderPreferences.touched)">
+        <p class="error" [hidden]="!myGenderPreferences.errors.required">
+          Gender is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="minAgePreferences">Min age for people</label>
+      <input type="range" name="minAgePreferences"  #myMinAgePreferences="ngModel" [min]="minAgeLimit" [max]="maxAgeLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.ageRange.minAge" #ref (change)="changeValueMinAgePreferences(ref.value)" />
+      {{user.partyPreferences.ageRange.minAge}}
+      <div *ngIf="myMinAgePreferences.errors && (myMinAgePreferences.dirty || myMinAgePreferences.touched)">
+        <p class="error" [hidden]="!myMinAgePreferences.errors.required">
+          Min age for people is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="maxAgePreferences">Max age for people</label>
+      <input type="range" name="maxAgePreferences"  #myMaxAgePreferences="ngModel" [min]="minAgeLimit" [max]="maxAgeLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.ageRange.maxAge" #ref (change)="changeValueMaxAgePreferences(ref.value)" />
+      {{user.partyPreferences.ageRange.maxAge}}
+      <div *ngIf="myMaxAgePreferences.errors && (myMaxAgePreferences.dirty || myMaxAgePreferences.touched)">
+        <p class="error" [hidden]="!myMaxAgePreferences.errors.required">
+          Max age for people is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="paymentPreferences">Payment</label>
+      <select class="form-control" id="paymentPreferences"
+              required
+              [(ngModel)]="user.partyPreferences.payment" name="paymentPreferences"
+              #myPaymentPreferences="ngModel">
+              <option *ngFor="let pay of paymentPreferences" [value]="pay">{{pay}}</option>
+      </select>
+      <div *ngIf="myPaymentPreferences.errors && (myPaymentPreferences.dirty || myPaymentPreferences.touched)">
+        <p class="error" [hidden]="!myPaymentPreferences.errors.required">
+          Payment is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="minPeoplePreferences">Min number of people</label>
+      <input type="range" name="minPeoplePreferences"  #myMinPeoplePreferences="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.numOfPeople.minPeople" #ref (change)="changeValueMinPeoplePreferences(ref.value)" />
+      {{user.partyPreferences.numOfPeople.minPeople}}
+      <div *ngIf="myMinPeoplePreferences.errors && (myMinPeoplePreferences.dirty || myMinPeoplePreferences.touched)">
+        <p class="error" [hidden]="!myMinPeoplePreferences.errors.required">
+          Min number of people is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="maxPeoplePreferences">Max number of people</label>
+      <input type="range" name="maxPeoplePreferences"  #myMaxPeoplePreferences="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.numOfPeople.maxPeople" #ref (change)="changeValueMaxPeoplePreferences(ref.value)" />
+      {{user.partyPreferences.numOfPeople.maxPeople}}
+      <div *ngIf="myMaxPeoplePreferences.errors && (myMaxPeoplePreferences.dirty || myMaxPeoplePreferences.touched)">
+        <p class="error" [hidden]="!myMaxPeoplePreferences.errors.required">
+          Max number of people is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="parityPreferences">Parity</label>
+      <select class="form-control" id="parityPreferences"
+              required
+              [(ngModel)]="user.partyPreferences.parity" name="parityPreferences"
+              #myParityPreferences="ngModel">
+              <option *ngFor="let par of parityPreferences" [value]="par">{{par}}</option>
+      </select>
+      <div *ngIf="myParityPreferences.errors && (myParityPreferences.dirty || myParityPreferences.touched)">
+        <p class="error" [hidden]="!myParityPreferences.errors.required">
+          Parity is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="placeTypePreferences">Type of Place</label>
+      <select class="form-control" id="placeTypePreferences" required
+      [(ngModel)]="user.partyPreferences.placeType" name="placeTypePreferences" #myPlaceTypePreferences="ngModel">
+              <option *ngFor="let place of placeTypePreferences" [value]="place">{{place}}</option>
+      </select>
+      <div *ngIf="myPlaceTypePreferences.errors && (myPlaceTypePreferences.dirty || myPlaceTypePreferences.touched)">
+        <p class="error" [hidden]="!myPlaceTypePreferences.errors.required">
+          Type of place is required
+        </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="sizePreferences">Size</label>
+      <select class="form-control" id="sizePreferences"
+              required
+              [(ngModel)]="user.partyPreferences.size" name="sizePreferences"
+              #mySizePreferences="ngModel">
+              <option *ngFor="let size of sizePreferences" [value]="size">{{size}}</option>
+      </select>
+      <div *ngIf="mySizePreferences.errors && (mySizePreferences.dirty || mySizePreferences.touched)">
+        <p class="error" [hidden]="!mySizePreferences.errors.required">
+          Size is required
+        </p>
+      </div>
+    </div>
+    <!-- <button type="submit"> Create Party </button> -->
+     <button type="submit" class="btn btn-success" [disabled]="!myForm.form.valid">Submit</button>
+  </form>
+  <button type="button" (click)="goBack()">Go Back</button>
+  <button type="button" (click)="remove()">Delete Account</button>
 </div>
-
-
-
-
-
-
-<!-- <div class="try-sliders">
-  <input type="range" name="points1" id="points1" value="ngModel" [min]="minValue1" [max]="maxValue1" data-show-value="true" data-popup-enabled="true" [(ngModel)]="value1" #ref (change)="changeValue1(ref.value)"/>
-  {{value1}}
-  <input type="range" name="points2" id="points2" value="ngModel" [min]="minValue2" [max]="maxValue2" data-show-value="true" data-popup-enabled="true" [(ngModel)]="value2" #ref (change)="changeValue2(ref.value)" />
-  {{value2}}
-</div> -->

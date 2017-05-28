@@ -38,6 +38,8 @@ export class ShowCurrentuserComponent implements OnInit {
     this.router.navigate([`/profile/${id}/edit`]);
   }
 
-
+  goBack(){
+    this.router.navigate([`/partiesSearch`]);
+  }
 
 }

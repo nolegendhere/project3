@@ -21,7 +21,7 @@ export class NewPartyCurrentuserComponent implements OnInit {
   parities = ["equal","unchecked"];
   placeTypes = ["appartment","house","local","openAir"];
   sizes = ["small","average","big"];
-  model = new Party('Party','BoysGirls',18,65,'Free','Come to the best party ever',new Date(new Date().getTime()),'Casual',5,20,'unchecked','local','average');
+  model = new Party('Party','BoysGirls',18,65,'Free','Come to the best party ever',5,20,'unchecked','local','average');
 
   minAgeLimit: number = 18;
   maxAgeLimit: number = 65;

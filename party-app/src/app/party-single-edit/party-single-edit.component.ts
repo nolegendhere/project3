@@ -54,7 +54,7 @@ export class PartySingleEditComponent implements OnInit {
     });;
   }
 
-  goBack(id){
+  goBack(){
     this.router.navigate([`/profile/${this.party.owner._id}/show`]);
   }
 

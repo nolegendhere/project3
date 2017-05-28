@@ -43,7 +43,7 @@ export class PartiesService {
   edit(party,id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
-    console.log("add party",party);
+    console.log("edit party",party);
     return this.http.put(`${this.BASE_URL}/api/parties/${id}/edit`,party, options).map((res) => res.json());
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
+import { SessionService } from '../services/session.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -12,22 +13,20 @@ export class EditCurrentuserComponent implements OnInit {
   isLoading:boolean=false;
 
   genders = ['Boy','Girl'];
-  genderPreferences = ['Boy','Girl'];
+  genderPreferences = ['Boy','Girl','BoysGirls'];
   paymentPreferences = ["Free","Paid"];
-  paritiePreferences = ["equal","unchecked"];
+  parityPreferences = ["equal","unchecked"];
   placeTypePreferences = ["appartment","house","local","openAir"];
   sizePreferences = ["small","average","big"];
 
-  value1:number=20;
-  value2:number=30;
-  minValue1: number = 18;
-  maxValue1: number = 65;
-  minValue2: number = 18;
-  maxValue2: number = 65;
+  minAgeLimit: number = 18;
+  maxAgeLimit: number = 65;
+  minPeopleLimit: number = 18;
+  maxPeopleLimit: number = 65;
 
 
   constructor(private router: Router,private route: ActivatedRoute,
-  private usersService: UsersService) { }
+  private usersService: UsersService,private sessionService: SessionService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params=>{
@@ -44,38 +43,75 @@ export class EditCurrentuserComponent implements OnInit {
   }
 
   submitForm(myForm) {
-    this.usersService.edit(myForm.value, this.user).subscribe(() => {
+    this.usersService.edit(myForm.value, this.user._id).subscribe(() => {
       this.router.navigate([`/profile/${this.user._id}/show`]);
     });;
   }
 
   remove(){
     this.usersService.remove(this.user._id).subscribe(() => {
-      //TO-DO
-      this.router.navigate(["/"]);
+      this.sessionService.logout();
     });;
   }
 
-  goBack(id){
+  goBack(){
     this.router.navigate([`/profile/${this.user._id}/show`]);
   }
 
-  changeValue1(value: number) {
-    console.log("this.value1",this.value1);
-    console.log("this.value2",this.value2);
-    if(this.value2<this.value1+4)
+  changeValueMinPeoplePreferences(value: number) {
+    console.log("minPeople",this.user.partyPreferences.numOfPeople.minPeople);
+    console.log("maxPeople",this.user.partyPreferences.numOfPeople.maxPeople);
+    if(this.user.partyPreferences.numOfPeople.maxPeople<this.user.partyPreferences.numOfPeople.minPeople+4)
     {
-      this.value1 = this.value2-1;
+    this.user.partyPreferences.numOfPeople.minPeople = this.user.partyPreferences.numOfPeople.maxPeople-1;
     }
   }
 
-  changeValue2(value: number) {
+  changeValueMaxPeoplePreferences(value: number) {
     //this.maxValue1 = this.value2;
-    console.log("this.value1",this.value1);
-    console.log("this.value2",this.value2);
-    if(this.value2<this.value1+4)
+    console.log("minPeople",this.user.partyPreferences.numOfPeople.minPeople);
+    console.log("maxPeople",this.user.partyPreferences.numOfPeople.maxPeople);
+    if(this.user.partyPreferences.numOfPeople.maxPeople<this.user.partyPreferences.numOfPeople.minPeople+4)
     {
-      this.value2 = this.value1+1;
+      this.user.partyPreferences.numOfPeople.maxPeople = this.user.partyPreferences.numOfPeople.minPeople+1;
+    }
+  }
+
+  changeValueMinAgePreferences(value: number) {
+    console.log("minAge",this.user.partyPreferences.ageRange.minAge);
+    console.log("maxAge",this.user.partyPreferences.ageRange.maxAge);;
+    if(this.user.partyPreferences.ageRange.maxAge<this.user.partyPreferences.ageRange.minAge)
+    {
+      this.user.partyPreferences.ageRange.minAge = this.user.partyPreferences.ageRange.maxAge;
+    }
+
+    if(this.user.profile.age<this.user.partyPreferences.ageRange.minAge){
+      this.user.partyPreferences.ageRange.minAge = this.user.profile.age
+    }
+  }
+
+  changeValueMaxAgePreferences(value: number) {
+    console.log("minAge",this.user.partyPreferences.ageRange.minAge);
+    console.log("maxAge",this.user.partyPreferences.ageRange.maxAge);
+    if(this.user.partyPreferences.ageRange.maxAge<this.user.partyPreferences.ageRange.minAge)
+    {
+      this.user.partyPreferences.ageRange.maxAge = this.user.partyPreferences.ageRange.minAge;
+    }
+
+    if(this.user.profile.age>this.user.partyPreferences.ageRange.maxAge){
+      this.user.partyPreferences.ageRange.maxAge = this.user.profile.age+1
+    }
+  }
+
+  changeValueAge(value: number) {
+    //this.maxValue1 = this.value2;
+    console.log("age",this.user.profile.age);
+    if(this.user.profile.age<this.user.partyPreferences.ageRange.minAge){
+      this.user.partyPreferences.ageRange.minAge = this.user.profile.age
+    }
+
+    if(this.user.profile.age>this.user.partyPreferences.ageRange.maxAge){
+      this.user.partyPreferences.ageRange.maxAge = this.user.profile.age
     }
   }
 

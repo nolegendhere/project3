@@ -7,8 +7,6 @@ export class Party {
     public maxAge: number,
     public payment: string,
     public content: string,
-    public date: Date,
-    public theme: string,
     public minPeople: number,
     public maxPeople: number,
     public parity: string,

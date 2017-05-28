@@ -32,18 +32,18 @@ export class UsersService {
         return res.json();
       });
   }
-  
-  edit(party,id) {
+
+  edit(user,id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
-    console.log("add party",party);
-    return this.http.put(`${this.BASE_URL}/api/parties/${id}/edit`,party, options).map((res) => res.json());
+    console.log("edit user",user);
+    return this.http.put(`${this.BASE_URL}/api/users/${id}/edit`,user, options).map((res) => res.json());
   }
 
   remove(id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
-    return this.http.delete(`${this.BASE_URL}/api/parties/${id}/delete`, options)
+    return this.http.delete(`${this.BASE_URL}/api/users/${id}/delete`, options)
       .map((res) => res.json());
   }
 

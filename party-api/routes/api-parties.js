@@ -52,8 +52,6 @@ router.put('/:id/edit', (req, res) => {
     },
     payment: req.body.payment,
     content: req.body.content,
-    date: req.body.date,
-    theme: req.body.theme,
     numOfPeople:{
       minPeople: req.body.minPeople,
       maxPeople: req.body.maxPeople,
@@ -82,11 +80,11 @@ router.delete('/:id/delete', (req, res) => {
     if (err) {
       return res.send(err);
     }
-    User.findOneAndUpdate({_id:party.owner},{'$pull': {'partiesOwned': party._id}},{new:true},(err)=>{
+    User.findOneAndUpdate({_id:party.owner},{'$pull': {'partiesOwned': party._id}},(err)=>{
       if(err){
         return next(err);
       }else{
-        User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},{new:true},(err)=>{
+        User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},(err)=>{
           if(err){
             return next(err);
           }else{

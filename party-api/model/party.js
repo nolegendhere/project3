@@ -29,11 +29,6 @@ const partySchema = new mongoose.Schema({
     enum:["Free","Paid"],
     default: "Free"
   },
-  date: {
-    type: Date,
-    default: new Date(new Date().getTime()),
-  },
-  theme: String,
   numOfPeople: {
     minPeople: {
       type: Number,
