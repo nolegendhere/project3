@@ -30,7 +30,6 @@ for(let i=0; i<3; i++){
     profile:{
       firstName: "userFirstName"+i,
       lastName: "userLastName"+i,
-      score: 0,
       gender: "Boy",
       age: 18+i,
       pictures:["../public/images/boy.jpg","../public/images/boy.jpg","../public/images/boy.jpg","../public/images/boy.jpg"]
@@ -50,10 +49,8 @@ User.create(tempArray, (err, users) => {
   users.forEach((user)=>{
     console.log("hi5");
     let newParty = new Party({
-      score: 0,
       name: "party"+user.username,
-      theme: "party "+user.username,
-      maxPeople: 20,
+      "content": "trying content",
       owner: user
     });
     console.log("hi6");

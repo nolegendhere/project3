@@ -14,6 +14,16 @@ export class UsersService {
     console.log("this.user",this.userId);
   }
 
+  getList(userId,partyId) {
+
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.BASE_URL}/api/users/?userId=${userId}&&partyId=${partyId}`, options).map((res) =>{
+      this.userList = res.json();
+      return res.json();
+    });
+  }
+
   get(id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
@@ -23,14 +33,18 @@ export class UsersService {
       });
   }
 
-  getList(userId,partyId) {
-
+  edit(user,id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.BASE_URL}/api/users/?userId=${userId}&&partyId=${partyId}`, options).map((res) =>{
-      this.userList = res.json();
-      return res.json();
-    });
+    console.log("edit user",user);
+    return this.http.put(`${this.BASE_URL}/api/users/${id}/edit`,user, options).map((res) => res.json());
+  }
+
+  remove(id) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.delete(`${this.BASE_URL}/api/users/${id}/delete`, options)
+      .map((res) => res.json());
   }
 
   // getList() {

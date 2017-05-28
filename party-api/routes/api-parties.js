@@ -5,7 +5,7 @@ const User = require('../model/user');
 const Party = require('../model/party');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
-const async = require('async');
+//const async = require('async');
 
 /* GET Parties listing. */
 router.get('/', (req, res, next) => {
@@ -46,12 +46,16 @@ router.put('/:id/edit', (req, res) => {
   Party.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
     gender: req.body.gender,
-    ageRange: req.body.ageRange,
+    ageRange:{
+      minAge: req.body.minAge,
+      maxAge: req.body.maxAge,
+    },
     payment: req.body.payment,
     content: req.body.content,
-    date: req.body.date,
-    theme: req.body.theme,
-    maxPeople: req.body.maxPeople,
+    numOfPeople:{
+      minPeople: req.body.minPeople,
+      maxPeople: req.body.maxPeople,
+    },
     parity: req.body.parity,
     placeType: req.body.placeType,
     size: req.body.size
@@ -76,11 +80,11 @@ router.delete('/:id/delete', (req, res) => {
     if (err) {
       return res.send(err);
     }
-    User.findOneAndUpdate({_id:party.owner},{'$pull': {'partiesOwned': party._id}},{new:true},(err)=>{
+    User.findOneAndUpdate({_id:party.owner},{'$pull': {'partiesOwned': party._id}},(err)=>{
       if(err){
         return next(err);
       }else{
-        User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},{new:true},(err)=>{
+        User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},(err)=>{
           if(err){
             return next(err);
           }else{
@@ -129,12 +133,18 @@ router.post('/new', /*upload.single('file'),*/ function(req, res) {
     score: 0,
     name: req.body.name,
     gender: req.body.gender,
-    ageRange: req.body.ageRange,
+    ageRange:{
+      minAge: req.body.minAge,
+      maxAge: req.body.maxAge,
+    },
     payment: req.body.payment,
     content: req.body.content,
     date: req.body.date,
     theme: req.body.theme,
-    maxPeople: req.body.maxPeople,
+    numOfPeople:{
+      minPeople: req.body.minPeople,
+      maxPeople: req.body.maxPeople,
+    },
     parity: req.body.parity,
     placeType: req.body.placeType,
     size: req.body.size,
