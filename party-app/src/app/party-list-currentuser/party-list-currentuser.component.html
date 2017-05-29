@@ -13,7 +13,8 @@
     <div *ngFor="let picture of party.pictures">
       <img [src]='picture' />
     </div>
-    <button type="button" (click)="seePartyCandidates(user._id,party._id)">see party candidates</button>
+    <button type="button" (click)="seePartyCandidates(party._id)">see party candidates</button>
+    <button type="button" (click)="showParty(party._id)">Show Party</button>
   </div>
   <button type="button" (click)="newParty(user._id)">new party</button>
 </div>

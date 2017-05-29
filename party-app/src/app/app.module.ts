@@ -27,6 +27,7 @@ import { UsersSearchComponent } from './users-search/users-search.component';
 import { NewPartyCurrentuserComponent } from './new-party-currentuser/new-party-currentuser.component';
 import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/party-joined-currentuser.component';
 import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
+import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-party-currentuser.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-current
     UsersSearchComponent,
     NewPartyCurrentuserComponent,
     PartyJoinedCurrentuserComponent,
-    ShowPartyJoinedCurrentuserComponent
+    ShowPartyJoinedCurrentuserComponent,
+    ShowPartyCurrentuserComponent
   ],
   imports: [
     BrowserModule,
