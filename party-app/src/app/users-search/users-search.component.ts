@@ -16,7 +16,7 @@ export class UsersSearchComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params=>{
-      console.log("params['userId']",params['userId']);
+      console.log("params['partyId']",params['partyId']);
       this.getUserDetails(params['partyId']);
     })
   }
@@ -50,18 +50,18 @@ export class UsersSearchComponent implements OnInit {
       if(exists.length){
         console.log("exists");
         this.partiesService.addPartyParticipant(user._id,this.party._id).subscribe((partiesObs)=>{
-          console.log("party Candidated");
+          console.log("party Participant");
         })
       }
       else{
         this.partiesService.addPartyCandidate(user._id,this.party._id).subscribe((partiesObs)=>{
-          console.log("party Candidated");
+          console.log("party Candidated, already candidates");
         })
       }
     }
     else{
       this.partiesService.addPartyCandidate(user._id,this.party._id).subscribe((partiesObs)=>{
-        console.log("party Candidated");
+        console.log("party Candidated, without candidates");
       })
     }
   }

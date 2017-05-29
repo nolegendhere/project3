@@ -16,5 +16,6 @@
   </div>
   <p>Hello {{userId}}</p>
   <a [routerLink]="['/profile/'+userId+'/show']"> View Details </a>
+  <h3><a [routerLink]="['/profile/'+userId+'/parties']"> User Owned Parties </a></h3>
+  <h3><a [routerLink]="['/profile/'+userId+'/parties/joined']"> User Joined Parties </a></h3>
 </div>
-<h3><a [routerLink]="['/profile/'+userId+'/parties']"> User Owned Parties </a></h3>

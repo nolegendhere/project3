@@ -36,6 +36,7 @@ router.get('/', (req, res, next) => {
   }
 });
 
+
 /* GET a single User. */
 router.get('/:id', (req, res) => {
   console.log("hiFromGetUser");
@@ -116,11 +117,10 @@ router.delete('/:id/delete', (req, res) => {
         if (err) {
           return res.send(err);
         }
-        Party.deleteMany({owner:user._id},(err,partiesremoved)=>{
+        Party.remove({owner:user._id},(err)=>{
           if (err) {
             return res.send(err);
           }
-          console.log("partiesremoved",partiesremoved);
 
           async.each(parties, function(party, callback) {
             User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id }},{new:true},(err)=>{
@@ -188,5 +188,6 @@ router.put('/:id/participants/new',function(req, res) {
     });
   });
 });
+
 
 module.exports = router;

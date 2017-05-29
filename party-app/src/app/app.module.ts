@@ -25,6 +25,8 @@ import { EditCurrentuserComponent } from './edit-currentuser/edit-currentuser.co
 import { PartyListCurrentuserComponent } from './party-list-currentuser/party-list-currentuser.component';
 import { UsersSearchComponent } from './users-search/users-search.component';
 import { NewPartyCurrentuserComponent } from './new-party-currentuser/new-party-currentuser.component';
+import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/party-joined-currentuser.component';
+import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { NewPartyCurrentuserComponent } from './new-party-currentuser/new-party-
     EditCurrentuserComponent,
     PartyListCurrentuserComponent,
     UsersSearchComponent,
-    NewPartyCurrentuserComponent
+    NewPartyCurrentuserComponent,
+    PartyJoinedCurrentuserComponent,
+    ShowPartyJoinedCurrentuserComponent
   ],
   imports: [
     BrowserModule,

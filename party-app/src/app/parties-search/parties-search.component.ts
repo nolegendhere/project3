@@ -26,7 +26,9 @@ export class PartiesSearchComponent implements OnInit {
 
     if(party.candidates.length){
       let exists = party.candidates.filter((candidate)=>{
-        if(String(candidate) == String(this.userId)){
+        console.log("candidate",candidate);
+        console.log("this.userId",this.userId);
+        if(String(candidate._id) == String(this.userId)){
           console.log("this candidate exists")
           return candidate;
         }
@@ -34,18 +36,18 @@ export class PartiesSearchComponent implements OnInit {
       if(exists.length){
         console.log("exists");
         this.usersService.addPartyParticipant(this.userId,party._id).subscribe((partiesObs)=>{
-          console.log("party Candidated");
+          console.log("party Participant");
         })
       }
       else{
         this.usersService.addPartyCandidate(this.userId,party._id).subscribe((partiesObs)=>{
-          console.log("party Candidated");
+          console.log("party Candidated, already candidates");
         })
       }
     }
     else{
       this.usersService.addPartyCandidate(this.userId,party._id).subscribe((partiesObs)=>{
-        console.log("party Candidated");
+        console.log("party Candidated, without candidates");
       })
     }
   }
