@@ -41,4 +41,8 @@ export class ShowPartyJoinedCurrentuserComponent implements OnInit {
     });
   }
 
+  goBack(){
+    this.router.navigate([`/partiesSearch`]);
+  }
+
 }

@@ -27,11 +27,15 @@ export class PartyListCurrentuserComponent implements OnInit {
     });
   }
 
-  seePartyCandidates(userId,partyId){
+  seePartyCandidates(partyId){
     // console.log("hi userId "+userId)
     console.log("///////////////////////////////////")
     console.log("hi partyId "+partyId)
-    this.router.navigate([`/profile/${userId}/parties/${partyId}/usersSearch`]);
+    this.router.navigate([`/profile/${this.user._id}/parties/${partyId}/usersSearch`]);
+  }
+
+  showParty(partyId){
+    this.router.navigate([`/profile/${this.user._id}/parties/${partyId}/show`]);
   }
 
   newParty(id){

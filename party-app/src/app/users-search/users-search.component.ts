@@ -12,11 +12,13 @@ export class UsersSearchComponent implements OnInit {
   userList:Array<any>=[];
   isLoading:boolean=false;
   party: any;
+  userId: any;
   constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService,private partiesService: PartiesService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params=>{
       console.log("params['partyId']",params['partyId']);
+      this.userId=params['userId'];
       this.getUserDetails(params['partyId']);
     })
   }
@@ -64,6 +66,14 @@ export class UsersSearchComponent implements OnInit {
         console.log("party Candidated, without candidates");
       })
     }
+  }
+
+  showParty(){
+    this.router.navigate([`/profile/${this.userId}/parties/${this.party._id}/show`]);
+  }
+
+  goToPartiesOwned(){
+    this.router.navigate([`/profile/${this.userId}/parties`]);
   }
 
 }

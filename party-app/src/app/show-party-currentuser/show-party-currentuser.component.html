@@ -1,0 +1,22 @@
+<p>
+  show-party-currentuser works!
+</p>
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <h1>Participants</h1>
+  <div *ngFor="let user of userList">
+    <h2>{{user.username}}</h2>
+    <h3>{{user.profile.firstName}}</h3>
+    <h3>{{user.profile.lastName}}</h3>
+    <h3>{{user.profile.sex}}</h3>
+    <h3>{{user.profile.age}}</h3>
+    <div *ngFor="let picture of user.profile.pictures">
+      <img [src]='picture' />
+    </div>
+    <button type="button" (click)="deleteContact(user)">Delete Contact</button>
+  </div>
+  <button type="button" (click)="seePartyCandidates()">see party candidates</button>
+  <button type="button" (click)="goToPartiesOwned()">Go to Parties Owned</button>
+</div>
