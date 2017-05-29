@@ -96,7 +96,7 @@ router.delete('/:id/delete', (req, res) => {
       if(err){
         return next(err);
       }else{
-        User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},(err)=>{
+        User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id}},(err)=>{
           if(err){
             return next(err);
           }else{

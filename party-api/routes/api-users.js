@@ -108,7 +108,7 @@ router.delete('/:id/delete', (req, res) => {
       return res.send(err);
     }
 
-    Party.update({participants:user._id},{'$pull': {'participants': user._id }},(err)=>{
+    Party.update({participants:user._id},{'$pull': {'participants': user._id, 'candidates':user._id, 'usersSeen': user._id }},(err)=>{
       if(err){
         return res.send(err);
       }
@@ -116,28 +116,35 @@ router.delete('/:id/delete', (req, res) => {
         if (err) {
           return res.send(err);
         }
-        async.each(parties, function(party, callback) {
-          User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id }},{new:true},(err)=>{
-            if(err){
-              callback(err);
-            }else{
-              console.log("borrant");
-              callback();
-            }
+        Party.deleteMany({owner:user._id},(err,partiesremoved)=>{
+          if (err) {
+            return res.send(err);
+          }
+          console.log("partiesremoved",partiesremoved);
+
+          async.each(parties, function(party, callback) {
+            User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id }},{new:true},(err)=>{
+              if(err){
+                callback(err);
+              }else{
+                console.log("borrant");
+                callback();
+              }
+            });
+          }, function(err) {
+              // if any of the file processing produced an error, err would equal that error
+              if( err ) {
+                // One of the iterations produced an error.
+                // All processing will now stop.
+                console.log('A file failed to process');
+              } else {
+                console.log("finished");
+                req.logout();
+                return res.json({
+                  message: 'User deleted successfully'
+                });
+              }
           });
-        }, function(err) {
-            // if any of the file processing produced an error, err would equal that error
-            if( err ) {
-              // One of the iterations produced an error.
-              // All processing will now stop.
-              console.log('A file failed to process');
-            } else {
-              console.log("finished");
-              req.logout();
-              return res.json({
-                message: 'User deleted successfully'
-              });
-            }
         });
       });
     });
