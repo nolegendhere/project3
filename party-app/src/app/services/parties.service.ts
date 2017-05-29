@@ -24,6 +24,16 @@ export class PartiesService {
       });
   }
 
+  getListJoined(userId) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.BASE_URL}/api/parties/joined/?userId=${userId}`, options)
+      .map((res) =>{
+        this.partyList=res.json();
+        return res.json();
+      });
+  }
+
   get(id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
@@ -71,6 +81,16 @@ export class PartiesService {
     }
     console.log("user",user);
     return this.http.put(`${this.BASE_URL}/api/parties/${partyId}/participants/new`, user, options).map((res) => res.json());
+  }
+
+  leavePartyParticipant(userId,partyId){
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    let user = {
+      id: userId
+    }
+    console.log("user",user);
+    return this.http.put(`${this.BASE_URL}/api/parties/${partyId}/participants/leave`, user, options).map((res) => res.json());
   }
 
 }

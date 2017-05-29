@@ -33,6 +33,7 @@ export class UsersService {
       });
   }
 
+
   edit(user,id) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });

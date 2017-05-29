@@ -1,0 +1,28 @@
+<p>
+  show-party-joined-currentuser works!
+</p>
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <h1>Owner</h1>
+  <h2>{{owner.username}}</h2>
+  <h3>{{owner.profile.firstName}}</h3>
+  <h3>{{owner.profile.lastName}}</h3>
+  <h3>{{owner.profile.sex}}</h3>
+  <h3>{{owner.profile.age}}</h3>
+  <div *ngFor="let picture of owner.profile.pictures">
+    <img [src]='picture' />
+  </div>
+  <h1>Participants</h1>
+  <div *ngFor="let user of userList">
+    <h2>{{user.username}}</h2>
+    <h3>{{user.profile.firstName}}</h3>
+    <h3>{{user.profile.lastName}}</h3>
+    <h3>{{user.profile.sex}}</h3>
+    <h3>{{user.profile.age}}</h3>
+    <div *ngFor="let picture of user.profile.pictures">
+      <img [src]='picture' />
+    </div>
+  </div>
+</div>

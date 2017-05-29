@@ -1,0 +1,19 @@
+<p>
+  party-joined-currentuser works!
+</p>
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <h1> Party list </h1>
+  <div class="party-list">
+    <div *ngFor="let party of partyList">
+      <h3> {{ party.name }}&nbsp;</h3>
+      <div *ngFor="let picture of party.pictures">
+        <img [src]='picture' />
+      </div>
+      <p><a [routerLink]="['/profile/'+userId+'/parties/joined/'+party._id+'/show']"> View Details </a></p>
+      <button type="button" (click)="leaveParty(party)">Leavy Party</button>
+    </div>
+  </div>
+</div>
