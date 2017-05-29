@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
   let populateQuery=[{path: "partiesOwned"}];
   if(req.query){
     Party.findById({_id:req.query.partyId},(err,party)=>{
-      var partyId = mongoose.Types.ObjectId(req.query.partyId);
+      let partyId = mongoose.Types.ObjectId(req.query.partyId);
       // User.find({partiesOwned:{$not:{$all:[partyId] }}}).exec((err, Users) =>
       // let populateQuery=[{path: "partiesOwned"}];
       User.find({$nor:[{partiesOwned:partyId},{partiesSeen:partyId}]}).populate().exec((err, Users) => {
@@ -144,23 +144,40 @@ router.delete('/:id/delete', (req, res) => {
   });
 });
 
-
-router.post('/', upload.single('file'), function(req, res) {
-  const party = new User({
-  //   name: req.body.name,
-  //   brand: req.body.brand,
-  //   image: `/uploads/${req.file.filename}`,
-  //   specs: JSON.parse(req.body.specs) || []
+router.put('/:id/candidates/new',function(req, res) {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Specified id is not valid' });
+  }
+  console.log("hello from party candidates",req.body);
+  Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'candidates':req.params.id,'usersSeen':req.params.id}},{'new':true},(err,party)=>{
+    if(err){
+      return res.send(err);
+    }
+    return res.json({
+      message: 'Party with new candidate!',
+      party: party
+    });
   });
+});
 
-  party.save((err) => {
-    if (err) {
+router.put('/:id/participants/new',function(req, res) {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Specified id is not valid' });
+  }
+  console.log("hello from party participants",req.body);
+  Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'participants':req.params.id,'usersSeen':req.params.id}},{'new':true},(err,party)=>{
+    if(err){
       return res.send(err);
     }
 
-    return res.json({
-      message: 'New User created!',
-      party: party
+    User.findByIdAndUpdate({_id:req.params.id},{'$push':{'partiesJoined':req.body.id}},(err)=>{
+      if(err){
+        return res.send(err);
+      }
+      return res.json({
+        message: 'Party with new candidate!',
+        party: party
+      });
     });
   });
 });

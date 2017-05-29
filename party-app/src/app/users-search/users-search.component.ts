@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsersService } from '../services/users.service';
-// import { PartiesService } from '../services/parties.service';
+import { PartiesService } from '../services/parties.service';
 
 @Component({
   selector: 'app-users-search',
@@ -11,22 +11,59 @@ import { UsersService } from '../services/users.service';
 export class UsersSearchComponent implements OnInit {
   userList:Array<any>=[];
   isLoading:boolean=false;
-  constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService) { }
+  party: any;
+  constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService,private partiesService: PartiesService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params=>{
       console.log("params['userId']",params['userId']);
-      this.getUserDetails(params['userId'],params['partyId']);
+      this.getUserDetails(params['partyId']);
     })
   }
 
-  getUserDetails(userId,partyId) {
+  getUserDetails(partyId) {
     console.log(" partyId " +partyId);
-    this.usersService.getList(userId,partyId).subscribe((usersObs) => {
+    this.usersService.getList(partyId).subscribe((usersObs) => {
         this.userList = usersObs;
         console.log("this.userList",this.userList);
-        this.isLoading=true;
+        this.partiesService.get(partyId).subscribe((partyObs) => {
+          this.party = partyObs;
+          this.isLoading=true;
+        });
     });
+  }
+
+  // joinParty(id){
+  //   this.usersService.addPartyCandidate(id,this.partyId).subscribe((partiesObs)=>{
+  //     console.log("party Candidated");
+  //   })
+  // }
+
+  joinParty(user){
+    if(this.party.candidates.length){
+      let exists = this.party.candidates.filter((candidate)=>{
+        if(String(candidate) == String(user._id)){
+          console.log("this candidate exists")
+          return candidate;
+        }
+      });
+      if(exists.length){
+        console.log("exists");
+        this.partiesService.addPartyParticipant(user._id,this.party._id).subscribe((partiesObs)=>{
+          console.log("party Candidated");
+        })
+      }
+      else{
+        this.partiesService.addPartyCandidate(user._id,this.party._id).subscribe((partiesObs)=>{
+          console.log("party Candidated");
+        })
+      }
+    }
+    else{
+      this.partiesService.addPartyCandidate(user._id,this.party._id).subscribe((partiesObs)=>{
+        console.log("party Candidated");
+      })
+    }
   }
 
 }

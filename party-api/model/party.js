@@ -55,6 +55,8 @@ const partySchema = new mongoose.Schema({
     default: "average"
   },
   owner:{type:Schema.Types.ObjectId, ref:"User"},
+  usersSeen:[{type: Schema.Types.ObjectId, ref:"Party"}],
+  candidates:[{type: Schema.Types.ObjectId, ref:"User"}],
   participants:[{type: Schema.Types.ObjectId, ref:"User"}]
   }, {
     timestamps: {

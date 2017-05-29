@@ -14,5 +14,6 @@
     <div *ngFor="let picture of user.profile.pictures">
       <img [src]='picture' />
     </div>
+    <button type="button" (click)="joinParty(user)">Join Party</button>
   </div>
 </div>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PartiesService } from '../services/parties.service';
+import { UsersService } from '../services/users.service';
+import { SessionService } from '../services/session.service';
 
 @Component({
   selector: 'app-parties-search',
@@ -10,16 +12,42 @@ export class PartiesSearchComponent implements OnInit {
   partyList:Array<any>=[];
   userId:any;
   isLoading:boolean=false;
-  constructor(private partiesService: PartiesService) { }
+  constructor(private partiesService: PartiesService,private usersService: UsersService,private sessionService: SessionService) { }
 
   ngOnInit() {
-    this.partiesService.getList().subscribe((partiesObs) => {
+    this.userId = this.sessionService.id;
+    this.partiesService.getList(this.userId).subscribe((partiesObs) => {
       this.partyList = partiesObs;
-      this.userId = this.partiesService.userId;
       this.isLoading = true;
-      console.log("this.userId",this.userId);
-      console.log("esto this.partyList",this.partyList);
     });
+  }
+
+  joinParty(party){
+
+    if(party.candidates.length){
+      let exists = party.candidates.filter((candidate)=>{
+        if(String(candidate) == String(this.userId)){
+          console.log("this candidate exists")
+          return candidate;
+        }
+      });
+      if(exists.length){
+        console.log("exists");
+        this.usersService.addPartyParticipant(this.userId,party._id).subscribe((partiesObs)=>{
+          console.log("party Candidated");
+        })
+      }
+      else{
+        this.usersService.addPartyCandidate(this.userId,party._id).subscribe((partiesObs)=>{
+          console.log("party Candidated");
+        })
+      }
+    }
+    else{
+      this.usersService.addPartyCandidate(this.userId,party._id).subscribe((partiesObs)=>{
+        console.log("party Candidated");
+      })
+    }
   }
 
 }
