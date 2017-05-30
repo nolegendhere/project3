@@ -11,12 +11,17 @@ export class SignupComponent implements OnInit {
 
 	newUser = {
     username: '',
-    password: ''
+    password: '',
+    profile: {
+      age: 30
+    }
   };
 
   user: any;
   error: string;
 
+  minAgeLimit: number = 18;
+  maxAgeLimit: number = 65;
 
   constructor(
   	private session: SessionService,

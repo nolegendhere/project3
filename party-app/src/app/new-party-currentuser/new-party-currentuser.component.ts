@@ -76,19 +76,28 @@ export class NewPartyCurrentuserComponent implements OnInit {
   changeValueMinAge(value: number) {
     console.log("minAge",this.model.minAge);
     console.log("maxAge",this.model.maxAge);;
-    if(this.model.maxAge<this.model.minAge+4)
+    if(this.model.maxAge<this.model.minAge)
     {
-      this.model.minAge = this.model.maxAge-1;
+      this.model.minAge = this.model.maxAge;
     }
+
+    if(this.user.profile.age<this.model.minAge){
+      this.model.minAge = this.user.profile.age
+    }
+
   }
 
   changeValueMaxAge(value: number) {
     //this.maxValue1 = this.value2;
     console.log("minAge",this.model.minAge);
     console.log("maxAge",this.model.maxAge);
-    if(this.model.maxAge<this.model.minAge+4)
+    if(this.model.maxAge<this.model.minAge)
     {
-      this.model.maxAge = this.model.minAge+1;
+      this.model.maxAge = this.model.minAge;
+    }
+
+    if(this.user.profile.age>this.model.maxAge){
+      this.model.maxAge = this.user.profile.age
     }
   }
 }

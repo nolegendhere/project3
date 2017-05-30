@@ -19,9 +19,6 @@
             #myGender="ngModel">
             <option *ngFor="let gend of genders" [value]="gend">{{gend}}</option>
     </select>
-    <!-- <div [hidden]="gender.valid || gender.pristine" class="alert alert-danger">
-      Sex is required
-    </div> -->
     <div *ngIf="myGender.errors && (myGender.dirty || myGender.touched)">
       <p class="error" [hidden]="!myGender.errors.required">
         Gender is required

@@ -30,7 +30,7 @@ export class ShowCurrentuserComponent implements OnInit {
 
   editPartyDetails(id){
     console.log("partyId",id);
-    this.router.navigate([`/profile/parties/${id}/edit`]);
+    this.router.navigate([`/profile/${this.user._id}/parties/${id}/edit`]);
   }
 
   editUserDetails(id){
