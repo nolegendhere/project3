@@ -99,20 +99,20 @@ export class EditCurrentuserComponent implements OnInit {
     }
 
     if(this.user.profile.age>this.user.partyPreferences.ageRange.maxAge){
-      this.user.partyPreferences.ageRange.maxAge = this.user.profile.age+1
-    }
-  }
-
-  changeValueAge(value: number) {
-    //this.maxValue1 = this.value2;
-    console.log("age",this.user.profile.age);
-    if(this.user.profile.age<this.user.partyPreferences.ageRange.minAge){
-      this.user.partyPreferences.ageRange.minAge = this.user.profile.age
-    }
-
-    if(this.user.profile.age>this.user.partyPreferences.ageRange.maxAge){
       this.user.partyPreferences.ageRange.maxAge = this.user.profile.age
     }
   }
+
+  // changeValueAge(value: number) {
+  //   //this.maxValue1 = this.value2;
+  //   console.log("age",this.user.profile.age);
+  //   if(this.user.profile.age<this.user.partyPreferences.ageRange.minAge){
+  //     this.user.partyPreferences.ageRange.minAge = this.user.profile.age
+  //   }
+  //
+  //   if(this.user.profile.age>this.user.partyPreferences.ageRange.maxAge){
+  //     this.user.partyPreferences.ageRange.maxAge = this.user.profile.age
+  //   }
+  // }
 
 }

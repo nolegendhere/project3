@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PartiesService } from '../services/parties.service'
 import { ActivatedRoute, Router } from '@angular/router';
+import { PartiesService } from '../services/parties.service'
+import { UsersService } from '../services/users.service'
 
 @Component({
   selector: 'app-party-single-edit',
@@ -9,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PartySingleEditComponent implements OnInit {
   party: any;
+  user:any;
   isLoading:boolean=false;
 
   genders = ['BoysGirls', 'Boys',
@@ -25,7 +27,8 @@ export class PartySingleEditComponent implements OnInit {
   maxPeopleLimit: number = 100;
 
   constructor(private router: Router,private route: ActivatedRoute,
-  private partiesService: PartiesService) { }
+  private partiesService: PartiesService,
+  private usersService: UsersService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -38,7 +41,11 @@ export class PartySingleEditComponent implements OnInit {
       .subscribe((partyObs) => {
         this.party = partyObs;
         console.log("this.party",this.party);
-        this.isLoading=true;
+        this.usersService.get(id)
+          .subscribe((userObs) => {
+            this.user = userObs;
+            this.isLoading=true;
+          });
       });
   }
 
@@ -84,6 +91,10 @@ export class PartySingleEditComponent implements OnInit {
     {
       this.party.ageRange.minAge = this.party.ageRange.maxAge-1;
     }
+
+    if(this.user.profile.age<this.party.ageRange.minAge){
+      this.party.ageRange.minAge = this.user.profile.age
+    }
   }
 
   changeValueMaxAge(value: number) {
@@ -93,6 +104,10 @@ export class PartySingleEditComponent implements OnInit {
     if(this.party.ageRange.maxAge<this.party.ageRange.minAge+4)
     {
       this.party.ageRange.maxAge = this.party.ageRange.minAge+1;
+    }
+
+    if(this.user.profile.age>this.party.ageRange.maxAge){
+      this.party.ageRange.maxAge = this.user.profile.age
     }
   }
 

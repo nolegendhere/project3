@@ -26,7 +26,7 @@ export const routes: Routes = [
     //   { path: 'parties/:id/edit', component: PartySingleEditComponent }
     // ] }
     { path: 'profile/:id/edit', component: EditCurrentuserComponent, canActivate: [SessionService]},
-    { path: 'profile/parties/:id/edit', component: PartySingleEditComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/edit', component: PartySingleEditComponent, canActivate: [SessionService]},
     { path: 'profile/:id/parties', component: PartyListCurrentuserComponent, canActivate: [SessionService]},
     { path: 'profile/:id/parties/joined', component: PartyJoinedCurrentuserComponent, canActivate: [SessionService]},
     { path: 'profile/:userId/parties/joined/:partyId/show', component: ShowPartyJoinedCurrentuserComponent, canActivate: [SessionService]},
