@@ -153,8 +153,7 @@ router.put('/:id/candidates/new',function(req, res) {
       return res.send(err);
     }
     return res.json({
-      message: 'Party with new candidate!',
-      party: party
+      message: 'Party with new candidate!'
     });
   });
 });
@@ -170,7 +169,7 @@ router.put('/:id/participants/new',function(req, res) {
     }
 
     party.numOfPeople.numJoined++;
-    party.save((err,partySaved)=>{
+    party.save((err)=>{
       if(err){
         return res.send(err);
       }
@@ -180,8 +179,7 @@ router.put('/:id/participants/new',function(req, res) {
           return res.send(err);
         }
         return res.json({
-          message: 'Party with new candidate!',
-          party: partySaved
+          message: 'Party with new candidate!'
         });
       });
     });
@@ -192,13 +190,12 @@ router.put('/:id/usersSeen/new',function(req, res) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'usersSeen':req.params.id}},{'new':true},(err,party)=>{
+  Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'usersSeen':req.params.id}},{'new':true},(err)=>{
     if(err){
       return res.send(err);
     }
     return res.json({
-      message: 'Party with new candidate!',
-      party: party
+      message: 'Party with new candidate!'
     });
   });
 });

@@ -85,7 +85,9 @@ export class UsersSearchComponent implements OnInit {
   joinParty(){
     if(this.party.candidates.length){
       let exists = this.party.candidates.filter((candidate)=>{
-        if(String(candidate) == String(this.user)){
+        console.log("candidate",candidate);
+        console.log("this.user",this.user);
+        if(String(candidate) == String(this.user._id)){
           console.log("this candidate exists")
           return candidate;
         }
@@ -93,7 +95,10 @@ export class UsersSearchComponent implements OnInit {
       if(exists.length){
         console.log("exists");
         this.isUsers = false;
-        this.partiesService.addPartyParticipant(this.user._id,this.party._id).subscribe((partiesObs)=>{
+        this.partiesService.addPartyParticipant(this.user._id,this.party._id).subscribe((partyObs)=>{
+          this.party = partyObs.party;
+          console.log("this.party ",this.party )
+          console.log("this.party._id ",this.party._id )
           this.counter++;
           if(this.counter<this.userList.length){
             this.user = this.userList[this.counter];
@@ -103,7 +108,10 @@ export class UsersSearchComponent implements OnInit {
         })
       }
       else{
-        this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partiesObs)=>{
+        this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partyObs)=>{
+          this.party = partyObs.party;
+          console.log("this.party ",this.party )
+          console.log("this.party._id ",this.party._id );
           this.counter++;
           if(this.counter<this.userList.length){
             this.user = this.userList[this.counter];
@@ -114,7 +122,10 @@ export class UsersSearchComponent implements OnInit {
       }
     }
     else{
-      this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partiesObs)=>{
+      this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partyObs)=>{
+        this.party = partyObs.party;
+        console.log("this.party ",this.party );
+        console.log("this.party._id ",this.party._id )
         this.counter++;
         if(this.counter<this.userList.length){
           this.user = this.userList[this.counter];
@@ -127,7 +138,7 @@ export class UsersSearchComponent implements OnInit {
 
   notJoinParty(){
     this.isUsers = false;
-    this.partiesService.addPartyPartiesSeen(this.user._id,this.party._id).subscribe((partiesObs)=>{
+    this.partiesService.addPartyPartiesSeen(this.user._id,this.party._id).subscribe(()=>{
       this.counter++;
       if(this.counter<this.userList.length){
         this.user = this.userList[this.counter];
