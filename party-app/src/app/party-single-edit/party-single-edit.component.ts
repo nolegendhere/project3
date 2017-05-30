@@ -52,6 +52,7 @@ export class PartySingleEditComponent implements OnInit {
   }
 
   submitForm(myForm) {
+    myForm.value.numJoined = this.party.numOfPeople.numJoined;
     this.partiesService.edit(myForm.value,this.party._id).subscribe(() => {
       this.router.navigate([`/profile/${this.party.owner._id}/show`]);
     });;
@@ -88,9 +89,9 @@ export class PartySingleEditComponent implements OnInit {
   changeValueMinAge(value: number) {
     console.log("minAge",this.party.ageRange.minAge);
     console.log("maxAge",this.party.ageRange.maxAge);;
-    if(this.party.ageRange.maxAge<this.party.ageRange.minAge+4)
+    if(this.party.ageRange.maxAge<this.party.ageRange.minAge)
     {
-      this.party.ageRange.minAge = this.party.ageRange.maxAge-1;
+      this.party.ageRange.minAge = this.party.ageRange.maxAge;
     }
 
     if(this.user.profile.age<this.party.ageRange.minAge){
@@ -102,9 +103,9 @@ export class PartySingleEditComponent implements OnInit {
     //this.maxValue1 = this.value2;
     console.log("minAge",this.party.ageRange.minAge);
     console.log("maxAge",this.party.ageRange.maxAge);
-    if(this.party.ageRange.maxAge<this.party.ageRange.minAge+4)
+    if(this.party.ageRange.maxAge<this.party.ageRange.minAge)
     {
-      this.party.ageRange.maxAge = this.party.ageRange.minAge+1;
+      this.party.ageRange.maxAge = this.party.ageRange.minAge;
     }
 
     if(this.user.profile.age>this.party.ageRange.maxAge){

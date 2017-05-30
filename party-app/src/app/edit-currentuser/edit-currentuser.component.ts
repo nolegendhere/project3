@@ -42,6 +42,8 @@ export class EditCurrentuserComponent implements OnInit {
   }
 
   submitForm(myForm) {
+    myForm.value.gender = this.user.gender;
+    myForm.value.age = this.user.age;
     this.usersService.edit(myForm.value, this.user._id).subscribe(() => {
       this.router.navigate([`/profile/${this.user._id}/show`]);
     });;

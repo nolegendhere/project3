@@ -73,8 +73,8 @@ router.put('/:id/edit', (req, res) => {
     payment: req.body.payment,
     content: req.body.content,
     numOfPeople:{
-      minPeople: req.body.minPeople,
-      maxPeople: req.body.maxPeople,
+      numJoined: req.body.numJoined,
+      maxPeople: req.body.maxPeople
     },
     parity: req.body.parity,
     placeType: req.body.placeType,

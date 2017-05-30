@@ -21,6 +21,7 @@ export class PartiesSearchComponent implements OnInit {
       // this.partyList = partiesObs;
       this.usersService.get(this.userId).subscribe((userObs)=>{
         this.user = userObs;
+        console.log("partiesObs",partiesObs);
         this.partyList = partiesObs.filter((party)=>{
           let isValid:boolean=true;
 

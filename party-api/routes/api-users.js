@@ -73,15 +73,7 @@ router.put('/:id/edit', (req, res) => {
     },
     partyPreferences:{
       gender: req.body.genderPreferences,
-      ageRange:{
-        minAge: req.body.minAgePreferences,
-        maxAge: req.body.maxAgePreferences,
-      },
       payment: req.body.paymentPreferences,
-      numOfPeople:{
-        minPeople: req.body.minPeoplePreferences,
-        maxPeople: req.body.maxPeoplePreferences,
-      },
       parity: req.body.parityPreferences,
       placeType: req.body.placeTypePreferences,
       size: req.body.sizePreferences
