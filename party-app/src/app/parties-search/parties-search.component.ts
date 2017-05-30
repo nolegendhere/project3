@@ -88,7 +88,7 @@ export class PartiesSearchComponent implements OnInit {
       if(exists.length){
         console.log("exists");
         this.isParties = false;
-        this.usersService.addPartyParticipant(this.userId,this.party._id).subscribe((partiesObs)=>{
+        this.usersService.addPartyParticipant(this.userId,this.party._id).subscribe(()=>{
           this.counter++;
           if(this.counter<this.partyList.length){
             this.party = this.partyList[this.counter];
@@ -99,7 +99,7 @@ export class PartiesSearchComponent implements OnInit {
       }
       else{
         this.isParties = false;
-        this.usersService.addPartyCandidate(this.userId,this.party._id).subscribe((partiesObs)=>{
+        this.usersService.addPartyCandidate(this.userId,this.party._id).subscribe(()=>{
           this.counter++;
           if(this.counter<this.partyList.length){
             this.party = this.partyList[this.counter];
@@ -111,7 +111,7 @@ export class PartiesSearchComponent implements OnInit {
     }
     else{
       this.isParties = false;
-      this.usersService.addPartyCandidate(this.userId,this.party._id).subscribe((partiesObs)=>{
+      this.usersService.addPartyCandidate(this.userId,this.party._id).subscribe(()=>{
         this.counter++;
         if(this.counter<this.partyList.length){
           this.party = this.partyList[this.counter];
@@ -124,7 +124,7 @@ export class PartiesSearchComponent implements OnInit {
 
   notJoinParty(){
     this.isParties = false;
-    this.usersService.addPartyUsersSeen(this.userId,this.party._id).subscribe((partiesObs)=>{
+    this.usersService.addPartyUsersSeen(this.userId,this.party._id).subscribe(()=>{
       this.counter++;
       if(this.counter<this.partyList.length){
         this.party = this.partyList[this.counter];

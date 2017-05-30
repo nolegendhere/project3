@@ -162,10 +162,7 @@ router.post('/new', /*upload.single('file'),*/ function(req, res) {
         if (err) {
           return res.send(err);
         }
-        return res.json({
-          message: 'New Party created!',
-          party: party
-        });
+        return res.json({party:party});
       });
     });
   });
@@ -176,19 +173,16 @@ router.put('/:id/candidates/new',function(req, res) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
   console.log("hello from user candidates",req.body);
-  Party.findByIdAndUpdate({_id:req.params.id},{'$push':{'candidates':req.body.id}},(err)=>{
+  Party.findByIdAndUpdate({_id:req.params.id},{'$push':{'candidates':req.body.id}},{"new":true},(err,party)=>{
     if(err){
       return res.send(err);
     }
 
-    User.findByIdAndUpdate({_id:req.body.id},{'$push':{'partiesSeen':req.params.id}},{'new':true},(err,user)=>{
+    User.findByIdAndUpdate({_id:req.body.id},{'$push':{'partiesSeen':req.params.id}},(err)=>{
       if(err){
         return res.send(err);
       }
-      return res.json({
-        message: 'Party with new candidate!',
-        user: user
-      });
+      return res.json({party:party});
     });
   });
 });
@@ -204,18 +198,15 @@ router.put('/:id/participants/new',function(req, res) {
     }
 
     party.numOfPeople.numJoined++;
-    party.save((err)=>{
+    party.save((err,partySaved)=>{
       if(err){
         return res.send(err);
       }
-      User.findByIdAndUpdate({_id:req.body.id},{'$push':{'partiesJoined':req.params.id, 'partiesSeen':req.params.id}},{"new":true},(err,user)=>{
+      User.findByIdAndUpdate({_id:req.body.id},{'$push':{'partiesJoined':req.params.id, 'partiesSeen':req.params.id}},(err)=>{
         if(err){
           return res.send(err);
         }
-        return res.json({
-          message: 'Party with new candidate!',
-          user: user
-        });
+        return res.json({party:partySaved});
       });
     });
   });
@@ -225,13 +216,12 @@ router.put('/:id/partiesSeen/new',function(req, res) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  User.findByIdAndUpdate({_id:req.body.id},{'$push':{ 'partiesSeen':req.params.id}},{"new":true},(err,user)=>{
+  User.findByIdAndUpdate({_id:req.body.id},{'$push':{ 'partiesSeen':req.params.id}},(err)=>{
     if(err){
       return res.send(err);
     }
     return res.json({
-      message: 'Party with new candidate!',
-      user: user
+      message: 'Party with new candidate!'
     });
   });
 });
@@ -256,10 +246,7 @@ router.put('/:id/participants/leave',function(req, res) {
         if(err){
           return res.send(err);
         }
-        return res.json({
-          message: 'Party with new candidate!',
-          party: partySaved
-        });
+        return res.json({party:partySaved});
       });
 
     });
