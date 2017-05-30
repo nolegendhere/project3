@@ -1,7 +1,7 @@
 <p>
   users-search works!
 </p>
-<div *ngIf="!isLoading">
+<!-- <div *ngIf="!isLoading">
   <p>Loading...</p>
 </div>
 <div *ngIf="isLoading">
@@ -15,6 +15,29 @@
       <img [src]='picture' />
     </div>
     <button type="button" (click)="joinParty(user)">Make a candidate</button>
+  </div>
+  <button type="button" (click)="showParty()">Show Party</button>
+  <button type="button" (click)="goToPartiesOwned()">Go to Parties Owned</button>
+</div> -->
+
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <div *ngIf="isUsers">
+    <h1>{{user.username}}</h1>
+    <h2>{{user.profile.firstName}}</h2>
+    <h2>{{user.profile.lastName}}</h2>
+    <h2>{{user.profile.sex}}</h2>
+    <h2>{{user.profile.age}}</h2>
+    <div *ngFor="let picture of user.profile.pictures">
+      <img [src]='picture' />
+    </div>
+    <button type="button" (click)="joinParty()">Make a candidate</button>
+    <button type="button" (click)="notJoinParty()">Not make a candidate</button>
+  </div>
+  <div *ngIf="!isUsers">
+    <h3>No more Users</h3>
   </div>
   <button type="button" (click)="showParty()">Show Party</button>
   <button type="button" (click)="goToPartiesOwned()">Go to Parties Owned</button>

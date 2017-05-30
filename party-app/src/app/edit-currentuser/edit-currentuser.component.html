@@ -29,22 +29,12 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="gender">Gender</label>
-      <select class="form-control" id="gender"
-              required
-              [(ngModel)]="user.profile.gender" name="gender"
-              #myGender="ngModel">
-              <option *ngFor="let gend of genders" [value]="gend">{{gend}}</option>
-      </select>
-      <div *ngIf="myGender.errors && (myGender.dirty || myGender.touched)">
-        <p class="error" [hidden]="!myGender.errors.required">
-          Gender is required
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
       <label for="age">Age</label>
       {{user.profile.age}}
+    </div>
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      {{user.profile.gender}}
     </div>
 
     <h3>Edit Preferences</h3>
@@ -64,26 +54,6 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="minAgePreferences">Min age for people</label>
-      <input type="range" name="minAgePreferences"  #myMinAgePreferences="ngModel" [min]="minAgeLimit" [max]="maxAgeLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.ageRange.minAge" #ref (change)="changeValueMinAgePreferences(ref.value)" />
-      {{user.partyPreferences.ageRange.minAge}}
-      <div *ngIf="myMinAgePreferences.errors && (myMinAgePreferences.dirty || myMinAgePreferences.touched)">
-        <p class="error" [hidden]="!myMinAgePreferences.errors.required">
-          Min age for people is required
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="maxAgePreferences">Max age for people</label>
-      <input type="range" name="maxAgePreferences"  #myMaxAgePreferences="ngModel" [min]="minAgeLimit" [max]="maxAgeLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.ageRange.maxAge" #ref (change)="changeValueMaxAgePreferences(ref.value)" />
-      {{user.partyPreferences.ageRange.maxAge}}
-      <div *ngIf="myMaxAgePreferences.errors && (myMaxAgePreferences.dirty || myMaxAgePreferences.touched)">
-        <p class="error" [hidden]="!myMaxAgePreferences.errors.required">
-          Max age for people is required
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
       <label for="paymentPreferences">Payment</label>
       <select class="form-control" id="paymentPreferences"
               required
@@ -94,26 +64,6 @@
       <div *ngIf="myPaymentPreferences.errors && (myPaymentPreferences.dirty || myPaymentPreferences.touched)">
         <p class="error" [hidden]="!myPaymentPreferences.errors.required">
           Payment is required
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="minPeoplePreferences">Min number of people</label>
-      <input type="range" name="minPeoplePreferences"  #myMinPeoplePreferences="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.numOfPeople.minPeople" #ref (change)="changeValueMinPeoplePreferences(ref.value)" />
-      {{user.partyPreferences.numOfPeople.minPeople}}
-      <div *ngIf="myMinPeoplePreferences.errors && (myMinPeoplePreferences.dirty || myMinPeoplePreferences.touched)">
-        <p class="error" [hidden]="!myMinPeoplePreferences.errors.required">
-          Min number of people is required
-        </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="maxPeoplePreferences">Max number of people</label>
-      <input type="range" name="maxPeoplePreferences"  #myMaxPeoplePreferences="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="user.partyPreferences.numOfPeople.maxPeople" #ref (change)="changeValueMaxPeoplePreferences(ref.value)" />
-      {{user.partyPreferences.numOfPeople.maxPeople}}
-      <div *ngIf="myMaxPeoplePreferences.errors && (myMaxPeoplePreferences.dirty || myMaxPeoplePreferences.touched)">
-        <p class="error" [hidden]="!myMaxPeoplePreferences.errors.required">
-          Max number of people is required
         </p>
       </div>
     </div>

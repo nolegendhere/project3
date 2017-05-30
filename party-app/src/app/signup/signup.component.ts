@@ -13,7 +13,8 @@ export class SignupComponent implements OnInit {
     username: '',
     password: '',
     profile: {
-      age: 30
+      age: 30,
+      gender: "Boy"
     }
   };
 
@@ -22,6 +23,7 @@ export class SignupComponent implements OnInit {
 
   minAgeLimit: number = 18;
   maxAgeLimit: number = 65;
+  genders = ['Boy','Girl'];
 
   constructor(
   	private session: SessionService,

@@ -73,15 +73,7 @@ router.put('/:id/edit', (req, res) => {
     },
     partyPreferences:{
       gender: req.body.genderPreferences,
-      ageRange:{
-        minAge: req.body.minAgePreferences,
-        maxAge: req.body.maxAgePreferences,
-      },
       payment: req.body.paymentPreferences,
-      numOfPeople:{
-        minPeople: req.body.minPeoplePreferences,
-        maxPeople: req.body.maxPeoplePreferences,
-      },
       parity: req.body.parityPreferences,
       placeType: req.body.placeTypePreferences,
       size: req.body.sizePreferences
@@ -177,14 +169,36 @@ router.put('/:id/participants/new',function(req, res) {
       return res.send(err);
     }
 
-    User.findByIdAndUpdate({_id:req.params.id},{'$push':{'partiesJoined':req.body.id}},(err)=>{
+    party.numOfPeople.numJoined++;
+    party.save((err,partySaved)=>{
       if(err){
         return res.send(err);
       }
-      return res.json({
-        message: 'Party with new candidate!',
-        party: party
+
+      User.findByIdAndUpdate({_id:req.params.id},{'$push':{'partiesJoined':req.body.id}},(err)=>{
+        if(err){
+          return res.send(err);
+        }
+        return res.json({
+          message: 'Party with new candidate!',
+          party: partySaved
+        });
       });
+    });
+  });
+});
+
+router.put('/:id/usersSeen/new',function(req, res) {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Specified id is not valid' });
+  }
+  Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'usersSeen':req.params.id}},{'new':true},(err,party)=>{
+    if(err){
+      return res.send(err);
+    }
+    return res.json({
+      message: 'Party with new candidate!',
+      party: party
     });
   });
 });

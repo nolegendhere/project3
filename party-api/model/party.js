@@ -30,9 +30,13 @@ const partySchema = new mongoose.Schema({
     default: "Free"
   },
   numOfPeople: {
-    minPeople: {
+    // minPeople: {
+    //   type: Number,
+    //   default: 5,
+    // },
+    numJoined:{
       type: Number,
-      default: 5,
+      default: 1
     },
     maxPeople: {
       type: Number,

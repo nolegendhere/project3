@@ -87,7 +87,7 @@
         </p>
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="minPeople">Min number of people</label>
       <input type="range" name="minPeople"  #myMinPeople="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="party.numOfPeople.minPeople" #ref (change)="changeValueMinPeople(ref.value)" />
       {{party.numOfPeople.minPeople}}
@@ -96,10 +96,10 @@
           Min number of people is required
         </p>
       </div>
-    </div>
+    </div> -->
     <div class="form-group">
       <label for="maxPeople">Max number of people</label>
-      <input type="range" name="maxPeople"  #myMaxPeople="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="party.numOfPeople.maxPeople" #ref (change)="changeValueMaxPeople(ref.value)" />
+      <input type="range" name="maxPeople"  #myMaxPeople="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="party.numOfPeople.maxPeople" />
       {{party.numOfPeople.maxPeople}}
       <div *ngIf="myMaxPeople.errors && (myMaxPeople.dirty || myMaxPeople.touched)">
         <p class="error" [hidden]="!myMaxPeople.errors.required">
