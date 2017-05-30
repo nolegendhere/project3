@@ -68,6 +68,16 @@ export class UsersService {
     return this.http.put(`${this.BASE_URL}/api/users/${userId}/participants/new`, party, options).map((res) => res.json());
   }
 
+  addPartyUsersSeen(userId,partyId){
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    let party = {
+      id: partyId
+    }
+    console.log("party",party);
+    return this.http.put(`${this.BASE_URL}/api/users/${userId}/usersSeen/new`, party, options).map((res) => res.json());
+  }
+
   // getList() {
   //
   //   let headers = new Headers({ 'Authorization': 'JWT ' + this.SessionService.token });

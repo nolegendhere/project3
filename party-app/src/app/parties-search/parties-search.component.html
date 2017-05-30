@@ -1,6 +1,6 @@
 <!-- // template of entry-list component -->
 <!-- <app-entry-form></app-entry-form> -->
-<div *ngIf="!isLoading">
+<!-- <div *ngIf="!isLoading">
   <p>Loading...</p>
 </div>
 <div *ngIf="isLoading">
@@ -8,11 +8,38 @@
   <div class="party-list">
     <div *ngFor="let party of partyList">
       <h3> {{ party.name }}&nbsp;</h3>
+      <h4> {{ party.numOfPeople.numJoined }}&nbsp;</h4>
       <div *ngFor="let picture of party.pictures">
         <img [src]='picture' />
       </div>
       <button type="button" (click)="joinParty(party)">Join Party</button>
     </div>
+    <button type="button" (click)="notJoinParty(party)">not Join Party</button>
+  </div>
+  </div>
+  <p>Hello {{userId}}</p>
+  <a [routerLink]="['/profile/'+userId+'/show']"> View Details </a>
+  <h3><a [routerLink]="['/profile/'+userId+'/parties']"> User Owned Parties </a></h3>
+  <h3><a [routerLink]="['/profile/'+userId+'/parties/joined']"> User Joined Parties </a></h3>
+</div> -->
+
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <div *ngIf="isParties">
+    <div class="party-list">
+        <h3> {{ party.name }}&nbsp;</h3>
+        <h4> {{ party.numOfPeople.numJoined }}&nbsp;</h4>
+        <div *ngFor="let picture of party.pictures">
+          <img [src]='picture' />
+        </div>
+        <button type="button" (click)="joinParty(party)">Join Party</button>
+      <button type="button" (click)="notJoinParty(party)">not Join Party</button>
+    </div>
+  </div>
+  <div *ngIf="!isParties">
+    <h3>No more parties</h3>
   </div>
   <p>Hello {{userId}}</p>
   <a [routerLink]="['/profile/'+userId+'/show']"> View Details </a>
