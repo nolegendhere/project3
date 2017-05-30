@@ -21,7 +21,7 @@ export class NewPartyCurrentuserComponent implements OnInit {
   parities = ["equal","unchecked"];
   placeTypes = ["appartment","house","local","openAir"];
   sizes = ["small","average","big"];
-  model = new Party('Party','BoysGirls',18,65,'Free','Come to the best party ever',5,20,'unchecked','local','average');
+  model = new Party('Party','BoysGirls',18,65,'Free','Come to the best party ever',20,'unchecked','local','average');
 
   minAgeLimit: number = 18;
   maxAgeLimit: number = 65;
@@ -54,24 +54,24 @@ export class NewPartyCurrentuserComponent implements OnInit {
     this.router.navigate([`/profile/${this.user._id}/parties`]);
   }
 
-  changeValueMinPeople(value: number) {
-    console.log("minPeople",this.model.minPeople);
-    console.log("maxPeople",this.model.maxPeople);
-    if(this.model.maxPeople<this.model.minPeople+4)
-    {
-      this.model.minPeople = this.model.maxPeople-1;
-    }
-  }
-
-  changeValueMaxPeople(value: number) {
-    //this.maxValue1 = this.value2;
-    console.log("minPeople",this.model.minPeople);
-    console.log("maxPeople",this.model.maxPeople);
-    if(this.model.maxPeople<this.model.minPeople+4)
-    {
-      this.model.maxPeople = this.model.minPeople+1;
-    }
-  }
+  // changeValueMinPeople(value: number) {
+  //   console.log("minPeople",this.model.minPeople);
+  //   console.log("maxPeople",this.model.maxPeople);
+  //   if(this.model.maxPeople<this.model.minPeople+4)
+  //   {
+  //     this.model.minPeople = this.model.maxPeople-1;
+  //   }
+  // }
+  //
+  // changeValueMaxPeople(value: number) {
+  //   //this.maxValue1 = this.value2;
+  //   console.log("minPeople",this.model.minPeople);
+  //   console.log("maxPeople",this.model.maxPeople);
+  //   if(this.model.maxPeople<this.model.minPeople+4)
+  //   {
+  //     this.model.maxPeople = this.model.minPeople+1;
+  //   }
+  // }
 
   changeValueMinAge(value: number) {
     console.log("minAge",this.model.minAge);

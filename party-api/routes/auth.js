@@ -49,7 +49,8 @@ router.post("/signup", (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
   var profile  ={
-    age : req.body.profile.age
+    age : req.body.profile.age,
+    gender: req.body.profile.gender,
   };
 
   if (!username || !password) {

@@ -177,13 +177,20 @@ router.put('/:id/participants/new',function(req, res) {
       return res.send(err);
     }
 
-    User.findByIdAndUpdate({_id:req.params.id},{'$push':{'partiesJoined':req.body.id}},(err)=>{
+    party.numOfPeople.numJoined++;
+    party.save((err,partySaved)=>{
       if(err){
         return res.send(err);
       }
-      return res.json({
-        message: 'Party with new candidate!',
-        party: party
+
+      User.findByIdAndUpdate({_id:req.params.id},{'$push':{'partiesJoined':req.body.id}},(err)=>{
+        if(err){
+          return res.send(err);
+        }
+        return res.json({
+          message: 'Party with new candidate!',
+          party: partySaved
+        });
       });
     });
   });

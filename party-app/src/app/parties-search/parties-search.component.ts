@@ -11,14 +11,57 @@ import { SessionService } from '../services/session.service';
 export class PartiesSearchComponent implements OnInit {
   partyList:Array<any>=[];
   userId:any;
+  user:any;
   isLoading:boolean=false;
   constructor(private partiesService: PartiesService,private usersService: UsersService,private sessionService: SessionService) { }
 
   ngOnInit() {
     this.userId = this.sessionService.id;
     this.partiesService.getList(this.userId).subscribe((partiesObs) => {
-      this.partyList = partiesObs;
-      this.isLoading = true;
+      // this.partyList = partiesObs;
+      this.usersService.get(this.userId).subscribe((userObs)=>{
+        this.user = userObs;
+        this.partyList = partiesObs.filter((party)=>{
+          let isValid:boolean=true;
+
+          if(this.user.profile.age > party.ageRange.maxAge || this.user.profile.age < party.ageRange.minAge ){
+            isValid=false;
+          }
+
+          if(this.user.profile.gender !== party.gender && party.gender!=="BoysGirls"){
+            isValid=false;
+          }
+
+          if(this.user.partyPreferences.gender !== party.gender){
+            isValid=false;
+          }
+
+          if(party.numOfPeople.numJoined>=party.numOfPeople.maxPeople){
+            isValid=false;
+          }
+
+          if(this.user.partyPreferences.payment !== party.payment){
+            isValid=false;
+          }
+
+          if(this.user.partyPreferences.parity !== party.parity){
+            isValid=false;
+          }
+
+          if(this.user.partyPreferences.placeType !== party.placeType && this.user.partyPreferences.placeType!=="All"){
+            isValid=false;
+          }
+
+          if(this.user.partyPreferences.size !== party.size && this.user.partyPreferences.size!=="All"){
+            isValid=false;
+          }
+
+          if(isValid){
+            return party;
+          }
+        })
+        this.isLoading = true;
+      });
     });
   }
 

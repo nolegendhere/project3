@@ -11,6 +11,7 @@ import { UsersService } from '../services/users.service'
 export class PartySingleEditComponent implements OnInit {
   party: any;
   user:any;
+  userId:any;
   isLoading:boolean=false;
 
   genders = ['BoysGirls', 'Boys',
@@ -23,7 +24,7 @@ export class PartySingleEditComponent implements OnInit {
 
   minAgeLimit: number = 18;
   maxAgeLimit: number = 65;
-  minPeopleLimit: number = 5;
+  minPeopleLimit: number = 2;
   maxPeopleLimit: number = 100;
 
   constructor(private router: Router,private route: ActivatedRoute,
@@ -32,7 +33,8 @@ export class PartySingleEditComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.getPartyDetails(params['id']);
+      this.userId = params['userId'];
+      this.getPartyDetails(params['partyId']);
     });
   }
 
@@ -41,7 +43,7 @@ export class PartySingleEditComponent implements OnInit {
       .subscribe((partyObs) => {
         this.party = partyObs;
         console.log("this.party",this.party);
-        this.usersService.get(id)
+        this.usersService.get(this.userId)
           .subscribe((userObs) => {
             this.user = userObs;
             this.isLoading=true;
@@ -65,24 +67,23 @@ export class PartySingleEditComponent implements OnInit {
     this.router.navigate([`/profile/${this.party.owner._id}/show`]);
   }
 
-  changeValueMinPeople(value: number) {
-    console.log("minPeople",this.party.numOfPeople.minPeople);
-    console.log("maxPeople",this.party.numOfPeople.maxPeople);
-    if(this.party.numOfPeople.maxPeople<this.party.numOfPeople.minPeople+4)
-    {
-      this.party.numOfPeople.minPeople = this.party.numOfPeople.maxPeople-1;
-    }
-  }
+  // changeValueMinPeople(value: number) {
+  //   console.log("minPeople",this.party.numOfPeople.minPeople);
+  //   console.log("maxPeople",this.party.numOfPeople.maxPeople);
+  //   if(this.party.numOfPeople.maxPeople<this.party.numOfPeople.minPeople+4)
+  //   {
+  //     this.party.numOfPeople.minPeople = this.party.numOfPeople.maxPeople-1;
+  //   }
+  // }
 
-  changeValueMaxPeople(value: number) {
-    //this.maxValue1 = this.value2;
-    console.log("minPeople",this.party.numOfPeople.minPeople);
-    console.log("maxPeople",this.party.numOfPeople.maxPeople);
-    if(this.party.numOfPeople.maxPeople<this.party.numOfPeople.minPeople+4)
-    {
-      this.party.numOfPeople.maxPeople = this.party.numOfPeople.minPeople+1;
-    }
-  }
+  // changeValueMaxPeople(value: number) {
+  //   //this.maxValue1 = this.value2;
+  //   console.log("maxPeople",this.party.numOfPeople.maxPeople);
+  //   if(this.party.numOfPeople.maxPeople<this.party.numOfPeople.minPeople+4)
+  //   {
+  //     this.party.numOfPeople.maxPeople = this.party.numOfPeople.minPeople+1;
+  //   }
+  // }
 
   changeValueMinAge(value: number) {
     console.log("minAge",this.party.ageRange.minAge);

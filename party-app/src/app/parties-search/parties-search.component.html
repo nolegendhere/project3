@@ -8,6 +8,7 @@
   <div class="party-list">
     <div *ngFor="let party of partyList">
       <h3> {{ party.name }}&nbsp;</h3>
+      <h4> {{ party.numOfPeople.numJoined }}&nbsp;</h4>
       <div *ngFor="let picture of party.pictures">
         <img [src]='picture' />
       </div>

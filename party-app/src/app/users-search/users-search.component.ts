@@ -26,10 +26,48 @@ export class UsersSearchComponent implements OnInit {
   getUserDetails(partyId) {
     console.log(" partyId " +partyId);
     this.usersService.getList(partyId).subscribe((usersObs) => {
-        this.userList = usersObs;
-        console.log("this.userList",this.userList);
+        // this.userList = usersObs;
         this.partiesService.get(partyId).subscribe((partyObs) => {
           this.party = partyObs;
+          this.userList = usersObs.filter((user)=>{
+            let isValid:boolean=true;
+
+            if(user.profile.age > this.party.ageRange.maxAge || user.profile.age < this.party.ageRange.minAge ){
+              isValid=false;
+            }
+
+            if(user.profile.gender !== this.party.gender && this.party.gender!=="BoysGirls"){
+              isValid=false;
+            }
+
+            if(user.partyPreferences.gender !== this.party.gender){
+              isValid=false;
+            }
+
+            if(this.party.numOfPeople.numJoined>=this.party.numOfPeople.maxPeople){
+              isValid=false;
+            }
+
+            if(user.partyPreferences.payment !== this.party.payment){
+              isValid=false;
+            }
+
+            if(user.partyPreferences.parity !== this.party.parity){
+              isValid=false;
+            }
+
+            if(user.partyPreferences.placeType !== this.party.placeType && user.partyPreferences.placeType!=="All"){
+              isValid=false;
+            }
+
+            if(user.partyPreferences.size !== this.party.size && user.partyPreferences.size!=="All"){
+              isValid=false;
+            }
+
+            if(isValid){
+              return user;
+            }
+          });
           this.isLoading=true;
         });
     });

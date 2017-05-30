@@ -25,45 +25,25 @@ const userSchema = new mongoose.Schema({
         enum:["Boys","Girls","BoysGirls"],
         default: "BoysGirls"
       },
-      ageRange: {
-        minAge: {
-          type: Number,
-          default: 18,
-        },
-        maxAge: {
-          type: Number,
-          default: 65,
-        }
-      },
       payment: {
         type:String,
         enum:["Free","Paid"],
         default: "Free"
       },
-      numOfPeople: {
-        minPeople: {
-          type: Number,
-          default: 5,
-        },
-        maxPeople: {
-          type: Number,
-          default: 20,
-        }
-      },
       parity: {
         type:String,
         enum:["equal","unchecked"],
-        default: "equal"
+        default: "unchecked"
       },
       placeType:{
         type:String,
-        enum:["appartment","house","local","openAir"],
-        default: "local"
+        enum:["appartment","house","local","openAir","All"],
+        default: "All"
       },
       size:{
         type: String,
-        enum: ["small","average","big"],
-        default: "average"
+        enum: ["small","average","big","All"],
+        default: "All"
       }
     },
     partiesOwned: [{type: Schema.Types.ObjectId, ref:"Party"}],
