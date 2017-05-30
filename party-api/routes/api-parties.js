@@ -221,6 +221,20 @@ router.put('/:id/participants/new',function(req, res) {
   });
 });
 
+router.put('/:id/partiesSeen/new',function(req, res) {
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Specified id is not valid' });
+  }
+  User.findByIdAndUpdate({_id:req.body.id},{'$push':{ 'partiesSeen':req.params.id}},{"new":true},(err,user)=>{
+    if(err){
+      return res.send(err);
+    }
+    return res.json({
+      message: 'Party with new candidate!',
+      user: user
+    });
+  });
+});
 
 router.put('/:id/participants/leave',function(req, res) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
