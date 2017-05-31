@@ -32,7 +32,6 @@ for(let i=0; i<3; i++){
       lastName: "userLastName"+i,
       gender: "Boy",
       age: 18+i,
-      pictures:["../public/images/boy.jpg","../public/images/boy.jpg","../public/images/boy.jpg","../public/images/boy.jpg"]
     },
   });
   tempArray.push(newUser);
