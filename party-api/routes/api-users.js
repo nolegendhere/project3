@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 var router = express.Router();
 const User = require('../model/user');
 const Party = require('../model/party');
+const Image = require('../model/image');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
 const async = require('async');
@@ -101,44 +102,56 @@ router.delete('/:id/delete', (req, res) => {
       return res.send(err);
     }
 
-    Party.update({participants:user._id},{'$pull': {'participants': user._id, 'candidates':user._id, 'usersSeen': user._id }},(err)=>{
+    Image.deleteMany({user:user._id},(err)=>{
       if(err){
         return res.send(err);
       }
-      Party.find({owner:user._id},(err,parties)=>{
-        if (err) {
+
+      Party.update({participants:user._id},{'$pull': {'participants': user._id, 'candidates':user._id, 'usersSeen': user._id }},(err)=>{
+        if(err){
           return res.send(err);
         }
-        Party.remove({owner:user._id},(err)=>{
+        Party.find({owner:user._id},(err,parties)=>{
           if (err) {
             return res.send(err);
           }
+          Party.remove({owner:user._id},(err)=>{
+            if (err) {
+              return res.send(err);
+            }
 
-          async.each(parties, function(party, callback) {
-            User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id }},{new:true},(err)=>{
-              if(err){
-                callback(err);
-              }else{
-                console.log("borrant");
-                callback();
-              }
+            async.each(parties, function(party, callback) {
+              User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id }},{new:true},(err)=>{
+                if(err){
+                  callback(err);
+                }else{
+                  Image.deleteMany({party:party._id},(err)=>{
+                    if(err){
+                      return res.send(err);
+                    }
+                    console.log("borrant");
+                    callback();
+                  });
+                }
+              });
+            }, function(err) {
+                // if any of the file processing produced an error, err would equal that error
+                if( err ) {
+                  // One of the iterations produced an error.
+                  // All processing will now stop.
+                  console.log('A file failed to process');
+                } else {
+                  console.log("finished");
+                  req.logout();
+                  return res.json({
+                    message: 'User deleted successfully'
+                  });
+                }
             });
-          }, function(err) {
-              // if any of the file processing produced an error, err would equal that error
-              if( err ) {
-                // One of the iterations produced an error.
-                // All processing will now stop.
-                console.log('A file failed to process');
-              } else {
-                console.log("finished");
-                req.logout();
-                return res.json({
-                  message: 'User deleted successfully'
-                });
-              }
           });
         });
       });
+
     });
   });
 });
