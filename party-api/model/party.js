@@ -23,7 +23,7 @@ const partySchema = new mongoose.Schema({
   },
   name: String,
   content: String,
-  pictures: [String],
+  pictures: [{type:Schema.Types.ObjectId,ref:"Image"}],
   payment: {
     type:String,
     enum:["Free","Paid"],
