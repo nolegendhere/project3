@@ -10,11 +10,13 @@
   <div *ngIf="isUser">
     <div *ngFor="let picture of user.profile.pictures">
       <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
+      <button type="button" (click)="deleteImage(picture._id)">Delete Image</button>
     </div>
   </div>
   <div *ngIf="isParty">
     <div *ngFor="let picture of party.pictures">
       <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
+      <button type="button" (click)="deleteImage(picture._id)">Delete Image</button>
     </div>
   </div>
 </div>

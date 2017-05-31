@@ -9,7 +9,7 @@ const passport = require('../config/passport');
 
 /* GET Parties listing. */
 router.get('/', (req, res, next) => {
-  let populateQuery=[{path: "owner"},{path: "participants"},{path: "candidates"}];
+  let populateQuery=[{path: "owner"},{path: "participants"},{path: "candidates"},{path:"pictures"}];
   if(req.query){
     let userId = mongoose.Types.ObjectId(req.query.userId);
     Party.find({$nor:[{participants:userId},{usersSeen:userId},{owner:userId}]}).populate(populateQuery).exec((err, Parties) => {

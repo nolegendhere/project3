@@ -126,6 +126,26 @@ export class ManipulateImagesComponent implements OnInit {
     });
   }
 
+  deleteImage(id){
+    if(this.isParty){
+      console.log("entra");
+      this.imagesService.deleteImage(id).subscribe((response)=>{
+        if(!response.image){
+          alert("error en el servidor")
+        }
+        this.getPartyDetails(this.party._id);
+      });
+    }else if(this.isUser){
+      console.log("entra");
+      this.imagesService.deleteImage(id).subscribe((response)=>{
+        if(!response.image){
+          alert("error en el servidor")
+        }
+        this.getUserDetails(this.user._id);
+      });
+    }
+  }
+
   goBack(){
     this.router.navigate([`profile/${this.user._id}/show`]);
   }
