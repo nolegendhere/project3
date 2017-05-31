@@ -1,0 +1,30 @@
+<p>
+  manipulate-images works!
+</p>
+
+
+<div *ngIf="!isLoading">
+  <p>Loading...</p>
+</div>
+<div *ngIf="isLoading">
+  <div *ngIf="isUser">
+    <div *ngFor="let picture of user.profile.pictures">
+      <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
+    </div>
+  </div>
+  <div *ngIf="isParty">
+    <div *ngFor="let picture of party.pictures">
+      <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
+    </div>
+  </div>
+</div>
+<form #formImage="ngForm" (ngSubmit)="onSubmit()">
+  <label>Sube tu foto:</label>
+  <p>
+    <input type="file" placeholder="Subir imagen" accept=".png, .jpg, .jpeg" (change)="fileChangeEvent($event)"/>
+  </p>
+  <input type="submit" value="New Picture" [disabled]="!this.isFilesGood" />
+</form>
+<div *ngIf="isLoading">
+  <button type="button" (click)="goBack()">Go Back</button>
+</div>

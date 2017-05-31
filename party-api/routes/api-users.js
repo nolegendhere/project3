@@ -43,12 +43,12 @@ router.get('/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  let populateQuery=[{path: "partiesOwned"}];
-  User.findById(req.params.id).populate(populateQuery).exec((err, Users) => {
+  let populateQuery=[{path: "partiesOwned"},{path:"profile.pictures"}];
+  User.findById(req.params.id).populate(populateQuery).exec((err, user) => {
       if (err) {
         return res.send(err);
       }
-      return res.json(Users);
+      return res.json(user);
     });
 });
 
