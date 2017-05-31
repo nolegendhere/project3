@@ -11,8 +11,9 @@
   <h2>{{user.profile.sex}}</h2>
   <h2>{{user.profile.age}}</h2>
   <button type="button" (click)="editUserDetails(user._id)">edit user details</button>
+  <button type="button" (click)="editUserPictures(user._id)">edit user pictures</button>
   <div *ngFor="let picture of user.profile.pictures">
-    <img [src]='picture' />
+    <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
   </div>
   <div *ngFor="let party of user.partiesOwned">
     <h3>{{party.name}}</h3>
@@ -22,9 +23,10 @@
     <p>{{party.ageRange.maxPeople}}</p>
     <p>{{party.gender}}</p>
     <div *ngFor="let picture of party.pictures">
-      <img [src]='picture' />
+      <img [src]='api_url+picture.picture' />
     </div>
     <button type="button" (click)="editPartyDetails(party._id)">edit party details</button>
+    <button type="button" (click)="editPartyPictures(party._id)">edit party pictures</button>
   </div>
 </div>
 <button type="button" (click)="goBack()">Go Back</button>
