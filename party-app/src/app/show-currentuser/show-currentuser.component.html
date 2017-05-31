@@ -19,8 +19,7 @@
     <h3>{{party.name}}</h3>
     <p>{{party.ageRange.minAge}}</p>
     <p>{{party.ageRange.maxAge}}</p>
-    <p>{{party.ageRange.minPeople}}</p>
-    <p>{{party.ageRange.maxPeople}}</p>
+    <p>{{party.numOfPeople.maxPeople}}</p>
     <p>{{party.gender}}</p>
     <div *ngFor="let picture of party.pictures">
       <img [src]='api_url+picture.picture' />

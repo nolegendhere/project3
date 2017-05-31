@@ -129,26 +129,21 @@ router.post('/', (req, res, next) => {
 
 
 router.delete('/:id', (req, res, next) => {
-  let params = req.body;
-  if(params.party){
-    Image.findByIdAndRemove({_id:req.params.id},(err,imageDeleted)=>{
-      if (err) {
-        return res.send(err);
-      }
-      Party.findOneAndUpdate({_id:params.party},{$pull:{pictures:imageDeleted._id}},(err)=>{
+  console.log("entra");
+  Image.findByIdAndRemove({_id:req.params.id},(err,imageDeleted)=>{
+    if (err) {
+      return res.send(err);
+    }
+    if(imageDeleted.party){
+      Party.findOneAndUpdate({_id:imageDeleted.party},{$pull:{pictures:imageDeleted._id}},(err)=>{
         return res.json({image:imageDeleted});
       });
-    });
-  }else if(params.user){
-    Image.findByIdAndRemove({_id:req.params.id},(err,imageDeleted)=>{
-      if (err) {
-        return res.send(err);
-      }
-      User.findOneAndUpdate({_id:params.user},{$pull:{"profile.pictures":imageDeleted._id}},(err)=>{
+    }else if(imageDeleted.user){
+      User.findOneAndUpdate({_id:imageDeleted.user},{$pull:{"profile.pictures":imageDeleted._id}},(err)=>{
         return res.json({image:imageDeleted});
       });
-    });
-  }
+    }
+  });
 });
 
 
