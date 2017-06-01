@@ -1,0 +1,62 @@
+.custom-container{
+  background-color: blue;
+  box-sizing: border-box;
+  padding: 10vh 20vw;
+  height: 100vh;
+  width: auto;
+  background-image: url("../../assets/images/fireworks.png") ;
+  background-size: cover;
+  background-position: center;
+}
+
+.content-container{
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+}
+
+.content-container>p{
+  text-align: center;
+  font-size: 3vh;
+  color: white;
+  text-shadow: 2px 2px black;
+  letter-spacing: 0.5vw;
+}
+
+.content-container>p>a{
+  color: orange;
+  text-shadow: 2px 2px black;
+}
+
+.custom-form{
+  display: inherit;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-form-group{
+  margin: 0.5vh 1vw;
+  font-size: 3vh;
+  text-shadow: 2px 2px black;
+  color: white;
+}
+
+.custom-button{
+  height: 10vh;
+  margin: 5vh 1vw;
+  padding: 0;
+  border-radius: 0%;
+  color: white;
+  background-color: black;
+  font-size: 3vh;
+  text-shadow: 2px 2px black;
+  letter-spacing: 1vw;
+  border-style: none;
+}
+
+.custom-button:hover{
+  border-style: double;
+}
