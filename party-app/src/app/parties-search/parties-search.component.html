@@ -12,30 +12,30 @@
       </div>
       <div *ngIf="isParties">
         <div class="party-list">
-            <h3> {{ party.name }}</h3>
-            <h4>People: {{ party.numOfPeople.numJoined }}</h4>
-            <div class="custom-picture-container" *ngIf="picture">
-              <button type="button" class="btn btn-default custom-button-arrow" (click)="previousPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
-              <img [src]='api_url+picture' />
-              <button type="button" class="btn btn-default custom-button-arrow" (click)="nextPicture()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+          <h3> {{ party.name }}</h3>
+          <h4>People: {{ party.numOfPeople.numJoined }}</h4>
+          <div class="custom-picture-container" *ngIf="picture">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <img [src]='api_url+picture' />
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextPicture()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+          </div>
+          <div class="custom-info-container">
+            <div class="general-info">
+              <p>Gender: {{party.gender}}&nbsp;|</p>
+              <p>&nbsp;Payment: {{party.payment}}&nbsp;|</p>
+              <p>&nbsp;Max People: {{party.numOfPeople.maxPeople}}&nbsp;|</p>
+              <p>&nbsp;Parity: {{party.parity}}&nbsp;|</p>
+              <p>&nbsp;Place: {{party.placeType}}&nbsp;|</p>
+              <p>&nbsp;Size: {{party.size}}&nbsp;|</p>
             </div>
-            <div class="custom-info-container">
-              <div class="general-info">
-                <p>Gender: {{party.gender}}&nbsp;|</p>
-                <p>&nbsp;Payment: {{party.payment}}&nbsp;|</p>
-                <p>&nbsp;Max People: {{party.numOfPeople.maxPeople}}&nbsp;|</p>
-                <p>&nbsp;Parity: {{party.parity}}&nbsp;|</p>
-                <p>&nbsp;Place: {{party.placeType}}&nbsp;|</p>
-                <p>&nbsp;Size: {{party.size}}&nbsp;|</p>
-              </div>
-              <div class="content-info">
-                <p>{{party.content}}</p>
-              </div>
+            <div class="content-info">
+              <p>{{party.content}}</p>
             </div>
-            <div class="content-container-social">
-              <button type="button" class="btn btn-default custom-button-remove" (click)="notJoinParty(party)"><span class="glyphicon glyphicon-remove"></span></button>
-              <button type="button" class="btn btn-default custom-button-ok" (click)="joinParty(party)"><span class="glyphicon glyphicon-ok"></span></button>
-            </div>
+          </div>
+          <div class="content-container-social">
+            <button type="button" class="btn btn-default custom-button-remove" (click)="notJoinParty(party)"><span class="glyphicon glyphicon-remove"></span></button>
+            <button type="button" class="btn btn-default custom-button-ok" (click)="joinParty(party)"><span class="glyphicon glyphicon-ok"></span></button>
+          </div>
         </div>
       </div>
       <div *ngIf="!isParties">

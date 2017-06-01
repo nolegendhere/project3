@@ -1,0 +1,247 @@
+.custom-container{
+  background-color: grey;
+  box-sizing: border-box;
+  padding: 5vh 15vw;
+  height: 100vh;
+  width: auto;
+  background-image: url("../../assets/images/searchparty2.jpg") ;
+  background-size: cover;
+  background-position: center;
+}
+
+.content-container{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+}
+
+.content-container h3,h4{
+  text-align: center;
+  font-size: 3vh;
+  color: white;
+  text-shadow: 2px 2px black;
+  margin-bottom: 1vh;
+  letter-spacing: 0.5vw;
+}
+
+.custom-picture-container{
+  margin-top: 3vh;
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-picture-container>img{
+  display:block;
+  max-width:30vh;
+  max-height:30vh;
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+}
+
+.custom-button-arrow{
+  margin-top: 15vh;
+  padding: 0;
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 10vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-arrow:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-arrow:active{
+  background: none;
+  outline:none;
+}
+
+.custom-info-container{
+  margin-top: 3vh;
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-info-container>.general-info{
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: flex-start;
+  font-family: 'Anton', sans-serif;
+  line-height: 2vh;
+  font-size: 2vh;
+}
+
+.custom-info-container>.content-info{
+  margin-top: 2vh;
+  background-color: white;
+  padding: 1vh;
+  height: 10vh;
+  overflow-y: scroll;
+}
+
+.content-info::-webkit-scrollbar {
+    width: 1em;
+}
+
+.content-info::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px black;
+}
+
+.content-info::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.custom-info-container>.content-info>p{
+  font-family: 'Anton', sans-serif;
+  font-size: 2vh;
+  text-align: left;
+  color: black;
+  word-wrap: break-word;
+}
+
+.content-container-social{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+
+.custom-button-profile{
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 5vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-profile:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-profile:active{
+  background: none;
+  outline:none;
+}
+
+.custom-button-owned{
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 5vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-owned:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-owned:active{
+  background: none;
+  outline:none;
+}
+
+.custom-button-show{
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 5vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-show:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-show:active{
+  background: none;
+  outline:none;
+}
+
+.custom-button-remove{
+  color: red;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 10vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-remove:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-remove:active{
+  background: none;
+  outline:none;
+}
+
+.custom-button-ok{
+  color: green;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 10vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-ok:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-ok:active{
+  background: none;
+  outline:none;
+}
+
+
+.custom-button{
+  height: 10vh;
+  margin: 1vh 5vw;
+  padding: 0;
+  border-radius: 0%;
+  color: white;
+  background-color: black;
+  font-size: 3vh;
+  text-shadow: 2px 2px black;
+  letter-spacing: 1vw;
+  border-style: none;
+}
+
+.custom-button:hover{
+  border-style: double;
+}

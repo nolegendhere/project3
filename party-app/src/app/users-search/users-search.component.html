@@ -1,44 +1,39 @@
-<p>
-  users-search works!
-</p>
-<!-- <div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <div *ngFor="let user of userList">
-    <h1>{{user.username}}</h1>
-    <h2>{{user.profile.firstName}}</h2>
-    <h2>{{user.profile.lastName}}</h2>
-    <h2>{{user.profile.sex}}</h2>
-    <h2>{{user.profile.age}}</h2>
-    <div *ngFor="let picture of user.profile.pictures">
-      <img [src]='picture' />
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
     </div>
-    <button type="button" (click)="joinParty(user)">Make a candidate</button>
-  </div>
-  <button type="button" (click)="showParty()">Show Party</button>
-  <button type="button" (click)="goToPartiesOwned()">Go to Parties Owned</button>
-</div> -->
-
-<div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <div *ngIf="isUsers">
-    <h1>{{user.username}}</h1>
-    <h2>{{user.profile.firstName}}</h2>
-    <h2>{{user.profile.lastName}}</h2>
-    <h2>{{user.profile.sex}}</h2>
-    <h2>{{user.profile.age}}</h2>
-    <div *ngFor="let picture of user.profile.pictures">
-      <img [src]='picture' />
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-profile"><span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-owned"> <span class="glyphicon glyphicon-king"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties/'+party._id+'/show']"><button class="btn btn-default custom-button-show"><span class="glyphicon glyphicon-comment"></span></button></a>
+      </div>
+      <div *ngIf="isUsers">
+        <div class="user-list">
+          <h3>{{user.username}}</h3>
+          <h4>{{user.profile.age}}</h4>
+          <h4>{{user.profile.gender}}</h4>
+          <div class="custom-picture-container" *ngIf="picture">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <img [src]='api_url+picture' />
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextPicture()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+          </div>
+          <div class="custom-info-container">
+            <div class="general-info">
+              <p>First Name: {{user.profile.firstName}}&nbsp;|</p>
+              <p>Last Name: {{user.profile.lastName}}&nbsp;|</p>
+            </div>
+          </div>
+          <div class="content-container-social">
+            <button type="button" class="btn btn-default custom-button-remove" (click)="notJoinParty()"><span class="glyphicon glyphicon-remove"></span></button>
+            <button type="button" class="btn btn-default custom-button-ok" (click)="joinParty()"><span class="glyphicon glyphicon-ok"></span></button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isUsers">
+        <h3>No more Users</h3>
+      </div>
     </div>
-    <button type="button" (click)="joinParty()">Make a candidate</button>
-    <button type="button" (click)="notJoinParty()">Not make a candidate</button>
   </div>
-  <div *ngIf="!isUsers">
-    <h3>No more Users</h3>
-  </div>
-  <button type="button" (click)="showParty()">Show Party</button>
-  <button type="button" (click)="goToPartiesOwned()">Go to Parties Owned</button>
 </div>

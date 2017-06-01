@@ -10,13 +10,13 @@ const async = require('async');
 
 /* GET Users listing. */
 router.get('/', (req, res, next) => {
-  let populateQuery=[{path: "partiesOwned"}];
+  let populateQuery=[{path: "partiesOwned"},{path:"profile.pictures"}];
   if(req.query){
     Party.findById({_id:req.query.partyId},(err,party)=>{
       let partyId = mongoose.Types.ObjectId(req.query.partyId);
       // User.find({partiesOwned:{$not:{$all:[partyId] }}}).exec((err, Users) =>
       // let populateQuery=[{path: "partiesOwned"}];
-      User.find({$nor:[{partiesOwned:partyId},{partiesSeen:partyId}]}).populate().exec((err, Users) => {
+      User.find({$nor:[{partiesOwned:partyId},{partiesSeen:partyId}]}).populate(populateQuery).exec((err, Users) => {
         if (err) {
           console.log("hello1",err);
           return res.send(err);

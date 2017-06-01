@@ -73,6 +73,7 @@ export class PartiesSearchComponent implements OnInit {
           });
           if(this.partyList.length){
             this.party = this.partyList[0];
+            this.picture=undefined;
             if(this.party.pictures.length){
               this.picture=this.party.pictures[this.counterPicture].picture;
             }
@@ -86,27 +87,48 @@ export class PartiesSearchComponent implements OnInit {
 
   joinParty(){
     this.counterPicture=0;
-    if(this.party.candidates.length){
-      let exists = this.party.candidates.filter((candidate)=>{
-        console.log("candidate",candidate);
-        console.log("this.userId",this.userId);
-        if(String(candidate._id) == String(this.userId)){
-          console.log("this candidate exists")
-          return candidate;
-        }
-      });
-      if(exists.length){
-        console.log("exists");
-        this.isParties = false;
-        this.usersService.addPartyParticipant(this.userId,this.party._id).subscribe(()=>{
-          this.counterParty++;
-          if(this.counterParty<this.partyList.length){
-            this.party = this.partyList[this.counterParty];
-            this.picture=this.party.pictures[this.counterPicture].picture;
-            this.isParties = true;
+    this.partiesService.get(this.party._id).subscribe((partyObs) => {
+      this.party = partyObs;
+      if(this.party.candidates.length){
+        let exists = this.party.candidates.filter((candidate)=>{
+          console.log("candidate",candidate);
+          console.log("this.userId",this.userId);
+          if(String(candidate) == String(this.userId)){
+            console.log("this candidate exists")
+            return candidate;
           }
-          console.log("party Participant");
-        })
+        });
+        if(exists.length){
+          console.log("exists");
+          this.isParties = false;
+          this.usersService.addPartyParticipant(this.userId,this.party._id).subscribe(()=>{
+            this.counterParty++;
+            if(this.counterParty<this.partyList.length){
+              this.party = this.partyList[this.counterParty];
+              this.picture=undefined;
+              if(this.party.pictures.length){
+                this.picture=this.party.pictures[this.counterPicture].picture;
+              }
+              this.isParties = true;
+            }
+            console.log("party Participant");
+          })
+        }
+        else{
+          this.isParties = false;
+          this.usersService.addPartyCandidate(this.userId,this.party._id).subscribe(()=>{
+            this.counterParty++;
+            if(this.counterParty<this.partyList.length){
+              this.party = this.partyList[this.counterParty];
+              this.picture=undefined;
+              if(this.party.pictures.length){
+                this.picture=this.party.pictures[this.counterPicture].picture;
+              }
+              this.isParties = true;
+            }
+            console.log("party Candidated, already candidates");
+          })
+        }
       }
       else{
         this.isParties = false;
@@ -114,25 +136,16 @@ export class PartiesSearchComponent implements OnInit {
           this.counterParty++;
           if(this.counterParty<this.partyList.length){
             this.party = this.partyList[this.counterParty];
-            this.picture=this.party.pictures[this.counterPicture].picture;
+            this.picture=undefined;
+            if(this.party.pictures.length){
+              this.picture=this.party.pictures[this.counterPicture].picture;
+            }
             this.isParties = true;
           }
-          console.log("party Candidated, already candidates");
+          console.log("party Candidated, without candidates");
         })
       }
-    }
-    else{
-      this.isParties = false;
-      this.usersService.addPartyCandidate(this.userId,this.party._id).subscribe(()=>{
-        this.counterParty++;
-        if(this.counterParty<this.partyList.length){
-          this.party = this.partyList[this.counterParty];
-          this.picture=this.party.pictures[this.counterPicture].picture;
-          this.isParties = true;
-        }
-        console.log("party Candidated, without candidates");
-      })
-    }
+    });
   }
 
   notJoinParty(){
@@ -142,7 +155,10 @@ export class PartiesSearchComponent implements OnInit {
       this.counterParty++;
       if(this.counterParty<this.partyList.length){
         this.party = this.partyList[this.counterParty];
-        this.picture=this.party.pictures[this.counterPicture].picture;
+        this.picture=undefined;
+        if(this.party.pictures.length){
+          this.picture=this.party.pictures[this.counterPicture].picture;
+        }
         this.isParties = true;
       }
       console.log("party Participant");

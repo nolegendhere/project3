@@ -13,6 +13,11 @@ export class ShowCurrentuserComponent implements OnInit {
   user:any;
   isLoading:boolean=false;
   api_url:string;
+  counterParty:number=0;
+  party:any;
+  isParties:boolean=false;
+  picture:string;
+
   constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService, private imagesService: ImagesService) { }
 
   ngOnInit() {
@@ -28,32 +33,55 @@ export class ShowCurrentuserComponent implements OnInit {
       .subscribe((userObs) => {
         this.user = userObs;
         console.log("this.user",this.user);
+        if(this.user.partiesOwned.length){
+          this.party=this.user.partiesOwned[0];
+          this.isParties=true;
+          this.picture=undefined;
+          if(this.party.pictures.length){
+            this.picture=this.party.pictures[0].picture;
+          }
+        }
         this.isLoading=true;
       });
   }
 
-  editPartyDetails(id){
-    console.log("partyId",id);
-    this.router.navigate([`/profile/${this.user._id}/parties/${id}/edit`]);
+  nextParty(){
+    this.counterParty++;
+    if(this.counterParty>=this.user.partiesOwned.length){
+      this.counterParty=0;
+    }
+    this.party=this.user.partiesOwned[this.counterParty];
+    this.picture=undefined;
+    if(this.party.pictures.length){
+      this.picture=this.party.pictures[0].picture;
+    }
   }
 
-  editPartyPictures(id){
-    console.log("partyId",id);
-    this.router.navigate([`/profile/${this.user._id}/parties/${id}/images`]);
+  previousParty(){
+    this.counterParty--;
+    if(this.counterParty<0){
+      this.counterParty=this.user.partiesOwned.length-1
+    }
+    this.party=this.user.partiesOwned[this.counterParty];
+    this.picture=undefined;
+    if(this.party.pictures.length){
+      this.picture=this.party.pictures[0].picture;
+    }
   }
 
-  editUserDetails(id){
-    console.log("partyId",id);
-    this.router.navigate([`/profile/${id}/edit`]);
+  editPartyDetails(){
+    this.router.navigate([`/profile/${this.user._id}/parties/${this.party._id}/edit`]);
   }
 
-  editUserPictures(id){
-    console.log("partyId",id);
-    this.router.navigate([`/profile/${id}/images`]);
+  editPartyPictures(){
+    this.router.navigate([`/profile/${this.user._id}/parties/${this.party._id}/images`]);
   }
 
-  goBack(){
-    this.router.navigate([`/partiesSearch`]);
+  editUserDetails(){
+    this.router.navigate([`/profile/${this.user._id}/edit`]);
   }
 
+  editUserPictures(){
+    this.router.navigate([`/profile/${this.user._id}/images`]);
+  }
 }
