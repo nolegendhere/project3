@@ -73,7 +73,9 @@ export class PartiesSearchComponent implements OnInit {
           });
           if(this.partyList.length){
             this.party = this.partyList[0];
-            this.picture=this.party.pictures[this.counterPicture].picture;
+            if(this.party.pictures.length){
+              this.picture=this.party.pictures[this.counterPicture].picture;
+            }
             this.isParties = true;
           }
         }
