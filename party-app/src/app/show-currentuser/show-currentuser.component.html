@@ -18,7 +18,7 @@
       <div *ngIf="isParties">
         <div class="party-list">
           <h3> {{ party.name }}</h3>
-          <div class="custom-party-container" *ngIf="party">
+          <div class="custom-party-container">
             <button type="button" class="btn btn-default custom-button-arrow" (click)="previousParty()"><span class="glyphicon glyphicon-chevron-left"></span></button>
             <img [src]='api_url+picture' />
             <button type="button" class="btn btn-default custom-button-arrow" (click)="nextParty()"><span class="glyphicon glyphicon-chevron-right"></span></button>

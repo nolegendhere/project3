@@ -36,7 +36,6 @@ export class ShowCurrentuserComponent implements OnInit {
         if(this.user.partiesOwned.length){
           this.party=this.user.partiesOwned[0];
           this.isParties=true;
-          this.picture=undefined;
           if(this.party.pictures.length){
             this.picture=this.party.pictures[0].picture;
           }

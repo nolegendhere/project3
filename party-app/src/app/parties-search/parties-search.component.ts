@@ -73,7 +73,6 @@ export class PartiesSearchComponent implements OnInit {
           });
           if(this.partyList.length){
             this.party = this.partyList[0];
-            this.picture=undefined;
             if(this.party.pictures.length){
               this.picture=this.party.pictures[this.counterPicture].picture;
             }

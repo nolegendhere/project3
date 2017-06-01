@@ -114,6 +114,7 @@ export class UsersSearchComponent implements OnInit {
             this.counterUser++;
             if(this.counterUser<this.userList.length){
               this.user = this.userList[this.counterUser];
+              this.picture=undefined;
               if(this.user.profile.pictures.length){
                 this.picture=this.user.profile.pictures[this.counterPicture].picture;
               }
@@ -130,6 +131,7 @@ export class UsersSearchComponent implements OnInit {
             this.counterUser++;
             if(this.counterUser<this.userList.length){
               this.user = this.userList[this.counterUser];
+              this.picture=undefined;
               if(this.user.profile.pictures.length){
                 this.picture=this.user.profile.pictures[this.counterPicture].picture;
               }
@@ -147,6 +149,7 @@ export class UsersSearchComponent implements OnInit {
           this.counterUser++;
           if(this.counterUser<this.userList.length){
             this.user = this.userList[this.counterUser];
+            this.picture=undefined;
             if(this.user.profile.pictures.length){
               this.picture=this.user.profile.pictures[this.counterPicture].picture;
             }
@@ -165,6 +168,7 @@ export class UsersSearchComponent implements OnInit {
       this.counterUser++;
       if(this.counterUser<this.userList.length){
         this.user = this.userList[this.counterUser];
+        this.picture=undefined;
         if(this.user.profile.pictures.length){
           this.picture=this.user.profile.pictures[this.counterPicture].picture;
         }
