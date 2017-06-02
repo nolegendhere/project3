@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PartiesService } from '../services/parties.service';
+import { ImagesService } from '../services/images.service';
 
 @Component({
   selector: 'app-show-party-currentuser',
@@ -12,9 +13,14 @@ export class ShowPartyCurrentuserComponent implements OnInit {
   party: any;
   userId:any;
   userList:Array<any>;
-  constructor(private route: ActivatedRoute,private router: Router,private partiesService: PartiesService) { }
+
+  api_url:string;
+  isUsers:boolean=false;
+
+  constructor(private route: ActivatedRoute,private router: Router,private partiesService: PartiesService,private imagesService: ImagesService) { }
 
   ngOnInit() {
+    this.api_url = this.imagesService.getApiUrl('get-image/')
     this.route.params.subscribe(params=>{
       this.userId=params['userId'];
       this.getPartyDetails(params['partyId']);
@@ -25,6 +31,9 @@ export class ShowPartyCurrentuserComponent implements OnInit {
     this.partiesService.get(id).subscribe((partyObs) => {
         this.party = partyObs;
         this.userList = this.party.participants;
+        if(this.userList.length){
+          this.isUsers=true;
+        }
         console.log("this.userList",this.userList);
         this.isLoading=true;
     });
@@ -40,11 +49,10 @@ export class ShowPartyCurrentuserComponent implements OnInit {
 
   deleteContact(user){
     this.isLoading=false;
-    this.partiesService.leavePartyParticipant(user._id,this.party._id).subscribe((partyObs)=>{
-      this.party = partyObs;
+    this.partiesService.leavePartyParticipant(user._id,this.party._id).subscribe((response)=>{
+      this.party = response.party;
       this.userList = this.party.participants;
       console.log("this.userList",this.userList);
-      this.isLoading=true;
       this.isLoading=true;
     })
   }
