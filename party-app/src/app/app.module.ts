@@ -13,6 +13,7 @@ import { AppComponent }     from './app.component';
 import { SessionService }   from './services/session.service';
 import { PartiesService }   from './services/parties.service';
 import { UsersService }     from './services/users.service';
+import { ImagesService }     from './services/images.service';
 
 import { LoginComponent }   from './login/login.component';
 import { SignupComponent }  from './signup/signup.component';
@@ -28,6 +29,7 @@ import { NewPartyCurrentuserComponent } from './new-party-currentuser/new-party-
 import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/party-joined-currentuser.component';
 import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
 import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-party-currentuser.component';
+import { ManipulateImagesComponent } from './manipulate-images/manipulate-images.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-par
     NewPartyCurrentuserComponent,
     PartyJoinedCurrentuserComponent,
     ShowPartyJoinedCurrentuserComponent,
-    ShowPartyCurrentuserComponent
+    ShowPartyCurrentuserComponent,
+    ManipulateImagesComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,7 @@ import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-par
     RouterModule.forRoot(routes),
     CollapseModule.forRoot()
   ],
-  providers: [SessionService, PartiesService, UsersService],
+  providers: [SessionService, PartiesService, UsersService,ImagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

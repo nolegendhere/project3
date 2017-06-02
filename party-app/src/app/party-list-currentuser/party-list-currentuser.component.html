@@ -1,20 +1,27 @@
-<p>
-  show-currentuser works!
-</p>
-<div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <div *ngFor="let party of user.partiesOwned">
-    <h3>{{party.name}}</h3>
-    <p>{{party.ageRange.minAge}}</p>
-    <p>{{party.ageRange.maxAge}}</p>
-    <p>{{party.sex}}</p>
-    <div *ngFor="let picture of party.pictures">
-      <img [src]='picture' />
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
     </div>
-    <button type="button" (click)="seePartyCandidates(party._id)">see party candidates</button>
-    <button type="button" (click)="showParty(party._id)">Show Party</button>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+user._id+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <button class="btn btn-default custom-button-gliph" (click)="newParty(user._id)"><span class="glyphicon glyphicon-plus"></span></button>
+        <a [routerLink]="['/profile/'+user._id+'/parties/joined']"><button class="btn btn-default custom-button-gliph"><span class="glyphicon glyphicon-comment"></span></button></a>
+      </div>
+      <div class="party-list">
+        <div *ngIf="isParties">
+          <div class="custom-party-container">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousParty()"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            <div class="custom-picture-container" *ngFor="let picture of pictures">
+              <img [src]='api_url+picture.picture' />
+              <a [routerLink]="['/profile/'+user._id+'/parties/'+picture.id+'/usersSearch']"><button class="btn btn-default custom-button-show"><span class="glyphicon glyphicon-search"></span></button></a>
+            </div>
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextParty()"><span class="glyphicon glyphicon-chevron-down"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <button type="button" (click)="newParty(user._id)">new party</button>
 </div>

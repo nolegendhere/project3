@@ -1,0 +1,124 @@
+.custom-container{
+  background-color: grey;
+  box-sizing: border-box;
+  padding: 5vh 15vw;
+  height: 100vh;
+  width: auto;
+  background-image: url("../../assets/images/searchparty2.jpg") ;
+  background-size: cover;
+  background-position: center;
+}
+
+.content-container{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+}
+
+.custom-party-container{
+  margin-top: 1vh;
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-picture-container{
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-picture-container img{
+  /*vertical-align: middle;*/
+  position: relative;
+  max-width:15vh;
+  max-height:15vh;
+  min-width:15vh;
+  min-height:15vh;
+  border-radius: 50%;
+}
+
+.content-container-picture{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.custom-button-picture{
+  padding: 0;
+  margin: 0;
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 5vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-picture:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-picture:active{
+  background: none;
+  outline:none;
+}
+
+.custom-button-arrow{
+  padding: 0;
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 10vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-arrow:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-arrow:active{
+  background: none;
+  outline:none;
+}
+
+.content-container-social{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.custom-button-gliph{
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 5vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-gliph:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-gliph:active{
+  background: none;
+  outline:none;
+}

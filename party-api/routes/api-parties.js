@@ -3,13 +3,14 @@ const mongoose = require('mongoose');
 var router = express.Router();
 const User = require('../model/user');
 const Party = require('../model/party');
+const Image = require('../model/image');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
 //const async = require('async');
 
 /* GET Parties listing. */
 router.get('/', (req, res, next) => {
-  let populateQuery=[{path: "owner"},{path: "participants"},{path: "candidates"}];
+  let populateQuery=[{path: "owner"},{path: "participants"},{path: "candidates"},{path:"pictures"}];
   if(req.query){
     let userId = mongoose.Types.ObjectId(req.query.userId);
     Party.find({$nor:[{participants:userId},{usersSeen:userId},{owner:userId}]}).populate(populateQuery).exec((err, Parties) => {
@@ -47,13 +48,13 @@ router.get('/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  let populateQuery=[{path: "owner"},{path: "participants"}];
-  Party.findById(req.params.id).populate(populateQuery).exec((err, Parties) => {
+  let populateQuery=[{path: "owner",populate:{path:"profile.pictures", model:"Image"}},{path: "participants",populate:{path:"profile.pictures", model:"Image"}},{path:"pictures"}];
+  Party.findById(req.params.id).populate(populateQuery).exec((err, party) => {
       if (err) {
         return res.send(err);
       }
 
-      return res.json(Parties);
+      return res.json(party);
     });
 });
 
@@ -102,19 +103,22 @@ router.delete('/:id/delete', (req, res) => {
     }
     User.findOneAndUpdate({_id:party.owner},{'$pull': {'partiesOwned': party._id}},(err)=>{
       if(err){
-        return next(err);
-      }else{
+        return res.send(err);
+      }
         User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id}},(err)=>{
           if(err){
-            return next(err);
-          }else{
+            return res.send(err);
+          }
+          Image.deleteMany({party:party._id},(err)=>{
+            if(err){
+              return res.send(err);
+            }
             console.log("entra en tots");
             return res.json({
               message: 'Party has been removed!'
             });
-          }
+          });
         });
-      }
     });
   });
 });

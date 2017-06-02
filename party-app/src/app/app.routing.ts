@@ -14,6 +14,7 @@ import { NewPartyCurrentuserComponent } from './new-party-currentuser/new-party-
 import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/party-joined-currentuser.component';
 import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
 import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-party-currentuser.component';
+import { ManipulateImagesComponent } from './manipulate-images/manipulate-images.component';
 
 
 export const routes: Routes = [
@@ -33,6 +34,8 @@ export const routes: Routes = [
     { path: 'profile/:userId/parties/:partyId/usersSearch', component: UsersSearchComponent, canActivate: [SessionService]},
     { path: 'profile/:id/parties/new', component: NewPartyCurrentuserComponent, canActivate: [SessionService]},
     { path: 'profile/:userId/parties/:partyId/show', component: ShowPartyCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/images', component: ManipulateImagesComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/images', component: ManipulateImagesComponent, canActivate: [SessionService]},
     //{ path: '**', redirectTo: '' }
 
 ];

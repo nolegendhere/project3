@@ -3,19 +3,20 @@ const mongoose = require('mongoose');
 var router = express.Router();
 const User = require('../model/user');
 const Party = require('../model/party');
+const Image = require('../model/image');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
 const async = require('async');
 
 /* GET Users listing. */
 router.get('/', (req, res, next) => {
-  let populateQuery=[{path: "partiesOwned"}];
+  let populateQuery=[{path: "partiesOwned"},{path:"profile.pictures"}];
   if(req.query){
     Party.findById({_id:req.query.partyId},(err,party)=>{
       let partyId = mongoose.Types.ObjectId(req.query.partyId);
       // User.find({partiesOwned:{$not:{$all:[partyId] }}}).exec((err, Users) =>
       // let populateQuery=[{path: "partiesOwned"}];
-      User.find({$nor:[{partiesOwned:partyId},{partiesSeen:partyId}]}).populate().exec((err, Users) => {
+      User.find({$nor:[{partiesOwned:partyId},{partiesSeen:partyId}]}).populate(populateQuery).exec((err, Users) => {
         if (err) {
           console.log("hello1",err);
           return res.send(err);
@@ -43,12 +44,12 @@ router.get('/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  let populateQuery=[{path: "partiesOwned"}];
-  User.findById(req.params.id).populate(populateQuery).exec((err, Users) => {
+  let populateQuery=[{path: "partiesOwned",populate:{path:"pictures", model:"Image"}},{path:"profile.pictures"}];
+  User.findById(req.params.id).populate(populateQuery).exec((err, user) => {
       if (err) {
         return res.send(err);
       }
-      return res.json(Users);
+      return res.json(user);
     });
 });
 
@@ -57,7 +58,7 @@ router.put('/:id/edit', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-
+  console.log("req.body",req.body);
   console.log("HiFromEdituser1");
   console.log("req.params.id",req.params.id);
   // console.log("req.body.firstName",req.body.firstName);
@@ -101,44 +102,56 @@ router.delete('/:id/delete', (req, res) => {
       return res.send(err);
     }
 
-    Party.update({participants:user._id},{'$pull': {'participants': user._id, 'candidates':user._id, 'usersSeen': user._id }},(err)=>{
+    Image.deleteMany({user:user._id},(err)=>{
       if(err){
         return res.send(err);
       }
-      Party.find({owner:user._id},(err,parties)=>{
-        if (err) {
+
+      Party.update({participants:user._id},{'$pull': {'participants': user._id, 'candidates':user._id, 'usersSeen': user._id }},(err)=>{
+        if(err){
           return res.send(err);
         }
-        Party.remove({owner:user._id},(err)=>{
+        Party.find({owner:user._id},(err,parties)=>{
           if (err) {
             return res.send(err);
           }
+          Party.remove({owner:user._id},(err)=>{
+            if (err) {
+              return res.send(err);
+            }
 
-          async.each(parties, function(party, callback) {
-            User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id }},{new:true},(err)=>{
-              if(err){
-                callback(err);
-              }else{
-                console.log("borrant");
-                callback();
-              }
+            async.each(parties, function(party, callback) {
+              User.update({partiesJoined:party._id},{'$pull': {'partiesJoined': party._id, 'partiesSeen': party._id }},{new:true},(err)=>{
+                if(err){
+                  callback(err);
+                }else{
+                  Image.deleteMany({party:party._id},(err)=>{
+                    if(err){
+                      return res.send(err);
+                    }
+                    console.log("borrant");
+                    callback();
+                  });
+                }
+              });
+            }, function(err) {
+                // if any of the file processing produced an error, err would equal that error
+                if( err ) {
+                  // One of the iterations produced an error.
+                  // All processing will now stop.
+                  console.log('A file failed to process');
+                } else {
+                  console.log("finished");
+                  req.logout();
+                  return res.json({
+                    message: 'User deleted successfully'
+                  });
+                }
             });
-          }, function(err) {
-              // if any of the file processing produced an error, err would equal that error
-              if( err ) {
-                // One of the iterations produced an error.
-                // All processing will now stop.
-                console.log('A file failed to process');
-              } else {
-                console.log("finished");
-                req.logout();
-                return res.json({
-                  message: 'User deleted successfully'
-                });
-              }
           });
         });
       });
+
     });
   });
 });

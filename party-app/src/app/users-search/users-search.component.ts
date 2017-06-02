@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsersService } from '../services/users.service';
 import { PartiesService } from '../services/parties.service';
+import { ImagesService } from '../services/images.service';
 
 @Component({
   selector: 'app-users-search',
@@ -12,13 +13,18 @@ export class UsersSearchComponent implements OnInit {
   userList:Array<any>=[];
   isUsers:boolean=false;
   isLoading:boolean=false;
+  api_url:string;
   party: any;
   userId: any;
   user: any;
-  counter:number=0;
-  constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService,private partiesService: PartiesService) { }
+  picture:string;
+  counterUser:number=0;
+  counterPicture:number=0;
+
+  constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService,private partiesService: PartiesService, private imagesService: ImagesService) { }
 
   ngOnInit() {
+    this.api_url = this.imagesService.getApiUrl('get-image/')
     this.route.params.subscribe(params=>{
       console.log("params['partyId']",params['partyId']);
       this.userId=params['userId'];
@@ -74,6 +80,9 @@ export class UsersSearchComponent implements OnInit {
             });
             if(this.userList.length){
               this.user= this.userList[0];
+              if(this.user.profile.pictures.length){
+                this.picture=this.user.profile.pictures[this.counterPicture].picture;
+              }
               this.isUsers = true;
             }
           }
@@ -83,69 +92,108 @@ export class UsersSearchComponent implements OnInit {
   }
 
   joinParty(){
-    if(this.party.candidates.length){
-      let exists = this.party.candidates.filter((candidate)=>{
-        console.log("candidate",candidate);
-        console.log("this.user",this.user);
-        if(String(candidate) == String(this.user._id)){
-          console.log("this candidate exists")
-          return candidate;
-        }
-      });
-      if(exists.length){
-        console.log("exists");
-        this.isUsers = false;
-        this.partiesService.addPartyParticipant(this.user._id,this.party._id).subscribe((partyObs)=>{
-          this.party = partyObs.party;
-          console.log("this.party ",this.party )
-          console.log("this.party._id ",this.party._id )
-          this.counter++;
-          if(this.counter<this.userList.length){
-            this.user = this.userList[this.counter];
-            this.isUsers = true;
+    this.counterPicture=0;
+    this.partiesService.get(this.party._id).subscribe((partyObs) => {
+      this.party = partyObs;
+      if(this.party.candidates.length){
+        let exists = this.party.candidates.filter((candidate)=>{
+          console.log("candidate",candidate);
+          console.log("this.user",this.user);
+          if(String(candidate) == String(this.user._id)){
+            console.log("this candidate exists")
+            return candidate;
           }
-          console.log("party Participant");
-        })
+        });
+        if(exists.length){
+          console.log("exists");
+          this.isUsers = false;
+          this.partiesService.addPartyParticipant(this.user._id,this.party._id).subscribe((partyObs)=>{
+            this.party = partyObs.party;
+            console.log("this.party ",this.party )
+            console.log("this.party._id ",this.party._id )
+            this.counterUser++;
+            if(this.counterUser<this.userList.length){
+              this.user = this.userList[this.counterUser];
+              this.picture=undefined;
+              if(this.user.profile.pictures.length){
+                this.picture=this.user.profile.pictures[this.counterPicture].picture;
+              }
+              this.isUsers = true;
+            }
+            console.log("party Participant");
+          })
+        }
+        else{
+          this.isUsers = false;
+          this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partyObs)=>{
+            this.party = partyObs.party;
+            console.log("this.party ",this.party )
+            console.log("this.party._id ",this.party._id );
+            this.counterUser++;
+            if(this.counterUser<this.userList.length){
+              this.user = this.userList[this.counterUser];
+              this.picture=undefined;
+              if(this.user.profile.pictures.length){
+                this.picture=this.user.profile.pictures[this.counterPicture].picture;
+              }
+              this.isUsers = true;
+            }
+            console.log("party Candidated, already candidates");
+          })
+        }
       }
       else{
+        this.isUsers = false;
         this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partyObs)=>{
           this.party = partyObs.party;
-          console.log("this.party ",this.party )
-          console.log("this.party._id ",this.party._id );
-          this.counter++;
-          if(this.counter<this.userList.length){
-            this.user = this.userList[this.counter];
+          console.log("this.party ",this.party );
+          console.log("this.party._id ",this.party._id )
+          this.counterUser++;
+          if(this.counterUser<this.userList.length){
+            this.user = this.userList[this.counterUser];
+            this.picture=undefined;
+            if(this.user.profile.pictures.length){
+              this.picture=this.user.profile.pictures[this.counterPicture].picture;
+            }
             this.isUsers = true;
           }
-          console.log("party Candidated, already candidates");
+          console.log("party Candidated, without candidates");
         })
       }
-    }
-    else{
-      this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partyObs)=>{
-        this.party = partyObs.party;
-        console.log("this.party ",this.party );
-        console.log("this.party._id ",this.party._id )
-        this.counter++;
-        if(this.counter<this.userList.length){
-          this.user = this.userList[this.counter];
-          this.isUsers = true;
-        }
-        console.log("party Candidated, without candidates");
-      })
-    }
+    });
   }
 
   notJoinParty(){
+    this.counterPicture=0;
     this.isUsers = false;
     this.partiesService.addPartyPartiesSeen(this.user._id,this.party._id).subscribe(()=>{
-      this.counter++;
-      if(this.counter<this.userList.length){
-        this.user = this.userList[this.counter];
+      this.counterUser++;
+      if(this.counterUser<this.userList.length){
+        this.user = this.userList[this.counterUser];
+        this.picture=undefined;
+        if(this.user.profile.pictures.length){
+          this.picture=this.user.profile.pictures[this.counterPicture].picture;
+        }
         this.isUsers = true;
       }
       console.log("party Participant");
     })
+  }
+
+  nextPicture(){
+    this.counterPicture++;
+    if(this.counterPicture>=this.user.profile.pictures.length){
+      this.counterPicture=0;
+    }
+    this.picture=this.user.profile.pictures[this.counterPicture].picture;
+  }
+
+  previousPicture(){
+    this.counterPicture--;
+    if(this.counterPicture<0){
+      this.counterPicture=this.user.profile.pictures.length-1
+    }
+    this.picture=this.user.profile.pictures[this.counterPicture].picture;
   }
 
   showParty(){

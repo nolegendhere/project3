@@ -54,25 +54,6 @@ export class NewPartyCurrentuserComponent implements OnInit {
     this.router.navigate([`/profile/${this.user._id}/parties`]);
   }
 
-  // changeValueMinPeople(value: number) {
-  //   console.log("minPeople",this.model.minPeople);
-  //   console.log("maxPeople",this.model.maxPeople);
-  //   if(this.model.maxPeople<this.model.minPeople+4)
-  //   {
-  //     this.model.minPeople = this.model.maxPeople-1;
-  //   }
-  // }
-  //
-  // changeValueMaxPeople(value: number) {
-  //   //this.maxValue1 = this.value2;
-  //   console.log("minPeople",this.model.minPeople);
-  //   console.log("maxPeople",this.model.maxPeople);
-  //   if(this.model.maxPeople<this.model.minPeople+4)
-  //   {
-  //     this.model.maxPeople = this.model.minPeople+1;
-  //   }
-  // }
-
   changeValueMinAge(value: number) {
     console.log("minAge",this.model.minAge);
     console.log("maxAge",this.model.maxAge);;
@@ -84,7 +65,6 @@ export class NewPartyCurrentuserComponent implements OnInit {
     if(this.user.profile.age<this.model.minAge){
       this.model.minAge = this.user.profile.age
     }
-
   }
 
   changeValueMaxAge(value: number) {

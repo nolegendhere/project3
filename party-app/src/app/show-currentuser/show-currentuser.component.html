@@ -1,33 +1,34 @@
-<p>
-  show-currentuser works!
-</p>
-<div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <h1>{{user.username}}</h1>
-  <h2>{{user.profile.firstName}}</h2>
-  <h2>{{user.profile.lastName}}</h2>
-  <h2>{{user.profile.sex}}</h2>
-  <h2>{{user.profile.age}}</h2>
-  <button type="button" (click)="editUserDetails(user._id)">edit user details</button>
-  <div *ngFor="let picture of user.profile.pictures">
-    <img [src]='picture' />
-  </div>
-  <div *ngFor="let party of user.partiesOwned">
-    <h3>{{party.name}}</h3>
-    <p>{{party.ageRange.minAge}}</p>
-    <p>{{party.ageRange.maxAge}}</p>
-    <p>{{party.ageRange.minPeople}}</p>
-    <p>{{party.ageRange.maxPeople}}</p>
-    <p>{{party.gender}}</p>
-    <div *ngFor="let picture of party.pictures">
-      <img [src]='picture' />
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
     </div>
-    <button type="button" (click)="editPartyDetails(party._id)">edit party details</button>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-partiesSearch"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+user._id+'/parties']"><button class="btn btn-default custom-button-owned"> <span class="glyphicon glyphicon-king"></span></button></a>
+      </div>
+      <div class="user-list">
+        <h3>Welcome to your profile {{user.username}}</h3>
+        <div class="content-container-edit">
+          <button type="button" class="btn btn-default custom-button-edit" (click)="editUserDetails()"><span class="glyphicon glyphicon-wrench"></span></button>
+          <button type="button" class="btn btn-default custom-button-edit-pictures" (click)="editUserPictures()"><span class="glyphicon glyphicon-picture"></span></button>
+        </div>
+      </div>
+      <div *ngIf="isParties">
+        <div class="party-list">
+          <h3> {{ party.name }}</h3>
+          <div class="custom-party-container">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousParty()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <img [src]='api_url+picture' />
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextParty()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+          </div>
+          <div class="content-container-edit">
+            <button type="button" class="btn btn-default custom-button-edit" (click)="editPartyDetails()"><span class="glyphicon glyphicon-wrench"></span></button>
+            <button type="button" class="btn btn-default custom-button-edit-pictures" (click)="editPartyPictures()"><span class="glyphicon glyphicon-picture"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<button type="button" (click)="goBack()">Go Back</button>
-<!-- <div class="container">
-  <router-outlet></router-outlet>
-</div> -->

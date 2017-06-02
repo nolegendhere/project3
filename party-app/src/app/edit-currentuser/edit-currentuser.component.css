@@ -1,1 +1,104 @@
+.custom-container{
+  background-color: grey;
+  box-sizing: border-box;
+  padding: 5vh 15vw;
+  height: 100vh;
+  width: auto;
+  background-image: url("../../assets/images/searchparty2.jpg") ;
+  background-size: cover;
+  background-position: center;
+}
 
+.content-container{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+  font-family: 'Anton', sans-serif;
+}
+.content-container h3{
+  font-size: 3vh;
+  color: orange;
+  text-shadow: 2px 2px black;
+}
+
+.custom-form{
+  display: inherit;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-form-group{
+  margin: 0.5vh 1vw;
+  font-size: 2vh;
+  text-shadow: 2px 2px black;
+  color: white;
+}
+
+.custom-form-group input{
+  font-size: 2.5vh;
+  text-shadow: none;
+  color: grey;
+}
+
+.custom-form-group select{
+  font-size: 2.5vh;
+  text-shadow: none;
+  color: grey;
+  margin: 0%;
+  line-height: 0%;
+  padding: 0%;
+  height: 3.5vh;
+}
+
+.content-container-social{
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.custom-button-gliph{
+  color: white;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 5vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-gliph:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-gliph:active{
+  background: none;
+  outline:none;
+}
+
+.custom-button-remove{
+  float:right;
+  color: red;
+  background: none;
+  text-shadow: 2px 2px black;
+  font-size: 5vh;
+  border-style: none;
+  box-shadow: none;
+  border: none;
+  outline:none;
+}
+
+.custom-button-remove:hover{
+  color: orange;
+  user-select:none;
+}
+
+.custom-button-remove:active{
+  background: none;
+  outline:none;
+}

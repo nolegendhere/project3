@@ -1,48 +1,46 @@
-<!-- // template of entry-list component -->
-<!-- <app-entry-form></app-entry-form> -->
-<!-- <div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <h1> Party list </h1>
-  <div class="party-list">
-    <div *ngFor="let party of partyList">
-      <h3> {{ party.name }}&nbsp;</h3>
-      <h4> {{ party.numOfPeople.numJoined }}&nbsp;</h4>
-      <div *ngFor="let picture of party.pictures">
-        <img [src]='picture' />
-      </div>
-      <button type="button" (click)="joinParty(party)">Join Party</button>
-    </div>
-    <button type="button" (click)="notJoinParty(party)">not Join Party</button>
-  </div>
-  </div>
-  <p>Hello {{userId}}</p>
-  <a [routerLink]="['/profile/'+userId+'/show']"> View Details </a>
-  <h3><a [routerLink]="['/profile/'+userId+'/parties']"> User Owned Parties </a></h3>
-  <h3><a [routerLink]="['/profile/'+userId+'/parties/joined']"> User Joined Parties </a></h3>
-</div> -->
 
-<div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <div *ngIf="isParties">
-    <div class="party-list">
-        <h3> {{ party.name }}&nbsp;</h3>
-        <h4> {{ party.numOfPeople.numJoined }}&nbsp;</h4>
-        <div *ngFor="let picture of party.pictures">
-          <img [src]='picture' />
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
+    </div>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-profile"><span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-owned"> <span class="glyphicon glyphicon-king"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties/joined']"><button class="btn btn-default custom-button-joined"><span class="glyphicon glyphicon-comment"></span></button></a>
+      </div>
+      <div *ngIf="isParties">
+        <div class="party-list">
+          <h3> {{ party.name }}</h3>
+          <h4>People: {{ party.numOfPeople.numJoined }}</h4>
+          <div class="custom-picture-container" *ngIf="picture">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousPicture()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <img [src]='api_url+picture' />
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextPicture()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+          </div>
+          <div class="custom-info-container">
+            <div class="general-info">
+              <p>Gender: {{party.gender}}&nbsp;|</p>
+              <p>&nbsp;Payment: {{party.payment}}&nbsp;|</p>
+              <p>&nbsp;Max People: {{party.numOfPeople.maxPeople}}&nbsp;|</p>
+              <p>&nbsp;Parity: {{party.parity}}&nbsp;|</p>
+              <p>&nbsp;Place: {{party.placeType}}&nbsp;|</p>
+              <p>&nbsp;Size: {{party.size}}&nbsp;|</p>
+            </div>
+            <div class="content-info">
+              <p>{{party.content}}</p>
+            </div>
+          </div>
+          <div class="content-container-social">
+            <button type="button" class="btn btn-default custom-button-remove" (click)="notJoinParty(party)"><span class="glyphicon glyphicon-remove"></span></button>
+            <button type="button" class="btn btn-default custom-button-ok" (click)="joinParty(party)"><span class="glyphicon glyphicon-ok"></span></button>
+          </div>
         </div>
-        <button type="button" (click)="joinParty(party)">Join Party</button>
-      <button type="button" (click)="notJoinParty(party)">not Join Party</button>
+      </div>
+      <div *ngIf="!isParties">
+        <h3>No more parties</h3>
+      </div>
     </div>
   </div>
-  <div *ngIf="!isParties">
-    <h3>No more parties</h3>
-  </div>
-  <p>Hello {{userId}}</p>
-  <a [routerLink]="['/profile/'+userId+'/show']"> View Details </a>
-  <h3><a [routerLink]="['/profile/'+userId+'/parties']"> User Owned Parties </a></h3>
-  <h3><a [routerLink]="['/profile/'+userId+'/parties/joined']"> User Joined Parties </a></h3>
 </div>

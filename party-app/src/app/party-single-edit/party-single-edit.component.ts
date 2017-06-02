@@ -68,24 +68,6 @@ export class PartySingleEditComponent implements OnInit {
     this.router.navigate([`/profile/${this.party.owner._id}/show`]);
   }
 
-  // changeValueMinPeople(value: number) {
-  //   console.log("minPeople",this.party.numOfPeople.minPeople);
-  //   console.log("maxPeople",this.party.numOfPeople.maxPeople);
-  //   if(this.party.numOfPeople.maxPeople<this.party.numOfPeople.minPeople+4)
-  //   {
-  //     this.party.numOfPeople.minPeople = this.party.numOfPeople.maxPeople-1;
-  //   }
-  // }
-
-  // changeValueMaxPeople(value: number) {
-  //   //this.maxValue1 = this.value2;
-  //   console.log("maxPeople",this.party.numOfPeople.maxPeople);
-  //   if(this.party.numOfPeople.maxPeople<this.party.numOfPeople.minPeople+4)
-  //   {
-  //     this.party.numOfPeople.maxPeople = this.party.numOfPeople.minPeople+1;
-  //   }
-  // }
-
   changeValueMinAge(value: number) {
     console.log("minAge",this.party.ageRange.minAge);
     console.log("maxAge",this.party.ageRange.maxAge);;

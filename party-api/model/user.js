@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
         default: "Boy"
       },
       age: Number,
-      pictures:[String]
+      pictures: [{type:Schema.Types.ObjectId,ref:"Image"}],
     },
     partyPreferences:{
       gender:{
