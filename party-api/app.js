@@ -33,8 +33,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', auth);
-app.use('/api/parties', /*passport.authenticate('jwt', { session: false }),*/ parties);
-app.use('/api/users', /*passport.authenticate('jwt', { session: false }),*/ users);
+app.use('/api/parties', passport.authenticate('jwt', { session: false }), parties);
+app.use('/api/users', passport.authenticate('jwt', { session: false }), users);
 app.use('/api/images', /*passport.authenticate('jwt', { session: false }),*/ images);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
