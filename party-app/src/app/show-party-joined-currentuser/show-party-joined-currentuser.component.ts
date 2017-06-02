@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PartiesService } from '../services/parties.service';
+import { ImagesService } from '../services/images.service';
 
 @Component({
   selector: 'app-show-party-joined-currentuser',
@@ -14,9 +15,15 @@ export class ShowPartyJoinedCurrentuserComponent implements OnInit {
   userList:Array<any>;
   currentuser:any;
   owner:any;
-  constructor(private route: ActivatedRoute,private router: Router,private partiesService: PartiesService) { }
+
+  api_url:string;
+  isUsers:boolean=false;
+
+
+  constructor(private route: ActivatedRoute,private router: Router,private partiesService: PartiesService,private imagesService: ImagesService) { }
 
   ngOnInit() {
+    this.api_url = this.imagesService.getApiUrl('get-image/')
     this.route.params.subscribe(params=>{
       this.userId=params['userId'];
       this.getPartyDetails(params['partyId']);
@@ -37,6 +44,9 @@ export class ShowPartyJoinedCurrentuserComponent implements OnInit {
           }
         })
         console.log("this.userList",this.userList);
+        if(this.userList.length){
+          this.isUsers=true;
+        }
         this.isLoading=true;
     });
   }
