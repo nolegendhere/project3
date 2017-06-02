@@ -9,6 +9,12 @@ import { ShowCurrentuserComponent } from './show-currentuser/show-currentuser.co
 import { EditCurrentuserComponent } from './edit-currentuser/edit-currentuser.component';
 import { PartySingleEditComponent } from './party-single-edit/party-single-edit.component';
 import { PartyListCurrentuserComponent } from './party-list-currentuser/party-list-currentuser.component';
+import { UsersSearchComponent } from './users-search/users-search.component';
+import { NewPartyCurrentuserComponent } from './new-party-currentuser/new-party-currentuser.component';
+import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/party-joined-currentuser.component';
+import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
+import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-party-currentuser.component';
+import { ManipulateImagesComponent } from './manipulate-images/manipulate-images.component';
 
 
 export const routes: Routes = [
@@ -21,8 +27,15 @@ export const routes: Routes = [
     //   { path: 'parties/:id/edit', component: PartySingleEditComponent }
     // ] }
     { path: 'profile/:id/edit', component: EditCurrentuserComponent, canActivate: [SessionService]},
-    { path: 'profile/parties/:id/edit', component: PartySingleEditComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/edit', component: PartySingleEditComponent, canActivate: [SessionService]},
     { path: 'profile/:id/parties', component: PartyListCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:id/parties/joined', component: PartyJoinedCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/joined/:partyId/show', component: ShowPartyJoinedCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/usersSearch', component: UsersSearchComponent, canActivate: [SessionService]},
+    { path: 'profile/:id/parties/new', component: NewPartyCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/show', component: ShowPartyCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/images', component: ManipulateImagesComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/images', component: ManipulateImagesComponent, canActivate: [SessionService]},
     //{ path: '**', redirectTo: '' }
 
 ];

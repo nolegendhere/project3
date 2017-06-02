@@ -1,15 +1,120 @@
-<p>
-  edit-currentuser works!
-</p>
+<div class="custom-container">
+  <div class="content-container">
 
-<div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <h3>{{user.profile.name}}</h3>
-  <p>{{user.profile.age}}</p>
-  <p>{{user.profile.sex}}</p>
-  <div *ngFor="let picture of user.profile.pictures">
-    <img [src]='picture' />
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
+    </div>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+user._id+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+user._id+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
+        <a><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-log-out" (click)="logout()"></span></button></a>
+      </div>
+      <form class="custom-form" (ngSubmit)="submitForm(myForm)" #myForm="ngForm" novalidate>
+
+        <h3>Edit Profile</h3>
+
+        <div class="custom-form-group">
+          <label for="name">First Name</label>
+          <input type="text" name="firstName" #myFirstName="ngModel" [(ngModel)]="user.profile.firstName"  required />
+          <div *ngIf="myFirstName.errors && (myFirstName.dirty || myFirstName.touched)">
+            <p class="error" [hidden]="!myFirstName.errors.required">
+              First Name is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="name">Last Name</label>
+          <input type="text" name="lastName" #myLastName="ngModel" [(ngModel)]="user.profile.lastName"  required />
+          <div *ngIf="myLastName.errors && (myLastName.dirty || myLastName.touched)">
+            <p class="error" [hidden]="!myLastName.errors.required">
+              Last Name is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="age">Age</label>
+          {{user.profile.age}}
+        </div>
+        <div class="custom-form-group">
+          <label for="gender">Gender</label>
+          {{user.profile.gender}}
+        </div>
+
+        <h3>Edit Preferences</h3>
+
+        <div class="custom-form-group">
+          <label for="genderPreferences">Gender</label>
+          <select class="form-control" id="genderPreferences"
+                  required
+                  [(ngModel)]="user.partyPreferences.gender" name="genderPreferences"
+                  #myGenderPreferences="ngModel">
+                  <option *ngFor="let gend of genderPreferences" [value]="gend">{{gend}}</option>
+          </select>
+          <div *ngIf="myGenderPreferences.errors && (myGenderPreferences.dirty || myGenderPreferences.touched)">
+            <p class="error" [hidden]="!myGenderPreferences.errors.required">
+              Gender is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="paymentPreferences">Payment</label>
+          <select class="form-control" id="paymentPreferences"
+                  required
+                  [(ngModel)]="user.partyPreferences.payment" name="paymentPreferences"
+                  #myPaymentPreferences="ngModel">
+                  <option *ngFor="let pay of paymentPreferences" [value]="pay">{{pay}}</option>
+          </select>
+          <div *ngIf="myPaymentPreferences.errors && (myPaymentPreferences.dirty || myPaymentPreferences.touched)">
+            <p class="error" [hidden]="!myPaymentPreferences.errors.required">
+              Payment is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="parityPreferences">Parity</label>
+          <select class="form-control" id="parityPreferences"
+                  required
+                  [(ngModel)]="user.partyPreferences.parity" name="parityPreferences"
+                  #myParityPreferences="ngModel">
+                  <option *ngFor="let par of parityPreferences" [value]="par">{{par}}</option>
+          </select>
+          <div *ngIf="myParityPreferences.errors && (myParityPreferences.dirty || myParityPreferences.touched)">
+            <p class="error" [hidden]="!myParityPreferences.errors.required">
+              Parity is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="placeTypePreferences">Type of Place</label>
+          <select class="form-control" id="placeTypePreferences" required
+          [(ngModel)]="user.partyPreferences.placeType" name="placeTypePreferences" #myPlaceTypePreferences="ngModel">
+                  <option *ngFor="let place of placeTypePreferences" [value]="place">{{place}}</option>
+          </select>
+          <div *ngIf="myPlaceTypePreferences.errors && (myPlaceTypePreferences.dirty || myPlaceTypePreferences.touched)">
+            <p class="error" [hidden]="!myPlaceTypePreferences.errors.required">
+              Type of place is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="sizePreferences">Size</label>
+          <select class="form-control" id="sizePreferences"
+                  required
+                  [(ngModel)]="user.partyPreferences.size" name="sizePreferences"
+                  #mySizePreferences="ngModel">
+                  <option *ngFor="let size of sizePreferences" [value]="size">{{size}}</option>
+          </select>
+          <div *ngIf="mySizePreferences.errors && (mySizePreferences.dirty || mySizePreferences.touched)">
+            <p class="error" [hidden]="!mySizePreferences.errors.required">
+              Size is required
+            </p>
+          </div>
+        </div>
+         <input type="submit" class="btn btn-success" [disabled]="!myForm.form.valid" value="Save" />
+      </form>
+      <button class="btn btn-default custom-button-remove" type="button" (click)="remove()"><span class="glyphicon glyphicon-remove"></span></button>
+    </div>
   </div>
 </div>

@@ -10,16 +10,25 @@ export class PartiesService {
   party:any;
   userId:any;
   constructor(private http: Http,private sessionService: SessionService) {
-    // this.userId = this.sessionService.id;
+    this.userId = this.sessionService.id;
     // console.log("this.user",this.userId);
   }
 
-  getList() {
+  getList(userId) {
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.BASE_URL}/api/parties`, options)
+    return this.http.get(`${this.BASE_URL}/api/parties/?userId=${userId}`, options)
       .map((res) =>{
-        this.userId = this.sessionService.id;
+        this.partyList=res.json();
+        return res.json();
+      });
+  }
+
+  getListJoined(userId) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(`${this.BASE_URL}/api/parties/joined/?userId=${userId}`, options)
+      .map((res) =>{
         this.partyList=res.json();
         return res.json();
       });
@@ -31,4 +40,67 @@ export class PartiesService {
     return this.http.get(`${this.BASE_URL}/api/parties/${id}`, options)
       .map((res) => res.json());
   }
+
+  add(party,user) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    party.owner = user;
+    console.log("add party",party);
+    return this.http.post(`${this.BASE_URL}/api/parties/new`,party, options).map((res) => res.json());
+  }
+
+  edit(party,id) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    console.log("edit party",party);
+    return this.http.put(`${this.BASE_URL}/api/parties/${id}/edit`,party, options).map((res) => res.json());
+  }
+
+  remove(id) {
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.delete(`${this.BASE_URL}/api/parties/${id}/delete`, options)
+      .map((res) => res.json());
+  }
+
+  addPartyCandidate(userId,partyId){
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    let user = {
+      id: userId
+    }
+    console.log("user",user);
+    return this.http.put(`${this.BASE_URL}/api/parties/${partyId}/candidates/new`, user, options).map((res) => res.json());
+  }
+
+  addPartyParticipant(userId,partyId){
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    let user = {
+      id: userId
+    }
+    console.log("user",user);
+    return this.http.put(`${this.BASE_URL}/api/parties/${partyId}/participants/new`, user, options).map((res) => res.json());
+  }
+
+  addPartyPartiesSeen(userId,partyId){
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    let user = {
+      id: userId
+    }
+    console.log("user",user);
+    return this.http.put(`${this.BASE_URL}/api/parties/${partyId}/partiesSeen/new`, user, options).map((res) => res.json());
+  }
+
+  leavePartyParticipant(userId,partyId){
+    let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
+    let options = new RequestOptions({ headers: headers });
+    let user = {
+      id: userId
+    }
+    console.log("user",user);
+    return this.http.put(`${this.BASE_URL}/api/parties/${partyId}/participants/leave`, user, options).map((res) => res.json());
+  }
+
 }

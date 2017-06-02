@@ -1,0 +1,42 @@
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
+    </div>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties/joined']"><button class="btn btn-default custom-button-gliph"><span class="glyphicon glyphicon-comment"></span></button></a>
+      </div>
+      <div class="custom-info-container">
+        <div class="general-info">
+          <p>Name: {{party.name}}&nbsp;|</p>
+          <p>&nbsp;Gender: {{party.gender}}&nbsp;|</p>
+          <p>&nbsp;Payment: {{party.payment}}&nbsp;|</p>
+          <p>&nbsp;Max People: {{party.numOfPeople.maxPeople}}&nbsp;|</p>
+          <p>&nbsp;Parity: {{party.parity}}&nbsp;|</p>
+          <p>&nbsp;Place: {{party.placeType}}&nbsp;|</p>
+          <p>&nbsp;Size: {{party.size}}&nbsp;|</p>
+        </div>
+      </div>
+      <div class="custom-party-container">
+        <h2>Owner</h2>
+        <h4>{{owner.username}}, {{owner.profile.gender}}, {{owner.profile.age}}</h4>
+        <div *ngIf="owner.profile.pictures.length">
+          <img [src]='api_url+owner.profile.pictures[0].picture' />
+        </div>
+        <h2>Participants</h2>
+        <div class="custom-participants-container">
+          <div *ngFor="let user of userList">
+            <h4>{{user.username}}, {{user.profile.gender}}, {{user.profile.age}}</h4>
+            <div *ngIf="user.profile.pictures.length">
+              <img [src]='api_url+user.profile.pictures[0].picture' />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+<div class="custom-container">
+  <div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
+    </div>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+user._id+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+user._id+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
+      </div>
+      <form class="custom-form" (ngSubmit)="submitForm(myForm)" #myForm="ngForm" novalidate>
+        <div class="custom-form-group">
+          <label for="name">Name</label>
+          <input type="text" name="name" #myName="ngModel" [(ngModel)]="model.name"  required />
+          <div *ngIf="myName.errors && (myName.dirty || myName.touched)">
+            <p class="error" [hidden]="!myName.errors.required">
+              Name is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="gender">Gender</label>
+          <select class="form-control" id="gender"
+                  required
+                  [(ngModel)]="model.gender" name="gender"
+                  #myGender="ngModel">
+                  <option *ngFor="let gend of genders" [value]="gend">{{gend}}</option>
+          </select>
+          <div *ngIf="myGender.errors && (myGender.dirty || myGender.touched)">
+            <p class="error" [hidden]="!myGender.errors.required">
+              Gender is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="minAge">Min age for people</label>
+          <input type="range" name="minAge"  #myMinAge="ngModel" [min]="minAgeLimit" [max]="maxAgeLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="model.minAge" #ref (change)="changeValueMinAge(ref.value)" />
+          {{model.minAge}}
+          <div *ngIf="myMinAge.errors && (myMinAge.dirty || myMinAge.touched)">
+            <p class="error" [hidden]="!myMinAge.errors.required">
+              Min age for people is required
+            </p>
+          </div>
+        </div>
+        <!-- value="ngModel" -->
+        <div class="custom-form-group">
+          <label for="maxAge">Max age for people</label>
+          <input type="range" name="maxAge"  #myMaxAge="ngModel" [min]="minAgeLimit" [max]="maxAgeLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="model.maxAge" #ref (change)="changeValueMaxAge(ref.value)" />
+          {{model.maxAge}}
+          <div *ngIf="myMaxAge.errors && (myMaxAge.dirty || myMaxAge.touched)">
+            <p class="error" [hidden]="!myMaxAge.errors.required">
+              Max age for people is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="payment">Payment</label>
+          <select class="form-control" id="payment"
+                  required
+                  [(ngModel)]="model.payment" name="payment"
+                  #myPayment="ngModel">
+                  <option *ngFor="let pay of payments" [value]="pay">{{pay}}</option>
+          </select>
+          <div *ngIf="myPayment.errors && (myPayment.dirty || myPayment.touched)">
+            <p class="error" [hidden]="!myPayment.errors.required">
+              Payment is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="content">Content</label>
+          <input type="text" name="content" #myContent="ngModel" [(ngModel)]="model.content" required />
+          <div *ngIf="myContent.errors && (myContent.dirty || myContent.touched)">
+            <p class="error" [hidden]="!myContent.errors.required">
+              Content is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="maxPeople">Max number of people</label>
+          <input type="range" name="maxPeople"  #myMaxPeople="ngModel" [min]="minPeopleLimit" [max]="maxPeopleLimit" data-show-value="true" data-popup-enabled="true" [(ngModel)]="model.maxPeople" />
+          {{model.maxPeople}}
+          <div *ngIf="myMaxPeople.errors && (myMaxPeople.dirty || myMaxPeople.touched)">
+            <p class="error" [hidden]="!myMaxPeople.errors.required">
+              Max number of people is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="parity">Parity</label>
+          <select class="form-control" id="parity"
+                  required
+                  [(ngModel)]="model.parity" name="parity"
+                  #myParity="ngModel">
+                  <option *ngFor="let par of parities" [value]="par">{{par}}</option>
+          </select>
+          <div *ngIf="myParity.errors && (myParity.dirty || myParity.touched)">
+            <p class="error" [hidden]="!myParity.errors.required">
+              Parity is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="placeType">Type of Place</label>
+          <select class="form-control" id="placeType" required
+          [(ngModel)]="model.placeType" name="placeType" #myPlaceType="ngModel">
+                  <option *ngFor="let place of placeTypes" [value]="place">{{place}}</option>
+          </select>
+          <div *ngIf="myPlaceType.errors && (myPlaceType.dirty || myPlaceType.touched)">
+            <p class="error" [hidden]="!myPlaceType.errors.required">
+              Type of place is required
+            </p>
+          </div>
+        </div>
+        <div class="custom-form-group">
+          <label for="size">Size</label>
+          <select class="form-control" id="size"
+                  required
+                  [(ngModel)]="model.size" name="size"
+                  #mySize="ngModel">
+                  <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
+          </select>
+          <div *ngIf="mySize.errors && (mySize.dirty || mySize.touched)">
+            <p class="error" [hidden]="!mySize.errors.required">
+              Size is required
+            </p>
+          </div>
+        </div>
+         <button type="submit" class="btn btn-success" [disabled]="!myForm.form.valid">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

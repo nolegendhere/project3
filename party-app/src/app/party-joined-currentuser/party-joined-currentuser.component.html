@@ -1,0 +1,30 @@
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
+    </div>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
+      </div>
+      <h3> Party list Joined </h3>
+      <div class="party-list">
+        <div *ngIf="isParties">
+          <div class="custom-party-container">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousParty()"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            <div class="custom-picture-container" *ngFor="let picture of pictures">
+              <img [src]='api_url+picture.picture' />
+              <div class="content-container-picture">
+                <a [routerLink]="['/profile/'+userId+'/parties/joined/'+picture.id+'/show']"><button class="btn btn-default custom-button-picture"><span class="glyphicon glyphicon-search"></span></button></a>
+                <a><button class="btn btn-default custom-button-picture" (click)="leaveParty(picture.id)"><span class="glyphicon glyphicon-remove"></span></button></a>
+              </div>
+            </div>
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextParty()"><span class="glyphicon glyphicon-chevron-down"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

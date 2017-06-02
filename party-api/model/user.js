@@ -7,46 +7,43 @@ const userSchema = new mongoose.Schema({
     profile:{
       firstName: String,
       lastName: String,
-      score: Number,
-      sex: {
+      score: {
+        type: Number,
+        default: 0,
+      },
+      gender: {
         type:String,
         enum:["Boy","Girl"],
         default: "Boy"
       },
       age: Number,
-      pictures:[String]
+      pictures: [{type:Schema.Types.ObjectId,ref:"Image"}],
     },
     partyPreferences:{
-      sex:{
+      gender:{
         type:String,
         enum:["Boys","Girls","BoysGirls"],
         default: "BoysGirls"
-      },
-      ageRange: {
-        type: String,
-        enum: ["18-25","20-30","25-35","30-40","35-45","40-50","45-55","50-60","55-65","All"],
-        default:"All"
       },
       payment: {
         type:String,
         enum:["Free","Paid"],
         default: "Free"
       },
-      maxPeople: Number,
-      minPeople: Number,
-      theme: String,
       parity: {
         type:String,
-        enum:["equal","unchecked"]
+        enum:["equal","unchecked"],
+        default: "unchecked"
       },
       placeType:{
         type:String,
-        enum:["appartment","house","local","openAir"],
-        default: "local"
+        enum:["appartment","house","local","openAir","All"],
+        default: "All"
       },
       size:{
         type: String,
-        enum: ["small","average","big"]
+        enum: ["small","average","big","All"],
+        default: "All"
       }
     },
     partiesOwned: [{type: Schema.Types.ObjectId, ref:"Party"}],

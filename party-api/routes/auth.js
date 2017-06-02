@@ -48,6 +48,10 @@ router.post("/login", function(req, res) {
 router.post("/signup", (req, res, next) => {
   var username = req.body.username;
   var password = req.body.password;
+  var profile  ={
+    age : req.body.profile.age,
+    gender: req.body.profile.gender,
+  };
 
   if (!username || !password) {
     res.status(400).json({ message: "Provide username and password" });
@@ -65,7 +69,8 @@ router.post("/signup", (req, res, next) => {
 
     var newUser = User({
       username,
-      password: hashPass
+      password: hashPass,
+      profile
     });
 
     newUser.save((err, user) => {
