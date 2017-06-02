@@ -23,6 +23,11 @@ export class ManipulateImagesComponent implements OnInit {
   image:any;
   api_url:string;
 
+  pictures:Array<any>=[];
+  counterParty:number=0;
+  counterParty1:number=1;
+  counterParty2:number=2;
+
   constructor(private router: Router,private route: ActivatedRoute,private partiesService: PartiesService, private usersService: UsersService, private imagesService: ImagesService) { }
 
   ngOnInit() {
@@ -54,8 +59,79 @@ export class ManipulateImagesComponent implements OnInit {
     this.isLoading=false;
     this.usersService.get(id).subscribe((userObs)=>{
       this.user = userObs;
+      // console.log("this.user",this.user);
+      this.pictures=[];
+      if(this.user.profile.pictures.length){
+        this.pictures.push({id:this.user.profile.pictures[0]._id,picture:this.user.profile.pictures[0].picture});
+      }
+      for(let i=1; i<3; i++){
+        if(i<this.user.profile.pictures.length){
+          this.pictures.push({id:this.user.profile.pictures[i]._id,picture:this.user.profile.pictures[i].picture});
+        }
+      }
+      // this.pictures.forEach((picture)=>{
+      //   console.log(picture);
+      // })
+      // console.log(this.pictures);
+      // console.log(this.api_url)
       this.isLoading=true;
     })
+  }
+
+  nextPicture(){
+    this.pictures=[];
+    switch (this.user.profile.pictures.length)
+    {
+      case 1 :
+      case 2 :
+      case 3 :
+        this.pictures=[];
+        this.pictures.push({id:this.user.profile.pictures[0]._id,picture:this.user.profile.pictures[0].picture});
+        for(let i=1; i<3; i++){
+          if(i<this.user.profile.pictures.length){
+            this.pictures.push({id:this.user.profile.pictures[i]._id,picture:this.user.profile.pictures[i].picture});
+          }
+        }
+        break;
+      default :
+        this.counterParty = ((this.counterParty+1>=this.user.profile.pictures.length)?0:this.counterParty+1);
+        this.counterParty1=((this.counterParty1+1>=this.user.profile.pictures.length)?0:this.counterParty1+1);
+        this.counterParty2=((this.counterParty2+1>=this.user.profile.pictures.length)?0:this.counterParty2+1);
+
+        this.pictures.push({id:this.user.profile.pictures[this.counterParty]._id,picture:this.user.profile.pictures[this.counterParty].picture});
+
+        this.pictures.push({id:this.user.profile.pictures[this.counterParty1]._id,picture:this.user.profile.pictures[this.counterParty1].picture});
+
+        this.pictures.push({id:this.user.profile.pictures[this.counterParty2]._id,picture:this.user.profile.pictures[this.counterParty2].picture});
+    }
+  }
+
+  previousPicture(){
+    this.pictures=[];
+    switch (this.user.profile.pictures.length)
+    {
+      case 1 :
+      case 2 :
+      case 3 :
+        this.pictures=[];
+        this.pictures.push({id:this.user.profile.pictures[0]._id,picture:this.user.profile.pictures[0].picture});
+        for(let i=1; i<3; i++){
+          if(i<this.user.profile.pictures.length){
+            this.pictures.push({id:this.user.profile.pictures[i]._id,picture:this.user.profile.pictures[i].picture});
+          }
+        }
+        break;
+      default :
+        this.counterParty = ((this.counterParty-1<0)?this.user.profile.pictures.length-1:this.counterParty-1);
+        this.counterParty1 = ((this.counterParty1-1<0)?this.user.profile.pictures.length-1:this.counterParty1-1);
+        this.counterParty2 = ((this.counterParty2-1<0)?this.user.profile.pictures.length-1:this.counterParty2-1);
+
+        this.pictures.push({id:this.user.profile.pictures[this.counterParty]._id,picture:this.user.profile.pictures[this.counterParty].picture});
+
+        this.pictures.push({id:this.user.profile.pictures[this.counterParty1]._id,picture:this.user.profile.pictures[this.counterParty1].picture});
+
+        this.pictures.push({id:this.user.profile.pictures[this.counterParty2]._id,picture:this.user.profile.pictures[this.counterParty2].picture});
+    }
   }
 
   onSubmit(){
@@ -131,6 +207,7 @@ export class ManipulateImagesComponent implements OnInit {
       console.log("entra");
       this.imagesService.deleteImage(id).subscribe((response)=>{
         if(!response.image){
+          console.log("response",response);
           alert("error en el servidor")
         }
         this.getPartyDetails(this.party._id);

@@ -122,7 +122,6 @@ export class PartyJoinedCurrentuserComponent implements OnInit {
           this.pictures.push({name:this.partyList[this.counterParty2].name,id:this.partyList[this.counterParty2]._id,picture:"empty.png"});
         }
     }
-
   }
 
   previousParty(){
