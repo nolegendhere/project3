@@ -58,7 +58,7 @@ router.put('/:id/edit', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-
+  console.log("req.body",req.body);
   console.log("HiFromEdituser1");
   console.log("req.params.id",req.params.id);
   // console.log("req.body.firstName",req.body.firstName);
