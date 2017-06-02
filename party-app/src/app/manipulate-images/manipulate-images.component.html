@@ -5,7 +5,7 @@
     </div>
     <div *ngIf="isLoading">
       <div class="content-container-social">
-        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/profile/'+user._id+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
         <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
         <a [routerLink]="['/profile/'+user._id+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
       </div>
@@ -30,10 +30,18 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isParty">
-        <div *ngFor="let picture of party.pictures">
-          <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
-          <button type="button" (click)="deleteImage(picture._id)">Delete Image</button>
+      <div class="picture-list">
+        <div *ngIf="isParty">
+          <div class="custom-party-container">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousPicture()"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            <div class="custom-picture-container" *ngFor="let picture of pictures">
+              <img [src]='api_url+picture.picture' />
+              <div class="content-container-picture">
+                <a><button class="btn btn-default custom-button-picture" (click)="deleteImage(picture.id)"><span class="glyphicon glyphicon-remove"></span></button></a>
+              </div>
+            </div>
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextPicture()"><span class="glyphicon glyphicon-chevron-down"></span></button>
+          </div>
         </div>
       </div>
     </div>

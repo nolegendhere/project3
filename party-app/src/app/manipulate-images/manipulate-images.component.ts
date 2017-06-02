@@ -51,6 +51,20 @@ export class ManipulateImagesComponent implements OnInit {
     this.partiesService.get(id).subscribe((partyObs)=>{
       this.party = partyObs;
       this.user=this.party.owner;
+      this.pictures=[];
+      if(this.party.pictures.length){
+        this.pictures.push({id:this.party.pictures[0]._id,picture:this.party.pictures[0].picture});
+      }
+      for(let i=1; i<3; i++){
+        if(i<this.party.pictures.length){
+          this.pictures.push({id:this.party.pictures[i]._id,picture:this.party.pictures[i].picture});
+        }
+      }
+      // this.pictures.forEach((picture)=>{
+      //   console.log(picture);
+      // })
+      // console.log(this.pictures);
+      // console.log(this.api_url)
       this.isLoading=true;
     })
   }
@@ -79,58 +93,115 @@ export class ManipulateImagesComponent implements OnInit {
   }
 
   nextPicture(){
-    this.pictures=[];
-    switch (this.user.profile.pictures.length)
-    {
-      case 1 :
-      case 2 :
-      case 3 :
-        this.pictures=[];
-        this.pictures.push({id:this.user.profile.pictures[0]._id,picture:this.user.profile.pictures[0].picture});
-        for(let i=1; i<3; i++){
-          if(i<this.user.profile.pictures.length){
-            this.pictures.push({id:this.user.profile.pictures[i]._id,picture:this.user.profile.pictures[i].picture});
+    if(this.isParty){
+      this.pictures=[];
+      switch (this.party.pictures.length)
+      {
+        case 1 :
+        case 2 :
+        case 3 :
+          this.pictures=[];
+          this.pictures.push({id:this.party.pictures[0]._id,picture:this.party.pictures[0].picture});
+          for(let i=1; i<3; i++){
+            if(i<this.party.pictures.length){
+              this.pictures.push({id:this.party.pictures[i]._id,picture:this.party.pictures[i].picture});
+            }
           }
-        }
-        break;
-      default :
-        this.counterParty = ((this.counterParty+1>=this.user.profile.pictures.length)?0:this.counterParty+1);
-        this.counterParty1=((this.counterParty1+1>=this.user.profile.pictures.length)?0:this.counterParty1+1);
-        this.counterParty2=((this.counterParty2+1>=this.user.profile.pictures.length)?0:this.counterParty2+1);
+          break;
+        default :
+          this.counterParty = ((this.counterParty+1>=this.party.pictures.length)?0:this.counterParty+1);
+          this.counterParty1=((this.counterParty1+1>=this.party.pictures.length)?0:this.counterParty1+1);
+          this.counterParty2=((this.counterParty2+1>=this.party.pictures.length)?0:this.counterParty2+1);
 
-        this.pictures.push({id:this.user.profile.pictures[this.counterParty]._id,picture:this.user.profile.pictures[this.counterParty].picture});
+          this.pictures.push({id:this.party.pictures[this.counterParty]._id,picture:this.party.pictures[this.counterParty].picture});
 
-        this.pictures.push({id:this.user.profile.pictures[this.counterParty1]._id,picture:this.user.profile.pictures[this.counterParty1].picture});
+          this.pictures.push({id:this.party.pictures[this.counterParty1]._id,picture:this.party.pictures[this.counterParty1].picture});
 
-        this.pictures.push({id:this.user.profile.pictures[this.counterParty2]._id,picture:this.user.profile.pictures[this.counterParty2].picture});
+          this.pictures.push({id:this.party.pictures[this.counterParty2]._id,picture:this.party.pictures[this.counterParty2].picture});
+      }
+    }else if(this.isUser){
+      this.pictures=[];
+      switch (this.user.profile.pictures.length)
+      {
+        case 1 :
+        case 2 :
+        case 3 :
+          this.pictures=[];
+          this.pictures.push({id:this.user.profile.pictures[0]._id,picture:this.user.profile.pictures[0].picture});
+          for(let i=1; i<3; i++){
+            if(i<this.user.profile.pictures.length){
+              this.pictures.push({id:this.user.profile.pictures[i]._id,picture:this.user.profile.pictures[i].picture});
+            }
+          }
+          break;
+        default :
+          this.counterParty = ((this.counterParty+1>=this.user.profile.pictures.length)?0:this.counterParty+1);
+          this.counterParty1=((this.counterParty1+1>=this.user.profile.pictures.length)?0:this.counterParty1+1);
+          this.counterParty2=((this.counterParty2+1>=this.user.profile.pictures.length)?0:this.counterParty2+1);
+
+          this.pictures.push({id:this.user.profile.pictures[this.counterParty]._id,picture:this.user.profile.pictures[this.counterParty].picture});
+
+          this.pictures.push({id:this.user.profile.pictures[this.counterParty1]._id,picture:this.user.profile.pictures[this.counterParty1].picture});
+
+          this.pictures.push({id:this.user.profile.pictures[this.counterParty2]._id,picture:this.user.profile.pictures[this.counterParty2].picture});
+      }
     }
+
   }
 
   previousPicture(){
-    this.pictures=[];
-    switch (this.user.profile.pictures.length)
-    {
-      case 1 :
-      case 2 :
-      case 3 :
-        this.pictures=[];
-        this.pictures.push({id:this.user.profile.pictures[0]._id,picture:this.user.profile.pictures[0].picture});
-        for(let i=1; i<3; i++){
-          if(i<this.user.profile.pictures.length){
-            this.pictures.push({id:this.user.profile.pictures[i]._id,picture:this.user.profile.pictures[i].picture});
+    if(this.isParty){
+      this.pictures=[];
+      switch (this.party.pictures.length)
+      {
+        case 1 :
+        case 2 :
+        case 3 :
+          this.pictures=[];
+          this.pictures.push({id:this.party.pictures[0]._id,picture:this.party.pictures[0].picture});
+          for(let i=1; i<3; i++){
+            if(i<this.party.pictures.length){
+              this.pictures.push({id:this.party.pictures[i]._id,picture:this.party.pictures[i].picture});
+            }
           }
-        }
-        break;
-      default :
-        this.counterParty = ((this.counterParty-1<0)?this.user.profile.pictures.length-1:this.counterParty-1);
-        this.counterParty1 = ((this.counterParty1-1<0)?this.user.profile.pictures.length-1:this.counterParty1-1);
-        this.counterParty2 = ((this.counterParty2-1<0)?this.user.profile.pictures.length-1:this.counterParty2-1);
+          break;
+        default :
+          this.counterParty = ((this.counterParty-1<0)?this.party.pictures.length-1:this.counterParty-1);
+          this.counterParty1 = ((this.counterParty1-1<0)?this.party.pictures.length-1:this.counterParty1-1);
+          this.counterParty2 = ((this.counterParty2-1<0)?this.party.pictures.length-1:this.counterParty2-1);
 
-        this.pictures.push({id:this.user.profile.pictures[this.counterParty]._id,picture:this.user.profile.pictures[this.counterParty].picture});
+          this.pictures.push({id:this.party.pictures[this.counterParty]._id,picture:this.party.pictures[this.counterParty].picture});
 
-        this.pictures.push({id:this.user.profile.pictures[this.counterParty1]._id,picture:this.user.profile.pictures[this.counterParty1].picture});
+          this.pictures.push({id:this.party.pictures[this.counterParty1]._id,picture:this.party.pictures[this.counterParty1].picture});
 
-        this.pictures.push({id:this.user.profile.pictures[this.counterParty2]._id,picture:this.user.profile.pictures[this.counterParty2].picture});
+          this.pictures.push({id:this.party.pictures[this.counterParty2]._id,picture:this.party.pictures[this.counterParty2].picture});
+      }
+    }else if(this.isUser){
+      this.pictures=[];
+      switch (this.user.profile.pictures.length)
+      {
+        case 1 :
+        case 2 :
+        case 3 :
+          this.pictures=[];
+          this.pictures.push({id:this.user.profile.pictures[0]._id,picture:this.user.profile.pictures[0].picture});
+          for(let i=1; i<3; i++){
+            if(i<this.user.profile.pictures.length){
+              this.pictures.push({id:this.user.profile.pictures[i]._id,picture:this.user.profile.pictures[i].picture});
+            }
+          }
+          break;
+        default :
+          this.counterParty = ((this.counterParty-1<0)?this.user.profile.pictures.length-1:this.counterParty-1);
+          this.counterParty1 = ((this.counterParty1-1<0)?this.user.profile.pictures.length-1:this.counterParty1-1);
+          this.counterParty2 = ((this.counterParty2-1<0)?this.user.profile.pictures.length-1:this.counterParty2-1);
+
+          this.pictures.push({id:this.user.profile.pictures[this.counterParty]._id,picture:this.user.profile.pictures[this.counterParty].picture});
+
+          this.pictures.push({id:this.user.profile.pictures[this.counterParty1]._id,picture:this.user.profile.pictures[this.counterParty1].picture});
+
+          this.pictures.push({id:this.user.profile.pictures[this.counterParty2]._id,picture:this.user.profile.pictures[this.counterParty2].picture});
+      }
     }
   }
 
@@ -221,9 +292,5 @@ export class ManipulateImagesComponent implements OnInit {
         this.getUserDetails(this.user._id);
       });
     }
-  }
-
-  goBack(){
-    this.router.navigate([`profile/${this.user._id}/show`]);
   }
 }
