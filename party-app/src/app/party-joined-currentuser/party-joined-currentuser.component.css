@@ -132,30 +132,3 @@
   background: none;
   outline:none;
 }
-
-
-.content-container-new{
-  padding: 5vh 10vw;
-  box-sizing: border-box;
-  display: flex;
-  flex-flow: row;
-  align-content: center;
-  justify-content: center;
-}
-
-.custom-button{
-  height: 10vh;
-  margin: 1vh 5vw;
-  padding: 0;
-  border-radius: 0%;
-  color: white;
-  background-color: black;
-  font-size: 3vh;
-  text-shadow: 2px 2px black;
-  letter-spacing: 1vw;
-  border-style: none;
-}
-
-.custom-button:hover{
-  border-style: double;
-}
