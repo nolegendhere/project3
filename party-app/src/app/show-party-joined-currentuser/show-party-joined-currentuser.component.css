@@ -99,12 +99,6 @@
   outline:none;
 }
 
-/*margin-top: 2vh;
-background-color: white;
-padding: 1vh;
-height: 10vh;
-overflow-y: scroll;*/
-
 .custom-participants-container{
   height: 30vh;
   overflow-y: scroll;

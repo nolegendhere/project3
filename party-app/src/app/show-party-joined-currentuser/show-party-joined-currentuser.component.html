@@ -30,7 +30,7 @@
         <h2>Participants</h2>
         <div class="custom-participants-container">
           <div *ngFor="let user of userList">
-            <h4>{{user.username}}, {{owner.profile.gender}}, {{owner.profile.age}}</h4>
+            <h4>{{user.username}}, {{user.profile.gender}}, {{user.profile.age}}</h4>
             <div *ngIf="user.profile.pictures.length">
               <img [src]='api_url+user.profile.pictures[0].picture' />
             </div>
