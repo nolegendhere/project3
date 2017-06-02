@@ -1,32 +1,41 @@
-<p>
-  manipulate-images works!
-</p>
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
+    </div>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+user._id+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
+      </div>
+      <form class="content-container-social" #formImage="ngForm" (ngSubmit)="onSubmit()">
+        <label for="myFile" class="btn btn-default custom-button-gliph"><span class="glyphicon glyphicon-file"></span></label>
+        <input id="myFile" type="file" accept=".png, .jpg, .jpeg" (change)="fileChangeEvent($event)" class="hidden" />
 
-
-<div *ngIf="!isLoading">
-  <p>Loading...</p>
-</div>
-<div *ngIf="isLoading">
-  <div *ngIf="isUser">
-    <div *ngFor="let picture of user.profile.pictures">
-      <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
-      <button type="button" (click)="deleteImage(picture._id)">Delete Image</button>
+        <label for="myUpload" class="btn btn-default custom-button-gliph"><span class="glyphicon glyphicon-plus"></span></label>
+        <input id="myUpload" type="submit" [disabled]="!this.isFilesGood" class="hidden" />
+      </form>
+      <div class="picture-list">
+        <div *ngIf="isUser">
+          <div class="custom-party-container">
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="previousPicture()"><span class="glyphicon glyphicon-chevron-up"></span></button>
+            <div class="custom-picture-container" *ngFor="let picture of pictures">
+              <img [src]='api_url+picture.picture' />
+              <div class="content-container-picture">
+                <a><button class="btn btn-default custom-button-picture" (click)="deleteImage(picture.id)"><span class="glyphicon glyphicon-remove"></span></button></a>
+              </div>
+            </div>
+            <button type="button" class="btn btn-default custom-button-arrow" (click)="nextPicture()"><span class="glyphicon glyphicon-chevron-down"></span></button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isParty">
+        <div *ngFor="let picture of party.pictures">
+          <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
+          <button type="button" (click)="deleteImage(picture._id)">Delete Image</button>
+        </div>
+      </div>
     </div>
   </div>
-  <div *ngIf="isParty">
-    <div *ngFor="let picture of party.pictures">
-      <img [src]='api_url+picture.picture' *ngIf="picture.picture && picture.picture!='null'" />
-      <button type="button" (click)="deleteImage(picture._id)">Delete Image</button>
-    </div>
-  </div>
-</div>
-<form #formImage="ngForm" (ngSubmit)="onSubmit()">
-  <label>Sube tu foto:</label>
-  <p>
-    <input type="file" placeholder="Subir imagen" accept=".png, .jpg, .jpeg" (change)="fileChangeEvent($event)"/>
-  </p>
-  <input type="submit" value="New Picture" [disabled]="!this.isFilesGood" />
-</form>
-<div *ngIf="isLoading">
-  <button type="button" (click)="goBack()">Go Back</button>
 </div>
