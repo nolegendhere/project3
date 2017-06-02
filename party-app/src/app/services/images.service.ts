@@ -14,14 +14,6 @@ export class ImagesService {
 
   }
 
-  getImage(id){
-
-  }
-
-  getImageFilename(filename){
-
-  }
-
   deleteImage(id){
     console.log("entra service");
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
@@ -39,5 +31,19 @@ export class ImagesService {
     let options = new RequestOptions({ headers: headers });
     return this.http.post(`${this.BASE_URL}/api/images/`, image, options).map((res) => res.json());
   }
+
+  // upload(url:string,params:Array<string>,files:Array<File>){
+  //   let headers = new Headers();
+  //   headers.append('Access-Control-Allow-Origin', '*');
+  //   let token = localStorage.getItem('token');
+  //   headers.append("Content-Type", 'multipart/form-data');
+  //   headers.append("auth", "JWT " + token);
+  //   // let options = new RequestOptions({ headers: headers });
+  //   var formData:any=new FormData();
+  //   for(var i=0;i<files.length;i++){
+  //     formData.append('image',files[i],files[i].name);
+  //   }
+  //   return this.http.post(url, formData,{headers: headers} /*options*/).map((res) => res.json());
+  // }
 
 }
