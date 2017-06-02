@@ -35,7 +35,12 @@ export class PartyListCurrentuserComponent implements OnInit {
         this.user = userObs;
         if(this.user.partiesOwned.length){
           this.parties.push(this.user.partiesOwned[0]);
-          this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:this.user.partiesOwned[0].pictures[0].picture});
+          if(this.user.partiesOwned[0].pictures.length){
+            this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:this.user.partiesOwned[0].pictures[0].picture});
+          }else{
+            this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:"empty.png"});
+          }
+
           for(let i=1; i<3; i++){
             if(i<this.user.partiesOwned.length){
               this.parties.push(this.user.partiesOwned[i]);
@@ -66,7 +71,11 @@ export class PartyListCurrentuserComponent implements OnInit {
       case 3 :
         this.parties=[];
         this.parties.push(this.user.partiesOwned[0]);
-        this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:this.user.partiesOwned[0].pictures[0].picture});
+        if(this.user.partiesOwned[0].pictures.length){
+          this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:this.user.partiesOwned[0].pictures[0].picture});
+        }else{
+          this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:"empty.png"});
+        }
         for(let i=1; i<3; i++){
           if(i<this.user.partiesOwned.length){
             this.parties.push(this.user.partiesOwned[i]);
@@ -120,7 +129,11 @@ export class PartyListCurrentuserComponent implements OnInit {
       case 3 :
         this.parties=[];
         this.parties.push(this.user.partiesOwned[0]);
-        this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:this.user.partiesOwned[0].pictures[0].picture});
+        if(this.user.partiesOwned[0].pictures.length){
+          this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:this.user.partiesOwned[0].pictures[0].picture});
+        }else{
+          this.pictures.push({name:this.user.partiesOwned[0].name,id:this.user.partiesOwned[0]._id,picture:"empty.png"});
+        }
         for(let i=1; i<3; i++){
           if(i<this.user.partiesOwned.length){
             this.parties.push(this.user.partiesOwned[i]);

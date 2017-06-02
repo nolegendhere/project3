@@ -124,6 +124,7 @@ export class UsersSearchComponent implements OnInit {
           })
         }
         else{
+          this.isUsers = false;
           this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partyObs)=>{
             this.party = partyObs.party;
             console.log("this.party ",this.party )
@@ -142,6 +143,7 @@ export class UsersSearchComponent implements OnInit {
         }
       }
       else{
+        this.isUsers = false;
         this.partiesService.addPartyCandidate(this.user._id,this.party._id).subscribe((partyObs)=>{
           this.party = partyObs.party;
           console.log("this.party ",this.party );
