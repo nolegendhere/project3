@@ -13,7 +13,8 @@ var cors          = require('cors');
 
 require('./config/database');
 
-var app = express();
+require('./config/sockets');
+var app = require('./config/server').app;
 
 var corsOptions = {credentials: true, origin: 'http://localhost:4200'};
 // view engine setup
@@ -31,6 +32,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 app.use('/', auth);
 app.use('/api/parties', passport.authenticate('jwt', { session: false }), parties);
