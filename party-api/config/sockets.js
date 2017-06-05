@@ -64,7 +64,7 @@ io.on('connection', function(socket){
     socket.on('message.send', function (data) {
         console.log("message recived in socketio server",data);
         io.to(data.room).emit('message.sent', {
-            message: data.message 
+            message: data.message
         });
     });
 
@@ -79,30 +79,3 @@ io.on('connection', function(socket){
 
 
 });
-
-
-
-// io.on('connection', function (socket) {
-//   socket.auth = false;
-//
-//
-//
-//   console.log("entraSockets");
-//   socket.emit('greeting-from-server', {
-//       greeting: 'Hello Client'
-//   });
-//   socket.on('greeting-from-client', function (message) {
-//     console.log(message);
-//   });
-//
-//   socket.on('disconnect', function () {
-//     console.log('The socket disconnected');
-//   });
-// });
-//
-// io.on('connection', function (socket) {
-//   console.log("trying another on connection");
-//   socket.emit('greeting-from-server', {
-//       greeting: 'Hello Client from other io on'
-//   });
-// });
