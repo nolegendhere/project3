@@ -27,10 +27,11 @@
       <div class="custom-participants-container">
         <div *ngFor="let user of userList">
           <h4>{{user.username}}, {{user.profile.gender}}, {{user.profile.age}}</h4>
-          <div *ngIf="user.profile.pictures.length">
+          <div class="custom-picture-container" *ngIf="user.profile.pictures.length">
             <img [src]='api_url+user.profile.pictures[0].picture' />
+						<a [routerLink]="['/profile/'+userId+'/parties/'+party._id+'/chatuser/'+user._id]"><button class="btn btn-default custom-button-picture"><span class="glyphicon glyphicon-envelope"></span></button></a>
+						<a><button class="btn btn-default custom-button-picture" (click)="deleteContact(user)"><span class="glyphicon glyphicon-remove"></span></button></a>
           </div>
-          <a><button class="btn btn-default custom-button-picture" (click)="deleteContact(user)"><span class="glyphicon glyphicon-remove"></span></button></a>
         </div>
       </div>
     </div>

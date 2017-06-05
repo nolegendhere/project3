@@ -3,7 +3,7 @@ import { PartiesService } from '../services/parties.service';
 import { UsersService } from '../services/users.service';
 import { SessionService } from '../services/session.service';
 import { ImagesService } from '../services/images.service';
-import { SocketsService } from '../services/sockets.service';
+
 
 @Component({
   selector: 'app-parties-search',
@@ -22,7 +22,7 @@ export class PartiesSearchComponent implements OnInit {
   isLoading:boolean=false;
   api_url:string;
 
-  constructor(private partiesService: PartiesService,private usersService: UsersService,private sessionService: SessionService, private imagesService: ImagesService,private socketsService: SocketsService) { }
+  constructor(private partiesService: PartiesService,private usersService: UsersService,private sessionService: SessionService, private imagesService: ImagesService) { }
 
   ngOnInit() {
     this.userId = this.sessionService.id;
@@ -80,7 +80,6 @@ export class PartiesSearchComponent implements OnInit {
             this.isParties = true;
           }
         }
-        this.socketsService.connect();
         this.isLoading = true;
       });
     });

@@ -55,22 +55,6 @@
   letter-spacing: 0.5vw;
 }
 
-.custom-party-container{
-  margin-top: 2vh;
-  display: flex;
-  flex-flow: column;
-  align-content: center;
-  justify-content: center;
-}
-
-.custom-party-container img{
-  max-width:15vh;
-  max-height:15vh;
-  min-width:15vh;
-  min-height:15vh;
-  border-radius: 50%;
-}
-
 .content-container-social{
   box-sizing: border-box;
   display: flex;
@@ -97,6 +81,31 @@
 .custom-button-gliph:active{
   background: none;
   outline:none;
+}
+
+.custom-party-container{
+  margin-top: 3vh;
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-picture-container{
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  justify-content: center;
+}
+
+.custom-picture-container img{
+  /*vertical-align: middle;*/
+  position: relative;
+  max-width:15vh;
+  max-height:15vh;
+  min-width:15vh;
+  min-height:15vh;
+  border-radius: 50%;
 }
 
 .custom-button-picture{

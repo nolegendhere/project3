@@ -25,4 +25,32 @@ socket:any;
     });
   }
 
+  connectToRoom(room){
+    this.socket = io(this.BASE_URL);
+    this.socket.on('connect', ()=>{
+      this.socket.emit('authenticate', {token: this.sessionService.token});
+    });
+    this.socket.on('greeting-from-server', (message)=> {
+        console.log("message",message);
+        // this.socket.emit('greeting-from-client', {
+        //     greeting: 'Hello Server'
+        // });
+        this.socket.emit('room.join', room);
+
+    });
+
+    this.socket.on('room.joined', (message)=>{
+      console.log("message",message);
+    });
+
+    this.socket.on('message.sent',(message)=>{
+      console.log("message",message);
+    })
+  }
+
+  sendMessageRoom(room,message:string){
+    console.log("send from service");
+    this.socket.emit('message.send', {room:room,message:message});
+  }
+
 }

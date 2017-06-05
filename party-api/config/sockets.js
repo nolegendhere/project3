@@ -36,6 +36,38 @@ io.on('connection', function(socket){
       socket.disconnect('unauthorized');
     }
   }, 3000);
+
+
+    console.log("entraSockets");
+    socket.emit('greeting-from-server', {
+        greeting: 'Hello Client'
+    });
+
+    // socket.on('greeting-from-client', function (message) {
+    //   console.log(message);
+    // });
+
+    socket.on('room.join', function (room) {
+      socket.join(room);
+      io.to(room).emit('room.joined', socket.id + ' joined the ' + room);
+    });
+
+    socket.on('room.message', function (room) {
+      io.to(room).emit('room.joined', socket.id + ' joined the ' + room);
+    });
+
+    socket.on('message.send', function (data) {
+        console.log("message recived in socketio server",data);
+        io.to(data.room).emit('message.sent', {
+            message: data.message
+        });
+    });
+
+    socket.on('disconnect', function () {
+      console.log('The socket disconnected');
+    });
+
+
 });
 
 

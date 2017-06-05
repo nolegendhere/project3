@@ -18,16 +18,7 @@
   font-family: 'Anton', sans-serif;
 }
 
-.content-container h3,h4{
-  text-align: center;
-  font-size: 3vh;
-  color: white;
-  text-shadow: 2px 2px black;
-  margin-bottom: 1vh;
-  letter-spacing: 0.5vw;
-}
-
-.custom-party-container{
+.custom-info-container{
   margin-top: 3vh;
   display: flex;
   flex-flow: column;
@@ -35,68 +26,34 @@
   justify-content: center;
 }
 
-.custom-picture-container{
+.custom-info-container>.general-info{
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   align-content: center;
-  justify-content: center;
+  justify-content: flex-start;
+  font-family: 'Anton', sans-serif;
+  line-height: 2vh;
+  font-size: 2vh;
 }
 
-.custom-picture-container img{
-  /*vertical-align: middle;*/
-  position: relative;
-  max-width:15vh;
-  max-height:15vh;
-  min-width:15vh;
-  min-height:15vh;
-  border-radius: 50%;
-}
 
-.custom-button-picture{
-  padding: 0;
-  margin: 0;
-  color: white;
-  background: none;
-  text-shadow: 2px 2px black;
-  font-size: 5vh;
-  border-style: none;
-  box-shadow: none;
-  border: none;
-  outline:none;
-}
-
-.custom-button-picture:hover{
+.content-container h2{
+  text-align: center;
+  font-size: 3.5vh;
   color: orange;
-  user-select:none;
-}
-
-.custom-button-picture:active{
-  background: none;
-  outline:none;
-}
-
-.custom-button-arrow{
-  padding: 0;
-  color: white;
-  background: none;
   text-shadow: 2px 2px black;
-  font-size: 10vh;
-  border-style: none;
-  box-shadow: none;
-  border: none;
-  outline:none;
+  letter-spacing: 0.5vw;
 }
 
-.custom-button-arrow:hover{
-  color: orange;
-  user-select:none;
-}
 
-.custom-button-arrow:active{
-  background: none;
-  outline:none;
+.content-container h3,h4{
+  text-align: center;
+  font-size: 3vh;
+  color: white;
+  text-shadow: 2px 2px black;
+  letter-spacing: 0.5vw;
 }
-
 
 .content-container-social{
   box-sizing: border-box;
@@ -124,4 +81,22 @@
 .custom-button-gliph:active{
   background: none;
   outline:none;
+}
+
+.custom-participants-container{
+  height: 30vh;
+  overflow-y: scroll;
+}
+
+.custom-participants-container::-webkit-scrollbar {
+    width: 1em;
+}
+
+.custom-participants-container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px black;
+}
+
+.custom-participants-container::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
 }

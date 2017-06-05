@@ -31,7 +31,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/joined', (req, res, next) => {
-  let populateQuery=[{path: "owner"},{path: "participants"}];
+  let populateQuery=[{path: "owner"},{path: "participants"},{path: "pictures"}];
   let userId = mongoose.Types.ObjectId(req.query.userId);
   Party.find({participants:userId}).populate(populateQuery).exec((err, parties) => {
       if (err) {

@@ -1,0 +1,29 @@
+<div class="custom-container">
+	<div class="content-container">
+    <div *ngIf="!isLoading">
+      <p>Loading...</p>
+    </div>
+    <div *ngIf="isLoading">
+      <div class="content-container-social">
+        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
+      </div>
+      <h3> chat </h3>
+      <div class="chat">
+        <form class="custom-form" (ngSubmit)="sendMessage(myForm)" #myForm="ngForm" novalidate>
+          <div class="custom-form-group">
+            <label for="message">Message</label>
+            <input type="text" name="message" #myMessage="ngModel" [(ngModel)]="message"  required />
+            <div *ngIf="myMessage.errors && (myMessage.dirty || myMessage.touched)">
+              <p class="error" [hidden]="!myMessage.errors.required">
+                Message is required
+              </p>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success"  [disabled]="!myForm.form.valid">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -31,6 +31,7 @@ import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/part
 import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
 import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-party-currentuser.component';
 import { ManipulateImagesComponent } from './manipulate-images/manipulate-images.component';
+import { ChatuserComponent } from './chatuser/chatuser.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ManipulateImagesComponent } from './manipulate-images/manipulate-images
     PartyJoinedCurrentuserComponent,
     ShowPartyJoinedCurrentuserComponent,
     ShowPartyCurrentuserComponent,
-    ManipulateImagesComponent
+    ManipulateImagesComponent,
+    ChatuserComponent
   ],
   imports: [
     BrowserModule,
