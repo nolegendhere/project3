@@ -5,24 +5,31 @@
     </div>
     <div *ngIf="isLoading">
       <div class="content-container-social">
-        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-user"></span></button></a>
-        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-globe"></span></button></a>
-        <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-gliph"> <span class="glyphicon glyphicon-king"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-gliph" (click)="disconnect()"> <span class="glyphicon glyphicon-user"></span></button></a>
+        <a [routerLink]="['/partiesSearch']"><button class="btn btn-default custom-button-gliph" (click)="disconnect()"> <span class="glyphicon glyphicon-globe"></span></button></a>
+        <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-gliph" (click)="disconnect()"> <span class="glyphicon glyphicon-king"></span></button></a>
       </div>
       <h3> chat </h3>
       <div class="chat">
         <form class="custom-form" (ngSubmit)="sendMessage(myForm)" #myForm="ngForm" novalidate>
           <div class="custom-form-group">
             <label for="message">Message</label>
-            <input type="text" name="message" #myMessage="ngModel" [(ngModel)]="message"  required />
-            <div *ngIf="myMessage.errors && (myMessage.dirty || myMessage.touched)">
-              <p class="error" [hidden]="!myMessage.errors.required">
-                Message is required
-              </p>
-            </div>
+            <input type="text" name="message" [(ngModel)]="message" #inputRef required />
           </div>
           <button type="submit" class="btn btn-success"  [disabled]="!myForm.form.valid">Submit</button>
         </form>
+        <button class="btn btn-success"  (click)="disconnect()">Disconnect</button>
+        <ul class="custom-chat-container"  #scrollRef [scrollTop]>
+          <div *ngFor='let message of messageList'>
+            <!-- <p>{{message.message}}</p> -->
+            <li *ngIf="message.id==userId" class="message-right" focus="true">
+              <p>{{message.message}}</p>
+            </li>
+            <li *ngIf="message.id!=userId" class="message-left">
+              <p>{{message.message}}</p>
+            </li>
+          </div>
+        </ul>
       </div>
     </div>
   </div>

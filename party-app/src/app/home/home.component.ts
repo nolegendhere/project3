@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SocketsService }     from '../services/sockets.service';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +8,9 @@ import { SocketsService }     from '../services/sockets.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private router: Router,private socketsService: SocketsService) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    //this.socketsService.connect();
   }
 
   signup() {

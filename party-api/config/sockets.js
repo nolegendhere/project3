@@ -49,7 +49,12 @@ io.on('connection', function(socket){
 
     socket.on('room.join', function (room) {
       socket.join(room);
-      io.to(room).emit('room.joined', socket.id + ' joined the ' + room);
+      io.to(room).emit('room.joined', socket.id + ' joined the room ' + room);
+    });
+
+    socket.on('notification.join', function (notification) {
+      socket.join(notification);
+      io.to(notification).emit('notification.joined', socket.id + ' joined the notification ' + notification);
     });
 
     socket.on('room.message', function (room) {
@@ -59,8 +64,13 @@ io.on('connection', function(socket){
     socket.on('message.send', function (data) {
         console.log("message recived in socketio server",data);
         io.to(data.room).emit('message.sent', {
-            message: data.message
+            message: data.message 
         });
+    });
+
+    socket.on('disconnectsocket', function () {
+      console.log("disconnect from server");
+      socket.disconnect();
     });
 
     socket.on('disconnect', function () {

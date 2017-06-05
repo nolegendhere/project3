@@ -100,3 +100,52 @@
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
+
+.custom-chat-container{
+  height: 50vh;
+  overflow-y: scroll;
+  background-color: white;
+  display: flex;
+  flex-flow: column;
+  list-style: none;
+  padding: 0;
+}
+
+.custom-chat-container .message-left{
+  max-width: 30vh;
+  float:left;
+  background-color: #E6E6FA;
+  margin-top: 1vh;
+}
+
+.custom-chat-container .message-left p{
+  text-align: left;
+  word-wrap: break-word;
+  /*color: red;*/
+}
+
+.custom-chat-container .message-right{
+  max-width: 30vh;
+  float:right;
+  background-color: #7FFFD4;
+  margin-top: 1vh;
+}
+
+.custom-chat-container .message-right p{
+  text-align: right;
+  word-wrap: break-word;
+  /*background-color: blue;*/
+}
+
+.custom-chat-container::-webkit-scrollbar {
+    width: 1em;
+}
+
+.custom-chat-container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px black;
+}
+
+.custom-chat-container::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
