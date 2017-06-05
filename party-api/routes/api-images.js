@@ -22,7 +22,7 @@ router.get('/', (req, res, next) => {
   });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id',passport.authenticate('jwt', { session: false }), (req, res, next) => {
 
   Image.find({_id:req.params.id},(err,image)=>{
     if (err) {
@@ -79,7 +79,7 @@ router.get('/get-image/:imageFile',/*multipartMiddleware,*/(req,res,next)=>{
   });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/',passport.authenticate('jwt', { session: false }), (req, res, next) => {
   let image = new Image();
 
   let params = req.body;
@@ -128,7 +128,7 @@ router.post('/', (req, res, next) => {
 });
 
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id',passport.authenticate('jwt', { session: false }), (req, res, next) => {
   console.log("entra");
   Image.findByIdAndRemove({_id:req.params.id},(err,imageDeleted)=>{
     if (err) {

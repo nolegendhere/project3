@@ -37,7 +37,7 @@ export class PartyJoinedCurrentuserComponent implements OnInit {
     console.log(" partyId " + userId);
     this.partiesService.getListJoined(userId).subscribe((partiesObs) => {
         this.partyList = partiesObs;
-        console.log("this.userList",this.partyList);
+        console.log("this.partyList",this.partyList);
         if(this.partyList.length){
           this.parties.push(this.partyList[0]);
           if(this.partyList[0].pictures.length){

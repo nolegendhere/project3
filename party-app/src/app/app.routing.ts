@@ -15,6 +15,7 @@ import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/part
 import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
 import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-party-currentuser.component';
 import { ManipulateImagesComponent } from './manipulate-images/manipulate-images.component';
+import { ChatuserComponent } from './chatuser/chatuser.component';
 
 
 export const routes: Routes = [
@@ -31,6 +32,8 @@ export const routes: Routes = [
     { path: 'profile/:id/parties', component: PartyListCurrentuserComponent, canActivate: [SessionService]},
     { path: 'profile/:id/parties/joined', component: PartyJoinedCurrentuserComponent, canActivate: [SessionService]},
     { path: 'profile/:userId/parties/joined/:partyId/show', component: ShowPartyJoinedCurrentuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/:partyId/chatuser/:otherUserId', component: ChatuserComponent, canActivate: [SessionService]},
+    { path: 'profile/:userId/parties/joined/:partyId/chatuser/:otherUserId', component: ChatuserComponent, canActivate: [SessionService]},
     { path: 'profile/:userId/parties/:partyId/usersSearch', component: UsersSearchComponent, canActivate: [SessionService]},
     { path: 'profile/:id/parties/new', component: NewPartyCurrentuserComponent, canActivate: [SessionService]},
     { path: 'profile/:userId/parties/:partyId/show', component: ShowPartyCurrentuserComponent, canActivate: [SessionService]},

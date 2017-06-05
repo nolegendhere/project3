@@ -14,6 +14,7 @@ import { SessionService }   from './services/session.service';
 import { PartiesService }   from './services/parties.service';
 import { UsersService }     from './services/users.service';
 import { ImagesService }     from './services/images.service';
+import { SocketsService }     from './services/sockets.service';
 
 import { LoginComponent }   from './login/login.component';
 import { SignupComponent }  from './signup/signup.component';
@@ -30,6 +31,7 @@ import { PartyJoinedCurrentuserComponent } from './party-joined-currentuser/part
 import { ShowPartyJoinedCurrentuserComponent } from './show-party-joined-currentuser/show-party-joined-currentuser.component';
 import { ShowPartyCurrentuserComponent } from './show-party-currentuser/show-party-currentuser.component';
 import { ManipulateImagesComponent } from './manipulate-images/manipulate-images.component';
+import { ChatuserComponent } from './chatuser/chatuser.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { ManipulateImagesComponent } from './manipulate-images/manipulate-images
     PartyJoinedCurrentuserComponent,
     ShowPartyJoinedCurrentuserComponent,
     ShowPartyCurrentuserComponent,
-    ManipulateImagesComponent
+    ManipulateImagesComponent,
+    ChatuserComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,7 @@ import { ManipulateImagesComponent } from './manipulate-images/manipulate-images
     RouterModule.forRoot(routes),
     CollapseModule.forRoot()
   ],
-  providers: [SessionService, PartiesService, UsersService,ImagesService],
+  providers: [SessionService, PartiesService, UsersService,ImagesService,SocketsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -52,13 +52,6 @@
   border-radius: 50%;
 }
 
-.content-container-picture{
-  box-sizing: border-box;
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-}
-
 .custom-button-picture{
   padding: 0;
   margin: 0;

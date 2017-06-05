@@ -24,15 +24,17 @@
       <div class="custom-party-container">
         <h2>Owner</h2>
         <h4>{{owner.username}}, {{owner.profile.gender}}, {{owner.profile.age}}</h4>
-        <div *ngIf="owner.profile.pictures.length">
+        <div class="custom-picture-container" *ngIf="owner.profile.pictures.length">
           <img [src]='api_url+owner.profile.pictures[0].picture' />
+					<a [routerLink]="['/profile/'+userId+'/parties/joined/'+party._id+'/chatuser/'+owner._id]"><button class="btn btn-default custom-button-picture"><span class="glyphicon glyphicon-envelope"></span></button></a>
         </div>
         <h2>Participants</h2>
         <div class="custom-participants-container">
           <div *ngFor="let user of userList">
             <h4>{{user.username}}, {{user.profile.gender}}, {{user.profile.age}}</h4>
-            <div *ngIf="user.profile.pictures.length">
+            <div class="custom-picture-container" *ngIf="user.profile.pictures.length">
               <img [src]='api_url+user.profile.pictures[0].picture' />
+							<a [routerLink]="['/profile/'+userId+'/parties/joined/'+party._id+'/chatuser/'+user._id]"><button class="btn btn-default custom-button-picture"><span class="glyphicon glyphicon-envelope"></span></button></a>
             </div>
           </div>
         </div>
