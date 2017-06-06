@@ -48,7 +48,8 @@ const userSchema = new mongoose.Schema({
     },
     partiesOwned: [{type: Schema.Types.ObjectId, ref:"Party"}],
     partiesSeen:[{type: Schema.Types.ObjectId, ref:"Party"}],
-    partiesJoined:[{type: Schema.Types.ObjectId, ref:"Party"}]
+    partiesJoined:[{type: Schema.Types.ObjectId, ref:"Party"}],
+    conversations : [{type:Schema.Types.ObjectId, ref:"Conversation"}]
   }, {
     timestamps: {
       createdAt: "created_at",

@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, AfterViewChecked, ViewChild, Renderer2, Renderer,ElementRef} from '@angular/core';
 import { SocketsService } from '../services/sockets.service';
+import {UsersService} from '../services/users.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,6 +13,7 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   @ViewChild('inputRef') inputRef:ElementRef;
   isLoading:boolean=false;
   userId:any;
+  user: any;
   otherUserId:any;
   partyId:any;
   room:string;
@@ -20,7 +22,7 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   scrollTop:any;
   // message:string;
 
-  constructor(private route: ActivatedRoute,private socketsService: SocketsService,private renderer:Renderer, private renderer2:Renderer2) { }
+  constructor(private route: ActivatedRoute,private socketsService: SocketsService,private renderer:Renderer, private renderer2:Renderer2, private usersService:UsersService) { }
 
   ngOnInit() {
     console.log("scrollTop",this.scrollTop);
@@ -28,55 +30,59 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
       this.userId=params['userId'];
       this.partyId=params['partyId'];
       this.otherUserId=params['otherUserId'];
-
-      switch(this.userId.localeCompare(this.otherUserId)){
-        case -1:
-          this.room =  this.userId+this.otherUserId+this.partyId;
-          // this.socketsService.connect();
-          this.socketsService.connectToRoom(this.room);
-          this.isLoading=true;
-          this.socketsService.on('message.sent', (data)=>{
-            console.log("message",data.message);
-            this.messageList.push(data.message);
-          });
-          break;
-        case 1:
-          this.room =  this.otherUserId+this.userId+this.partyId;
-          // this.socketsService.connect();
-          this.socketsService.connectToRoom(this.room);
-          this.socketsService.on('message.sent', (data)=>{
-            console.log("message",data.message);
-            this.messageList.push(data.message);
-          });
-          this.isLoading=true;
-          break;
-      }
+      this.getUserDetails(this.userId);
+      //this.socketsService.connect();
+      this.socketsService.on('message.sent', (data)=>{
+        console.log("message",data.message);
+        this.messageList.push(data.message);
+      });
     })
   }
 
+  getUserDetails(id) {
+    this.usersService.get(id)
+      .subscribe((userObs) => {
+        this.user = userObs;
+        console.log("this.user",this.user);
+        
+        this.isLoading=true;
+        this.room = this.createRoom(this.userId,this.otherUserId,this.partyId);
+        //this.socketsService.connectToRoom(this.room);
+      });
+  }
+
+  createRoom(id1,id2,id3){
+    let room;
+    switch(id1.localeCompare(id2)){
+      case -1:
+        room =  id1+id2+id3;
+        // this.socketsService.connect();
+        break;
+      case 1:
+        room =  id2+id1+id3;
+        // this.socketsService.connect();
+        break;
+    }
+    return room;
+  }
+
   ngAfterViewInit(){
-    this.renderer2.setAttribute(this.scrollRef.nativeElement,'focus','true');
-    this.inputRef.nativeElement.focus();
+    //this.inputRef.nativeElement.focus();
     //this.renderer.invokeElementMethod(this.inputRef.nativeElement,'focus')
   }
 
   ngAfterViewChecked(){
-    this.inputRef.nativeElement.focus();
-    this.scrollRef.nativeElement.scrollTop=this.scrollRef.nativeElement.scrollHeight;
+    //this.inputRef.nativeElement.focus();
+    //this.scrollRef.nativeElement.scrollTop=this.scrollRef.nativeElement.scrollHeight;
   }
 
   sendMessage(myForm){
-    console.log("send from component");
+    console.log("send from component",this.room);
     if(myForm.value.message!==''){
-      this.socketsService.emit('message.send', {room: this.room,message:{message:myForm.value.message, id: this.userId} });
+      console.log("sending");
+      this.socketsService.emit('message.send', {room: this.room,message:{message:myForm.value.message, id: this.userId, username: this.user.username}});
       this.message='';
 
     }
   }
-
-  disconnect(){
-    console.log("disconnect from component");
-    this.socketsService.disconnect();
-  }
-
 }

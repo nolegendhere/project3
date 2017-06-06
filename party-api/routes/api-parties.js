@@ -4,6 +4,7 @@ var router = express.Router();
 const User = require('../model/user');
 const Party = require('../model/party');
 const Image = require('../model/image');
+const Conversation = require('../model/conversation');
 const upload = require('../config/multer');
 const passport = require('../config/passport');
 //const async = require('async');
@@ -25,7 +26,6 @@ router.get('/', (req, res, next) => {
         if (err) {
           return res.send(err);
         }
-        return res.json(Parties);
       });
     }
 });
@@ -48,7 +48,7 @@ router.get('/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  let populateQuery=[{path: "owner",populate:{path:"profile.pictures", model:"Image"}},{path: "participants",populate:{path:"profile.pictures", model:"Image"}},{path:"pictures"}];
+  let populateQuery=[{path: "owner",populate:{path:"profile.pictures", model:"Image"}},{path: "participants",populate:{path:"profile.pictures", model:"Image"}},{path:"pictures"},{path:"conversations"}];
   Party.findById(req.params.id).populate(populateQuery).exec((err, party) => {
       if (err) {
         return res.send(err);
@@ -195,22 +195,42 @@ router.put('/:id/participants/new',function(req, res) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  console.log("hello from user participants",req.body);
-  Party.findByIdAndUpdate({_id:req.params.id},{'$push':{'participants':req.body.id}},{"new":true},(err,party)=>{
+
+  console.log("HI FROM NEW PARTICIPANT PARTIES///////////////////////");
+  console.log("req.body.room",req.body.room);
+  console.log("req.body.id",req.body.id);
+  console.log("req.body.ownerId",req.body.ownerId);
+  console.log("req.params.id",req.params.id);
+
+  let newConversation= new Conversation({
+    room:req.body.room,
+    participants:[req.body.id,req.body.ownerId],
+    party:req.params.id
+  });
+
+  console.log("newConversation",newConversation);
+
+  newConversation.save((err,conversation)=>{
     if(err){
       return res.send(err);
     }
-
-    party.numOfPeople.numJoined++;
-    party.save((err,partySaved)=>{
+    console.log("hello from user participants",req.body);
+    Party.findByIdAndUpdate({_id:req.params.id},{'$push':{'participants':req.body.id,'conversations':conversation}},{"new":true},(err,party)=>{
       if(err){
         return res.send(err);
       }
-      User.findByIdAndUpdate({_id:req.body.id},{'$push':{'partiesJoined':req.params.id, 'partiesSeen':req.params.id}},(err)=>{
+
+      party.numOfPeople.numJoined++;
+      party.save((err,partySaved)=>{
         if(err){
           return res.send(err);
         }
-        return res.json({party:partySaved});
+        User.findByIdAndUpdate({_id:req.body.id},{'$push':{'partiesJoined':req.params.id, 'partiesSeen':req.params.id,'conversations':conversation}},(err)=>{
+          if(err){
+            return res.send(err);
+          }
+          return res.json({party:partySaved});
+        });
       });
     });
   });

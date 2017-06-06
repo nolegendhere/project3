@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { SessionService } from '../services/session.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SocketsService } from '../services/sockets.service';
 
 @Component({
   selector: 'app-edit-currentuser',
@@ -25,7 +26,7 @@ export class EditCurrentuserComponent implements OnInit {
 
 
   constructor(private router: Router,private route: ActivatedRoute,
-  private usersService: UsersService,private sessionService: SessionService) { }
+  private usersService: UsersService,private sessionService: SessionService,private socketsService: SocketsService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params=>{
@@ -50,7 +51,13 @@ export class EditCurrentuserComponent implements OnInit {
   }
 
   logout(){
+    this.disconnectSocket();
     this.sessionService.logout();
+  }
+
+  disconnectSocket(){
+    console.log("disconnect from component");
+    this.socketsService.disconnect();
   }
 
   remove(){

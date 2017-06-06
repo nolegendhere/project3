@@ -25,16 +25,18 @@ socket:any;
     });
   }
 
-  connectToRoom(room){
+  connectToRoom(room,id=null){
     this.socket = io(this.BASE_URL);
-    this.socket.on('connect', ()=>{
-      this.socket.emit('authenticate', {token: this.sessionService.token});
-    });
-    this.socket.on('greeting-from-server', (message)=> {
-        console.log("message",message);
-        this.socket.emit('room.join', room);
-        this.socket.emit('notification.join',(room+"notification"));
-    });
+    this.socket.emit('room.join', {room:room,id:id});
+    // this.socket.emit('notification.join',(room+"notification"));
+    // this.socket.on('connect', ()=>{
+    //   this.socket.emit('authenticate', {token: this.sessionService.token});
+    // });
+    // this.socket.on('greeting-from-server', (message)=> {
+    //     console.log("message",message);
+    //     this.socket.emit('room.join', {room:room,id:id});
+    //     this.socket.emit('notification.join',(room+"notification"));
+    // });
     this.socket.on('room.joined', (message)=>{
       console.log("message",message);
     });

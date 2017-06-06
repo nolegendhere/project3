@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UsersService } from '../services/users.service';
 import { PartiesService } from '../services/parties.service';
 import { ImagesService } from '../services/images.service';
+import { SocketsService } from '../services/sockets.service';
 
 @Component({
   selector: 'app-users-search',
@@ -20,8 +21,10 @@ export class UsersSearchComponent implements OnInit {
   picture:string;
   counterUser:number=0;
   counterPicture:number=0;
+  room:string;
+  notification:any;
 
-  constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService,private partiesService: PartiesService, private imagesService: ImagesService) { }
+  constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService,private partiesService: PartiesService, private imagesService: ImagesService,private socketsService: SocketsService) { }
 
   ngOnInit() {
     this.api_url = this.imagesService.getApiUrl('get-image/')
@@ -29,6 +32,12 @@ export class UsersSearchComponent implements OnInit {
       console.log("params['partyId']",params['partyId']);
       this.userId=params['userId'];
       this.getUserDetails(params['partyId']);
+      this.socketsService.on('jointheroom',(data)=>{
+        console.log("hi from jointheroom");
+        if(data.id===this.userId){
+          this.socketsService.connectToRoom(data.room);
+        }
+      });
     })
   }
 
@@ -91,6 +100,29 @@ export class UsersSearchComponent implements OnInit {
     });
   }
 
+  createRoom(id1,id2,id3){
+    let room;
+    switch(id1.localeCompare(id2)){
+      case -1:
+        room =  id1+id2+id3;
+        // this.socketsService.connect();
+        this.socketsService.connectToRoom(room,id1);
+        this.socketsService.on('notification.sent', (data)=>{
+          this.notification = data;
+        });
+        break;
+      case 1:
+        room =  id2+id1+id3;
+        // this.socketsService.connect();
+        this.socketsService.connectToRoom(room,id1);
+        this.socketsService.on('notification.sent', (data)=>{
+          this.notification = data;
+        });
+        break;
+    }
+    return room;
+  }
+
   joinParty(){
     this.counterPicture=0;
     this.partiesService.get(this.party._id).subscribe((partyObs) => {
@@ -107,7 +139,8 @@ export class UsersSearchComponent implements OnInit {
         if(exists.length){
           console.log("exists");
           this.isUsers = false;
-          this.partiesService.addPartyParticipant(this.user._id,this.party._id).subscribe((partyObs)=>{
+          this.room = this.createRoom(this.user._id,this.party.owner._id,this.party._id);
+          this.partiesService.addPartyParticipant(this.user._id,this.party.owner._id,this.party._id,this.room).subscribe((partyObs)=>{
             this.party = partyObs.party;
             console.log("this.party ",this.party )
             console.log("this.party._id ",this.party._id )

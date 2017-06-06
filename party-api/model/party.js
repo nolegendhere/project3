@@ -61,7 +61,8 @@ const partySchema = new mongoose.Schema({
   owner:{type:Schema.Types.ObjectId, ref:"User"},
   usersSeen:[{type: Schema.Types.ObjectId, ref:"Party"}],
   candidates:[{type: Schema.Types.ObjectId, ref:"User"}],
-  participants:[{type: Schema.Types.ObjectId, ref:"User"}]
+  participants:[{type: Schema.Types.ObjectId, ref:"User"}],
+  conversations : [{type:Schema.Types.ObjectId, ref:"Conversation"}]
   }, {
     timestamps: {
       createdAt: "created_at",

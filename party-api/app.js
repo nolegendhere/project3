@@ -8,7 +8,8 @@ const passport    = require('./config/passport');
 var auth          = require('./routes/auth');
 var parties       = require('./routes/api-parties');
 var users         = require('./routes/api-users');
-var images         = require('./routes/api-images');
+var images        = require('./routes/api-images');
+var conversations = require('./routes/api-conversations');
 var cors          = require('cors');
 
 require('./config/database');
@@ -39,6 +40,7 @@ app.use('/', auth);
 app.use('/api/parties', passport.authenticate('jwt', { session: false }), parties);
 app.use('/api/users', passport.authenticate('jwt', { session: false }), users);
 app.use('/api/images', images);
+app.use('/api/conversations', passport.authenticate('jwt', { session: false }),conversations);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
