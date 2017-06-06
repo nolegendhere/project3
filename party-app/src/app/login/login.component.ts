@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
     this.session.login(this.user).subscribe(result => {
       if (result === true) {
         // login successful
-        this.socketsService.connect();
         this.router.navigate(['/partiesSearch']);
  			} else {
         // login failed

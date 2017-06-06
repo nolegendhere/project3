@@ -79,34 +79,4 @@ export class UsersService {
     console.log("party",party);
     return this.http.put(`${this.BASE_URL}/api/users/${userId}/usersSeen/new`, party, options).map((res) => res.json());
   }
-
-  // getList() {
-  //
-  //   let headers = new Headers({ 'Authorization': 'JWT ' + this.SessionService.token });
-  //   let options = new RequestOptions({ headers: headers });
-  //   return this.http.get(`${this.BASE_URL}/phones`, options)
-  //     .map((res) => res.json());
-  // }
-  //
-  // get(id) {
-  //   let headers = new Headers({ 'Authorization': 'JWT ' + this.SessionService.token });
-  //   let options = new RequestOptions({ headers: headers });
-  //   return this.http.get(`${this.BASE_URL}/phones/${id}`, options)
-  //     .map((res) => res.json());
-  // }
-  //
-  // edit(phone) {
-  //   let headers = new Headers({ 'Authorization': 'JWT ' + this.SessionService.token });
-  //   let options = new RequestOptions({ headers: headers });
-  //   return this.http.put(`${this.BASE_URL}/phones/${phone.id}`, phone, options )
-  //     .map((res) => res.json());
-  // }
-  //
-  // remove(id) {
-  //   let headers = new Headers({ 'Authorization': 'JWT ' + this.SessionService.token });
-  //   let options = new RequestOptions({ headers: headers });
-  //   return this.http.delete(`${this.BASE_URL}/phones/${id}`, options)
-  //     .map((res) => res.json());
-  // }
-
 }

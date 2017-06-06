@@ -19,7 +19,6 @@ router.get('/', (req, res, next) => {
       // let populateQuery=[{path: "partiesOwned"}];
       User.find({$nor:[{partiesOwned:partyId},{partiesSeen:partyId}]}).populate(populateQuery).exec((err, Users) => {
         if (err) {
-          console.log("hello1",err);
           return res.send(err);
         }
         //console.log("hello2",Users);
@@ -29,10 +28,8 @@ router.get('/', (req, res, next) => {
   } else {
     User.find({}).exec((err, Users) => {
       if (err) {
-        console.log("hello1");
         return res.send(err);
       }
-      console.log("hello2");
       return res.json(Users);
     });
   }
@@ -41,7 +38,6 @@ router.get('/', (req, res, next) => {
 
 /* GET a single User. */
 router.get('/:id', (req, res) => {
-  console.log("hiFromGetUser");
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
@@ -59,13 +55,7 @@ router.put('/:id/edit', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  console.log("req.body",req.body);
-  console.log("HiFromEdituser1");
-  console.log("req.params.id",req.params.id);
-  // console.log("req.body.firstName",req.body.firstName);
-  // console.log("req.body.firstName",req.body.firstName);
-  // console.log("req.body.firstName",req.body.firstName);
-  // console.log("req.body.firstName",req.body.firstName);
+
   User.findByIdAndUpdate(req.params.id, {
     profile:{
       firstName: req.body.firstName,
@@ -82,10 +72,8 @@ router.put('/:id/edit', (req, res) => {
     },
   }, (err) => {
     if (err) {
-      console.log("HiFromEdituser2");
       return res.send(err);
     }
-    console.log("HiFromEdituser3");
     return res.json({
       message: 'User updated successfully'
     });
@@ -130,7 +118,6 @@ router.delete('/:id/delete', (req, res) => {
                     if(err){
                       return res.send(err);
                     }
-                    console.log("borrant");
                     callback();
                   });
                 }
@@ -161,7 +148,6 @@ router.put('/:id/candidates/new',function(req, res) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  console.log("hello from party candidates",req.body);
   Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'candidates':req.params.id,'usersSeen':req.params.id}},{'new':true},(err,party)=>{
     if(err){
       return res.send(err);

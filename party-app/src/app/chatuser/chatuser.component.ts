@@ -1,7 +1,9 @@
 import { Component, OnInit, AfterViewInit, AfterViewChecked, ViewChild, Renderer2, Renderer,ElementRef} from '@angular/core';
-import { SocketsService } from '../services/sockets.service';
-import {UsersService} from '../services/users.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { SocketsService } from '../services/sockets.service';
+import { UsersService } from '../services/users.service';
+import { ConversationsService } from '../services/conversations.service'
+
 
 @Component({
   selector: 'app-chatuser',
@@ -17,12 +19,13 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   otherUserId:any;
   partyId:any;
   room:string;
+  rooms:Array<any>=[];
   messageList:Array<any>=[];
   message:string;
   scrollTop:any;
   // message:string;
 
-  constructor(private route: ActivatedRoute,private socketsService: SocketsService,private renderer:Renderer, private renderer2:Renderer2, private usersService:UsersService) { }
+  constructor(private route: ActivatedRoute,private socketsService: SocketsService,private renderer:Renderer, private renderer2:Renderer2, private usersService:UsersService, private conversationsService:ConversationsService) { }
 
   ngOnInit() {
     console.log("scrollTop",this.scrollTop);
@@ -31,24 +34,38 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
       this.partyId=params['partyId'];
       this.otherUserId=params['otherUserId'];
       this.getUserDetails(this.userId);
-      //this.socketsService.connect();
-      this.socketsService.on('message.sent', (data)=>{
-        console.log("message",data.message);
-        this.messageList.push(data.message);
-      });
     })
   }
 
   getUserDetails(id) {
-    this.usersService.get(id)
-      .subscribe((userObs) => {
-        this.user = userObs;
-        console.log("this.user",this.user);
-        
+    this.usersService.get(id).subscribe((userObs) => {
+      this.user = userObs;
+      this.connectToSockets(this.user);
+    });
+  }
+
+  connectToSockets(user){
+    this.socketsService.connect();
+    this.socketsService.on('greeting-from-server', (message)=> {
+      if(user.conversations.length){
+        this.conversationsService.getList(user._id).subscribe((conversationsObs)=>{
+          conversationsObs.forEach((conversation)=>{
+             this.rooms.push(conversation.room);
+          })
+          this.socketsService.connectToRooms(this.rooms);
+          this.socketsService.emit('list.rooms');
+          this.socketsService.on('list.rooms.response',(data)=>{
+            this.room = this.createRoom(this.userId,this.otherUserId,this.partyId);
+            this.socketsService.on('message.sent', (data)=>{
+              this.messageList.push(data.message);
+            });
+            this.isLoading=true;
+          });
+        });
+      }else{
         this.isLoading=true;
-        this.room = this.createRoom(this.userId,this.otherUserId,this.partyId);
-        //this.socketsService.connectToRoom(this.room);
-      });
+      }
+    });
   }
 
   createRoom(id1,id2,id3){
@@ -56,11 +73,9 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
     switch(id1.localeCompare(id2)){
       case -1:
         room =  id1+id2+id3;
-        // this.socketsService.connect();
         break;
       case 1:
         room =  id2+id1+id3;
-        // this.socketsService.connect();
         break;
     }
     return room;
@@ -77,9 +92,8 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   }
 
   sendMessage(myForm){
-    console.log("send from component",this.room);
     if(myForm.value.message!==''){
-      console.log("sending");
+      // this.socketsService.removeListener('message.sent'); // if i uncomment socket.emit('list.rooms.response', socket.rooms); in the sockets.js in socket.on('message.send',... , then i have to uncomment this because calling socket.emit('list.rooms.response', socket.rooms); would add a listener of this.socketsService.on('message.sent',... because of ngOnInit() calling getUserDetails(id), where this.socketsService.on('message.sent', is inside this.socketsService.on('list.rooms.response',...
       this.socketsService.emit('message.send', {room: this.room,message:{message:myForm.value.message, id: this.userId, username: this.user.username}});
       this.message='';
 

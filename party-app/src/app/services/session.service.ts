@@ -53,7 +53,7 @@ export class SessionService implements CanActivate {
   	return this.http.post(`${this.BASE_URL}/signup`, user)
   		.map((response) => response.json())
   		.map((response) => {
-        console.log("response.token",response.token);
+        // console.log("response.token",response.token);
   			let token = response.token;
   			const user = response.user;
   			if (token) {
@@ -83,25 +83,25 @@ export class SessionService implements CanActivate {
             // login successful if there's a jwt token in the response
             let token = response.json() && response.json().token;
             let user = response.json() && response.json().user;
-            console.log("response.token",response.json().token);
+            // console.log("response.token",response.json().token);
             if (token) {
-              console.log("hi1");
+              // console.log("hi1");
               // set token property
               this.token = token;
-              console.log("hi2");
+              // console.log("hi2");
               this.user = jwtDecode(token).user;
               /////////////////////////////////////
               this.id = jwtDecode(this.token).id;
               ////////////////////////////////////
-              console.log("hi3");
+              // console.log("hi3");
 
               this.isAuth = true;
-              console.log("hi4");
+              // console.log("hi4");
               // store username and jwt token in local storage to keep user logged in between page refreshes
               localStorage.setItem('token', token );
-              console.log("hi5");
+              // console.log("hi5");
               localStorage.setItem('user', JSON.stringify(user) );
-              console.log("hi6");
+              // console.log("hi6");
               // return true to indicate successful login
               return true;
             } else {

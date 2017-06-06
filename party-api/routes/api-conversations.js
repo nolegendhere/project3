@@ -12,10 +12,12 @@ const passport = require('../config/passport');
 router.get('/', (req, res, next) => {
   let populateQuery=[{path: "party"},{path: "participants"},{path: "connectedChatBy"},{path:"connectedNotificationBy"}];
 
-  Conversation.find({}).populate(populateQuery).exec((err, conversations) => {
+  
+  Conversation.find({"participants":req.query.userId}).populate(populateQuery).exec((err, conversations) => {
     if (err) {
       return res.send(err);
     }
+    console.log("conversations///////",conversations);
 
     return res.json(conversations);
 
@@ -25,7 +27,6 @@ router.get('/', (req, res, next) => {
 
 /* GET a single Conversation */
 router.get('/:id', (req, res) => {
-    console.log("hiFromGetParty");
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }

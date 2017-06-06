@@ -10,14 +10,23 @@ export class ConversationsService {
   conversation:any;
   constructor(private http: Http,private sessionService: SessionService) { }
 
-  getList() {
+  getList(id) {
 
     let headers = new Headers({ 'Authorization': 'JWT ' + this.sessionService.token });
     let options = new RequestOptions({ headers: headers });
-    return this.http.get(`${this.BASE_URL}/api/users/?partyId=${partyId}`, options).map((res) =>{
-      this.userList = res.json();
+    return this.http.get(`${this.BASE_URL}/api/conversations/?userId=${id}`, options).map((res) =>{
+      this.conversationList = res.json();
       return res.json();
     });
+  }
+
+  get(id){
+    let headers= new Headers({'Authorization':'JW'+this.sessionService.token});
+    let options = new RequestOptions({headers:headers});
+    return this.http.get(`${this.BASE_URL}/api/conversations/${id}`,options).map((res)=>{
+      this.conversation = res.json();
+      return res.json();
+    })
   }
 
 }

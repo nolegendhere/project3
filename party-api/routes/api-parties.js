@@ -229,7 +229,14 @@ router.put('/:id/participants/new',function(req, res) {
           if(err){
             return res.send(err);
           }
-          return res.json({party:partySaved});
+
+          User.findByIdAndUpdate({_id:req.body.ownerId},{'$push':{'conversations':conversation}},{"new":true},(err,userUpdated)=>{
+            if(err){
+              return res.send(err);
+            }
+            console.log("userUpdated//////////////",userUpdated);
+            return res.json({party:partySaved});
+          });
         });
       });
     });

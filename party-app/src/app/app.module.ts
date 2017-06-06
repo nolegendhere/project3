@@ -14,6 +14,7 @@ import { SessionService }   from './services/session.service';
 import { PartiesService }   from './services/parties.service';
 import { UsersService }     from './services/users.service';
 import { ImagesService }     from './services/images.service';
+import { ConversationsService }     from './services/conversations.service';
 import { SocketsService }     from './services/sockets.service';
 
 import { LoginComponent }   from './login/login.component';
@@ -60,7 +61,7 @@ import { ChatuserComponent } from './chatuser/chatuser.component';
     RouterModule.forRoot(routes),
     CollapseModule.forRoot()
   ],
-  providers: [SessionService, PartiesService, UsersService,ImagesService,SocketsService],
+  providers: [SessionService, PartiesService, UsersService,ImagesService,ConversationsService,SocketsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

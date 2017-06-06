@@ -54,49 +54,38 @@ io.on('connection', function(socket){
         greeting: 'Hello Client'
     });
 
-    // socket.on('greeting-from-client', function (message) {
-    //   console.log(message);
-    // });
-
-    socket.on('room.join', (data)=>{
-      console.log("data/////////////////////////////",data);
-      socket.join(data.room);
-      io.to(data.room).emit('room.joined', socket.id + ' joined the room ' + data.room);
-      console.log("emiting jointheroom");
-      socket.emit('jointheroom',data);
+    socket.on('rooms.join', (data)=>{
+      // console.log("data/////////////////////////////",data);
+      data.rooms.forEach((room)=>{
+        console.log("room",room);
+        socket.join(room);
+      });
     });
 
-    // socket.on('notification.join', function (notification) {
-    //   socket.join(notification);
-    //   io.to(notification).emit('notification.joined', socket.id + ' joined the notification ' + notification);
-    // });
-
-    socket.on('room.message', function (room) {
-      io.to(room).emit('room.joined', socket.id + ' joined the ' + room);
+    socket.on('list.rooms', function () {
+      console.log("sending socket room list");
+      console.log("socket.rooms",socket.rooms);
+      socket.emit('list.rooms.response', socket.rooms);
     });
 
     socket.on('message.send', function (data) {
         console.log("message recived in socketio server",data);
-        // socket.emit('message.sent', {
-        //     message: data.message
-        // });
+        // socket.emit('list.rooms.response', socket.rooms); //as i have in the front end, it will add a listener of this.socketsService.on('message.sent'...
         io.to(data.room).emit('message.sent', {
             message: data.message
         });
-
-        // io.to(data.room).emit('notification.sent', {
-        //     message: data.message
-        // });
 
     });
 
     socket.on('disconnectsocket', function () {
       console.log("disconnect from server");
+      socket.emit("connectSocket");
       socket.disconnect();
     });
 
     socket.on('disconnect', function () {
       console.log('The socket disconnected');
+      socket.emit("connectSocket");
     });
 
 
