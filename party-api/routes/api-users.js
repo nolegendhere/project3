@@ -162,7 +162,7 @@ router.put('/:id/participants/new',function(req, res) {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-
+  let userToNotify=req.body.ownerId;
   let newConversation = new Conversation({
     room: req.body.room,
     participants: [req.params.id,req.body.ownerId],
@@ -174,13 +174,14 @@ router.put('/:id/participants/new',function(req, res) {
       return res.send(err);
     }
     console.log("hello from party participants",req.body);
-    Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'participants':req.params.id,'usersSeen':req.params.id, 'conversations':conversation._id}},{'new':true},(err,party)=>{
+    let populateQuery=[{path: "owner",populate:{path:"profile.pictures", model:"Image"}},{path: "owner",populate:{path:"conversations",model:"Conversation"}},{path: "participants",populate:{path:"profile.pictures", model:"Image"}},{path:"pictures"},{path:"conversations"}];
+    Party.findByIdAndUpdate({_id:req.body.id},{'$push':{'participants':req.params.id,'usersSeen':req.params.id, 'conversations':conversation._id}},{'new':true}).populate(populateQuery).exec((err,party)=>{
       if(err){
         return res.send(err);
       }
 
       party.numOfPeople.numJoined++;
-      party.save((err)=>{
+      party.save((err,partySaved)=>{
         if(err){
           return res.send(err);
         }
@@ -189,8 +190,13 @@ router.put('/:id/participants/new',function(req, res) {
           if(err){
             return res.send(err);
           }
-          return res.json({
-            message: 'Party with new candidate!'
+
+          User.findByIdAndUpdate({_id:req.body.ownerId},{'$push':{'conversations':conversation}},{"new":true},(err,userUpdated)=>{
+            if(err){
+              return res.send(err);
+            }
+            console.log("userUpdated//////////////",userUpdated);
+            res.json({party:partySaved,conversation:conversation,userToNotify:userToNotify});
           });
         });
       });

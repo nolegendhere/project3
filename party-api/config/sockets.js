@@ -74,7 +74,11 @@ io.on('connection', function(socket){
         io.to(data.room).emit('message.sent', {
             message: data.message
         });
+    });
 
+    socket.on('notifyUser',(data)=>{
+      console.log("user to notify",data);
+      io.to(data.roomTo).emit('userNotified',data);
     });
 
     socket.on('disconnectsocket', function () {

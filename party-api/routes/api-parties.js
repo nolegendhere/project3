@@ -48,7 +48,7 @@ router.get('/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
-  let populateQuery=[{path: "owner",populate:{path:"profile.pictures", model:"Image"}},{path: "participants",populate:{path:"profile.pictures", model:"Image"}},{path:"pictures"},{path:"conversations"}];
+  let populateQuery=[{path: "owner",populate:{path:"profile.pictures", model:"Image"}},{path: "owner",populate:{path:"conversations",model:"Conversation"}},{path: "participants",populate:{path:"profile.pictures", model:"Image"}},{path:"pictures"},{path:"conversations"}];
   Party.findById(req.params.id).populate(populateQuery).exec((err, party) => {
       if (err) {
         return res.send(err);
@@ -201,11 +201,11 @@ router.put('/:id/participants/new',function(req, res) {
   console.log("req.body.id",req.body.id);
   console.log("req.body.ownerId",req.body.ownerId);
   console.log("req.params.id",req.params.id);
-
+  let userToNotify = req.body.id;
   let newConversation= new Conversation({
     room:req.body.room,
     participants:[req.body.id,req.body.ownerId],
-    party:req.params.id
+    party:req.params.id,
   });
 
   console.log("newConversation",newConversation);
@@ -215,7 +215,8 @@ router.put('/:id/participants/new',function(req, res) {
       return res.send(err);
     }
     console.log("hello from user participants",req.body);
-    Party.findByIdAndUpdate({_id:req.params.id},{'$push':{'participants':req.body.id,'conversations':conversation}},{"new":true},(err,party)=>{
+    let populateQuery=[{path: "owner",populate:{path:"profile.pictures", model:"Image"}},{path: "owner",populate:{path:"conversations",model:"Conversation"}},{path: "participants",populate:{path:"profile.pictures", model:"Image"}},{path:"pictures"},{path:"conversations"}];
+    Party.findByIdAndUpdate({_id:req.params.id},{'$push':{'participants':req.body.id,'conversations':conversation}},{"new":true}).populate(populateQuery).exec((err,party)=>{
       if(err){
         return res.send(err);
       }
@@ -235,7 +236,7 @@ router.put('/:id/participants/new',function(req, res) {
               return res.send(err);
             }
             console.log("userUpdated//////////////",userUpdated);
-            return res.json({party:partySaved});
+            return res.json({party:partySaved,conversation:conversation,userToNotify:userToNotify});
           });
         });
       });

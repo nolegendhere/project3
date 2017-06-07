@@ -4,6 +4,7 @@ import { UsersService } from '../services/users.service';
 import { SessionService } from '../services/session.service';
 import { ImagesService } from '../services/images.service';
 import { SocketsService } from '../services/sockets.service';
+import { ConversationsService } from '../services/conversations.service'
 
 
 @Component({
@@ -23,21 +24,15 @@ export class PartiesSearchComponent implements OnInit {
   isLoading:boolean=false;
   api_url:string;
   room:string;
+  rooms:Array<string>=[];
   notification:any;
 
-  constructor(private partiesService: PartiesService,private usersService: UsersService,private sessionService: SessionService, private imagesService: ImagesService,private socketsService: SocketsService) { }
+  constructor(private partiesService: PartiesService,private usersService: UsersService,private sessionService: SessionService, private imagesService: ImagesService,private socketsService: SocketsService, private conversationsService:ConversationsService) { }
 
   ngOnInit() {
     this.userId = this.sessionService.id;
     this.api_url = this.imagesService.getApiUrl('get-image/')
     this.partiesService.getList(this.userId).subscribe((partiesObs) => {
-      // this.partyList = partiesObs;
-      this.socketsService.on('jointheroom',(data)=>{
-        console.log("hi from jointheroom");
-        if(data.id===this.userId){
-          this.socketsService.connectToRoom(data.room);
-        }
-      });
       this.usersService.get(this.userId).subscribe((userObs)=>{
         this.user = userObs;
         if(partiesObs.length){
@@ -89,8 +84,66 @@ export class PartiesSearchComponent implements OnInit {
             this.isParties = true;
           }
         }
-        this.isLoading = true;
+        this.connectToSockets(this.user,()=>{
+          console.log("entra a callback de connectToSockets");
+          this.isLoading=true;
+        });
       });
+    });
+  }
+
+  connectToSockets(user,callback,room=null){
+    console.log("user en connectToSockets ",user);
+    this.socketsService.removeListener('message.sent');
+    this.socketsService.removeListener('userNotified');
+    this.socketsService.connect();
+    this.socketsService.on('greeting-from-server', (message)=> {
+      this.rooms=[];
+      this.rooms.push(String(user._id));
+      if(user.conversations.length){
+        this.conversationsService.getList(user._id).subscribe((conversationsObs)=>{
+          conversationsObs.forEach((conversation)=>{
+             this.rooms.push(conversation.room);
+             console.log("this.rooms loop",this.rooms);
+          })
+          console.log("this.rooms",this.rooms);
+          this.socketsService.connectToRooms(this.rooms);
+          this.socketsService.emit('list.rooms');
+          this.socketsService.on('list.rooms.response',(data)=>{
+            this.socketsService.on('message.sent', (data)=>{
+              console.log("message",data.message);
+            });
+            this.socketsService.on('userNotified', (data)=>{
+              console.log("room notified ",data.room);;
+              this.connectToSockets(user,callback,data.room);
+            });
+            if (typeof callback === "function") {
+              callback();
+            }
+          });
+        });
+      }else{
+        if(room!==null){
+          this.rooms.push(room);
+        }
+        console.log("this.rooms",this.rooms);
+        this.socketsService.connectToRooms(this.rooms);
+        this.socketsService.emit('list.rooms');
+        this.socketsService.on('list.rooms.response',(data)=>{
+          this.socketsService.on('message.sent', (data)=>{
+            console.log("message",data.message);
+          });
+          this.socketsService.on('userNotified', (data)=>{
+            console.log("user/room notified ",data.roomTo);
+            console.log("actual user",user._id);
+            console.log("room to join ",data.room);
+            this.connectToSockets(user,callback,data.room);
+          });
+          if (typeof callback === "function") {
+            callback();
+          }
+        });
+      }
     });
   }
 
@@ -99,21 +152,9 @@ export class PartiesSearchComponent implements OnInit {
     switch(id1.localeCompare(id2)){
       case -1:
         room =  id1+id2+id3;
-        // this.socketsService.connect();
-        this.socketsService.connectToRoom(room,id1);
-        this.isLoading=true;
-        this.socketsService.on('notification.sent', (data)=>{
-          this.notification = data;
-        });
         break;
       case 1:
         room =  id2+id1+id3;
-        // this.socketsService.connect();
-        this.socketsService.connectToRoom(room,id1);
-        this.socketsService.on('notification.sent', (data)=>{
-          this.notification = data;
-        });
-        this.isLoading=true;
         break;
     }
     return room;
@@ -136,7 +177,7 @@ export class PartiesSearchComponent implements OnInit {
           console.log("exists");
           this.isParties = false;
           this.room = this.createRoom(this.userId,this.party.owner._id,this.party._id);
-          this.usersService.addPartyParticipant(this.userId,this.party.owner._id,this.party._id,this.room).subscribe(()=>{
+          this.usersService.addPartyParticipant(this.userId,this.party.owner._id,this.party._id,this.room).subscribe((response)=>{
             this.counterParty++;
             if(this.counterParty<this.partyList.length){
               this.party = this.partyList[this.counterParty];
@@ -147,6 +188,14 @@ export class PartiesSearchComponent implements OnInit {
               this.isParties = true;
             }
             console.log("party Participant");
+            console.log("this.party",this.party);
+            this.connectToSockets(this.user,()=>{
+              console.log("notifying user");
+              this.socketsService.emit('notifyUser',{roomTo:response.userToNotify,room:response.conversation.room});
+            },this.room);
+            // this.socketsService.on('list.rooms.response',(data)=>{
+            //   console.log("notifying user",response.userToNotify)
+            // });
           })
         }
         else{

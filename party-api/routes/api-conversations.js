@@ -10,9 +10,9 @@ const passport = require('../config/passport');
 
 /* GET Conversation listing. */
 router.get('/', (req, res, next) => {
-  let populateQuery=[{path: "party"},{path: "participants"},{path: "connectedChatBy"},{path:"connectedNotificationBy"}];
+  let populateQuery=[{path: "party"},{path: "participants"}];
 
-  
+
   Conversation.find({"participants":req.query.userId}).populate(populateQuery).exec((err, conversations) => {
     if (err) {
       return res.send(err);
@@ -31,7 +31,7 @@ router.get('/:id', (req, res) => {
     return res.status(400).json({ message: 'Specified id is not valid' });
   }
 
-  let populateQuery=[{path: "party"},{path: "participants"},{path: "connectedChatBy"},{path:"connectedNotificationBy"}];
+  let populateQuery=[{path: "party"},{path: "participants"}];
 
   Conversation.find({_id:req.params.id}).populate(populateQuery).exec((err, conversation) => {
     if (err) {

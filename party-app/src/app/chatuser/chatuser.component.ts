@@ -45,18 +45,20 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   }
 
   connectToSockets(user){
+    this.socketsService.removeListener('message.sent');
     this.socketsService.connect();
     this.socketsService.on('greeting-from-server', (message)=> {
       if(user.conversations.length){
-        this.conversationsService.getList(user._id).subscribe((conversationsObs)=>{
+        this.conversationsService.getList(user ._id).subscribe((conversationsObs)=>{
+          this.rooms.push(String(user._id));
           conversationsObs.forEach((conversation)=>{
              this.rooms.push(conversation.room);
           })
           this.socketsService.connectToRooms(this.rooms);
           this.socketsService.emit('list.rooms');
           this.socketsService.on('list.rooms.response',(data)=>{
-            this.room = this.createRoom(this.userId,this.otherUserId,this.partyId);
             this.socketsService.on('message.sent', (data)=>{
+              console.log("message",data.message);
               this.messageList.push(data.message);
             });
             this.isLoading=true;
@@ -94,6 +96,7 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   sendMessage(myForm){
     if(myForm.value.message!==''){
       // this.socketsService.removeListener('message.sent'); // if i uncomment socket.emit('list.rooms.response', socket.rooms); in the sockets.js in socket.on('message.send',... , then i have to uncomment this because calling socket.emit('list.rooms.response', socket.rooms); would add a listener of this.socketsService.on('message.sent',... because of ngOnInit() calling getUserDetails(id), where this.socketsService.on('message.sent', is inside this.socketsService.on('list.rooms.response',...
+      this.room = this.createRoom(this.userId,this.otherUserId,this.partyId);
       this.socketsService.emit('message.send', {room: this.room,message:{message:myForm.value.message, id: this.userId, username: this.user.username}});
       this.message='';
 
