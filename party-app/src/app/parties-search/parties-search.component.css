@@ -1,4 +1,5 @@
 .custom-container{
+  position: relative;
   background-color: grey;
   box-sizing: border-box;
   padding: 5vh 15vw;
@@ -25,6 +26,22 @@
   text-shadow: 2px 2px black;
   margin-bottom: 1vh;
   letter-spacing: 0.5vw;
+}
+
+.custom-notification-container{
+  z-index: 1;
+  position: absolute;
+  background-color:white;
+  margin-top: 3vh;
+  padding: 1vh;
+  width: 30vh;
+  height: 30vh;
+}
+
+.custom-notification-container>.notification{
+  position: absolute;
+  left:1vw;
+  top:1vh;
 }
 
 .custom-picture-container{

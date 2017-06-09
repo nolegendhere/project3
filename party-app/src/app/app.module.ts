@@ -7,6 +7,7 @@ import { RouterModule }     from "@angular/router";
 import { routes }           from './app.routing';
 
 import { CollapseModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
 
 import { AppComponent }     from './app.component';
 
@@ -59,7 +60,8 @@ import { ChatuserComponent } from './chatuser/chatuser.component';
     FormsModule,
     HttpModule,
     RouterModule.forRoot(routes),
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [SessionService, PartiesService, UsersService,ImagesService,ConversationsService,SocketsService],
   bootstrap: [AppComponent]

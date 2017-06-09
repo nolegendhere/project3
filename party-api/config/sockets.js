@@ -71,9 +71,7 @@ io.on('connection', function(socket){
     socket.on('message.send', function (data) {
         console.log("message recived in socketio server",data);
         // socket.emit('list.rooms.response', socket.rooms); //as i have in the front end, it will add a listener of this.socketsService.on('message.sent'...
-        io.to(data.room).emit('message.sent', {
-            message: data.message
-        });
+        io.to(data.room).emit('message.sent', data);
     });
 
     socket.on('notifyUser',(data)=>{

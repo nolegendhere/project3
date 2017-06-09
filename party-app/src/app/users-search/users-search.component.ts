@@ -25,6 +25,9 @@ export class UsersSearchComponent implements OnInit {
   room:string;
   rooms:Array<string>=[];
   notification:any;
+  messageList:Array<any>=[];
+  isNotification:boolean=false;
+  notificationList:Array<any>=[];
 
   constructor(private route: ActivatedRoute,private router: Router,private usersService: UsersService,private partiesService: PartiesService, private imagesService: ImagesService,private socketsService: SocketsService, private conversationsService:ConversationsService) { }
 
@@ -95,14 +98,19 @@ export class UsersSearchComponent implements OnInit {
             }
           }
           console.log("this.party.owner",this.party.owner);
-          this.connectToSockets(this.party.owner,()=>{
+          this.connectToSockets(this.party.owner,false,()=>{
             this.isLoading=true;
           });
         });
     });
   }
 
-  connectToSockets(user,callback,room=null){
+  removeNotification(){
+    this.isNotification=false;
+    this.notificationList=[];
+  }
+
+  connectToSockets(user,isChat:boolean,callback,room=null){
     console.log("user en connectToSockets ",user);
     this.socketsService.removeListener('message.sent');
     this.socketsService.removeListener('userNotified');
@@ -121,11 +129,17 @@ export class UsersSearchComponent implements OnInit {
           this.socketsService.emit('list.rooms');
           this.socketsService.on('list.rooms.response',(data)=>{
             this.socketsService.on('message.sent', (data)=>{
-              console.log("message",data.message);
+              console.log("message",data);
+              if(isChat){
+                this.messageList.push(data.message);
+              }else{
+                this.notificationList.push(data.message);
+                this.isNotification=true;
+              }
             });
             this.socketsService.on('userNotified', (data)=>{
               console.log("room notified ",data.room);;
-              this.connectToSockets(user,callback,data.room);
+              this.connectToSockets(user,isChat,callback,data.room);
             });
             if (typeof callback === "function") {
               callback();
@@ -141,7 +155,13 @@ export class UsersSearchComponent implements OnInit {
         this.socketsService.emit('list.rooms');
         this.socketsService.on('list.rooms.response',(data)=>{
           this.socketsService.on('message.sent', (data)=>{
-            console.log("message",data.message);
+            console.log("message",data);
+            if(isChat){
+              this.messageList.push(data.message);
+            }else{
+              this.notificationList.push(data.message);
+              this.isNotification=true;
+            }
           });
           this.socketsService.on('userNotified', (data)=>{
             console.log("room notified ",data.room);;
@@ -201,7 +221,7 @@ export class UsersSearchComponent implements OnInit {
             }
             console.log("party Participant");
             console.log("this.party",this.party);
-            this.connectToSockets(this.party.owner,()=>{
+            this.connectToSockets(this.party.owner,false,()=>{
               this.socketsService.emit('notifyUser',{roomTo:response.userToNotify,room:response.conversation.room});
             },this.room);
             // this.socketsService.on('list.rooms.response',(data)=>{

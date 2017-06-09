@@ -23,6 +23,8 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   messageList:Array<any>=[];
   message:string;
   scrollTop:any;
+  isNotification:boolean=false;
+  notificationList:Array<any>=[];
   // message:string;
 
   constructor(private route: ActivatedRoute,private socketsService: SocketsService,private renderer:Renderer, private renderer2:Renderer2, private usersService:UsersService, private conversationsService:ConversationsService) { }
@@ -40,32 +42,104 @@ export class ChatuserComponent implements OnInit, AfterViewInit, AfterViewChecke
   getUserDetails(id) {
     this.usersService.get(id).subscribe((userObs) => {
       this.user = userObs;
-      this.connectToSockets(this.user);
+      this.connectToSockets(this.user,true,()=>{
+        this.isLoading=true;
+      });
     });
   }
 
-  connectToSockets(user){
+  // connectToSockets(user){
+  //   this.socketsService.removeListener('message.sent');
+  //   this.socketsService.connect();
+  //   this.socketsService.on('greeting-from-server', (message)=> {
+  //     if(user.conversations.length){
+  //       this.conversationsService.getList(user ._id).subscribe((conversationsObs)=>{
+  //         this.rooms.push(String(user._id));
+  //         conversationsObs.forEach((conversation)=>{
+  //            this.rooms.push(conversation.room);
+  //         })
+  //         this.socketsService.connectToRooms(this.rooms);
+  //         this.socketsService.emit('list.rooms');
+  //         this.socketsService.on('list.rooms.response',(data)=>{
+  //           this.socketsService.on('message.sent', (data)=>{
+  //             console.log("message",data.message);
+  //             this.messageList.push(data.message);
+  //           });
+  //           this.isLoading=true;
+  //         });
+  //       });
+  //     }else{
+  //       this.isLoading=true;
+  //     }
+  //   });
+  // }
+
+  removeNotification(){
+    this.isNotification=false;
+    this.notificationList=[];
+  }
+
+  connectToSockets(user,isChat:boolean,callback,room=null){
+    console.log("user en connectToSockets ",user);
     this.socketsService.removeListener('message.sent');
+    this.socketsService.removeListener('userNotified');
     this.socketsService.connect();
     this.socketsService.on('greeting-from-server', (message)=> {
+      this.rooms=[];
+      this.rooms.push(String(user._id));
       if(user.conversations.length){
-        this.conversationsService.getList(user ._id).subscribe((conversationsObs)=>{
-          this.rooms.push(String(user._id));
+        this.conversationsService.getList(user._id).subscribe((conversationsObs)=>{
           conversationsObs.forEach((conversation)=>{
              this.rooms.push(conversation.room);
+             console.log("this.rooms loop",this.rooms);
           })
+          console.log("this.rooms",this.rooms);
           this.socketsService.connectToRooms(this.rooms);
           this.socketsService.emit('list.rooms');
           this.socketsService.on('list.rooms.response',(data)=>{
             this.socketsService.on('message.sent', (data)=>{
-              console.log("message",data.message);
-              this.messageList.push(data.message);
+              console.log("message",data);
+              if(isChat){
+                this.messageList.push(data.message);
+              }else{
+                this.notificationList.push(data.message);
+                this.isNotification=true;
+              }
             });
-            this.isLoading=true;
+            this.socketsService.on('userNotified', (data)=>{
+              console.log("room notified ",data.room);;
+              this.connectToSockets(user,isChat,callback,data.room);
+            });
+            if (typeof callback === "function") {
+              callback();
+            }
           });
         });
       }else{
-        this.isLoading=true;
+        if(room!==null){
+          this.rooms.push(room);
+        }
+        console.log("this.rooms",this.rooms);
+        this.socketsService.connectToRooms(this.rooms);
+        this.socketsService.emit('list.rooms');
+        this.socketsService.on('list.rooms.response',(data)=>{
+          this.socketsService.on('message.sent', (data)=>{
+            console.log("message",data);
+            if(isChat){
+              this.messageList.push(data.message);
+            }else{
+              this.notificationList.push(data.message);
+              this.isNotification=true;
+            }
+          });
+          this.socketsService.on('userNotified', (data)=>{
+            console.log("room notified ",data.room);;
+            this.connectToSockets(user,callback,data.room);
+          });
+          if (typeof callback === "function") {
+            callback();
+          }
+        });
       }
     });
   }

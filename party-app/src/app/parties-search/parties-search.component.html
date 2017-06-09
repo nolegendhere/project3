@@ -5,6 +5,12 @@
       <p>Loading...</p>
     </div>
     <div *ngIf="isLoading">
+			<div class="custom-notification-container "*ngIf="isNotification">
+				<div class="notification" *ngFor='let notification of notificationList'>
+					<p>{{notification.username}}</p>
+					<!-- <button type="button" class="btn btn-default custom-button-ok" (click)="removeNotification()"><span class="glyphicon glyphicon-remove"></span></button> -->
+				</div>
+			</div>
       <div class="content-container-social">
         <a [routerLink]="['/profile/'+userId+'/show']"><button class="btn btn-default custom-button-profile"><span class="glyphicon glyphicon-user"></span></button></a>
         <a [routerLink]="['/profile/'+userId+'/parties']"><button class="btn btn-default custom-button-owned"> <span class="glyphicon glyphicon-king"></span></button></a>
